@@ -9,11 +9,3 @@ services:
       - './src/app:/usr/share/nginx/html'
     ports:
       - '8080:80'
-
-  docker-push:
-    image: 'tmvdl/projects:[project]'
-    build: './src/app'
-
-  github-release:
-    image: 'github-release'
-    build: './src'
