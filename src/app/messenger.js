@@ -1,9 +1,9 @@
 const WebSocket = require('ws')
 const config = require('./config.js')
-const { WebSocketMessage } = require('./models')
+const { Message } = require('./api/message/index.js')
 
 class WebSocketMessenger extends EventTarget {
-  ws = new WebSocket(config.ws.url)
+  ws = new WebSocket(config.ws.url) // FIXME
 
   messages = []
 
@@ -54,7 +54,7 @@ class WebSocketMessenger extends EventTarget {
     const self = this
 
     this.ws.on('message', function (ev) {
-      const message = new WebSocketMessage(JSON.parse(ev.toString()))
+      const message = new Message(JSON.parse(ev.toString()))
       self.dispatchEvent(message.toEvent())
     })
 
@@ -80,12 +80,12 @@ class WebSocketMessenger extends EventTarget {
     return this
   }
 
-  send(message = new WebSocketMessage()) {
+  send(message = new Message()) {
     this.messages.push(message)
     return this
   }
 
-  _send(message = new WebSocketMessage()) {
+  _send(message = new Message()) {
     const self = this
     return new Promise((s, f) => self.ws.send(JSON.stringify(message), s))
   }
