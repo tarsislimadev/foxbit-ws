@@ -1,31 +1,13 @@
-const { WebAuthenticateUser } = require('./models/web-authenticate-user')
+const { AuthenticateUser, GetAccountInfo } = require('./models')
 
-const WebSocket = require('ws')
+const { WebSocketMessenger } = require('./messenger')
 
-const wsAddress = 'wss://api.foxbit.com.br/'
+class FoxbitWS extends WebSocketMessenger { }
 
-const ws = new WebSocket(wsAddress)
+const foxbit = new FoxbitWS()
 
-const wsSend = (data = new WebSocketMessage()) => new Promise((s, f) => ws.send(JSON.stringify(data), s))
+foxbit.send(new AuthenticateUser())
 
-ws.on('open', function (ev) {
-  console.log('open', { ev })
+foxbit.addEventListener('AuthenticateUser', () => foxbit.send(new GetAccountInfo()))
 
-  wsSend(new WebAuthenticateUser())
-    .then(console.log)
-    .catch(console.log)
-})
-
-ws.on('message', function (ev) {
-  const message = JSON.parse(ev.toString())
-
-  console.log({ message })
-})
-
-ws.on('error', function (ev) {
-  console.log('error', { ev })
-})
-
-ws.on('close', function (ev) {
-  console.log('close', { ev })
-})
+foxbit.addEventListener('GetAccountInfo', console.log)

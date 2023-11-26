@@ -5,6 +5,19 @@ class WebSocketMessage {
   Endpoint = ''
   Payload = {}
 
+  constructor(message = null) {
+    if (!(message === null)) {
+      this.fromJSON(message)
+    }
+  }
+
+  fromJSON({ m, i, n, o } = {}) {
+    this.MessageType = m
+    this.SequenceNumber = i
+    this.Endpoint = n
+    this.Payload = JSON.parse(o)
+  }
+
   toJSON() {
     return {
       'm': this.MessageType,
@@ -14,10 +27,17 @@ class WebSocketMessage {
     }
   }
 
+  toEvent() {
+    const ev = new Event(this.Endpoint)
+    ev.message_type = this.MessageType
+    ev.sequence_number = this.SequenceNumber
+    ev.payload = this.Payload
+    return ev
+  }
+
   toString() {
     return JSON.stringify(this.toJSON())
   }
-
 }
 
 module.exports = { WebSocketMessage }
