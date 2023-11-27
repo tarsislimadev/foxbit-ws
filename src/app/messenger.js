@@ -15,7 +15,7 @@ class Logger extends EventTarget {
 }
 
 class WebSocketMessenger extends Logger {
-  ws = new WebSocket(config.ws.url) // FIXME
+  ws = new WebSocket(config.url)
 
   messages = []
 
@@ -32,30 +32,30 @@ class WebSocketMessenger extends Logger {
 
   setEventLoop(id) {
     const self = this
-    setTimeout(() => self.runEventLoop(id), 1000)
+    setTimeout(() => self.runEventLoop(id), config.timeout)
   }
 
   runEventLoop(id = 0) {
     const self = this
 
-    const message = this.messages[id]
-
-    self.dispatchLog('runEventLoop', { id, message })
+    const message = self.messages[id]
 
     if (message === undefined) {
       self.setEventLoop(id)
-      return this
+      return self
     }
 
-    this._send(message)
+    self._send(message)
 
-    this.addEventListener(message.Endpoint, () => self.setEventLoop(id + 1))
+    self.addEventListener(message.Endpoint, () => self.setEventLoop(id + 1))
+
+    return self
   }
 
   setOpen() {
     const self = this
 
-    this.ws.on('open', function (open) {
+    this.ws.on('open', (open) => {
       self.dispatchLog('open', open)
       self.runEventLoop()
     })
@@ -63,16 +63,17 @@ class WebSocketMessenger extends Logger {
 
   setMessage() {
     const self = this
-    this.ws.on('message', (message) => {
+    self.ws.on('message', (message) => {
       const event = new Message(JSON.parse(message.toString()))
       self.dispatchEvent(event.toEvent())
     })
-    return this
+    return self
   }
 
   setError() {
-    this.ws.on('error', (error) => self.dispatchError(error))
-    return this
+    const self = this
+    self.ws.on('error', (error) => self.dispatchError(error))
+    return self
   }
 
   parseCloseMessage(signal) {
@@ -85,18 +86,19 @@ class WebSocketMessenger extends Logger {
 
   setClose() {
     const self = this
-    this.ws.on('close', (code) => self.dispatchLog('close', self.parseCloseMessage(code)))
-    return this
+    self.ws.on('close', (code) => self.dispatchLog('close', self.parseCloseMessage(code)))
+    return self
   }
 
   send(message = new Message()) {
-    this.messages.push(message)
-    return this
+    const self = this
+    self.messages.push(message)
+    return self
   }
 
   _send(message = new Message()) {
     const self = this
-    return new Promise((s, f) => self.ws.send(JSON.stringify(message), s))
+    return new Promise((s, f) => self.ws.send(JSON.stringify(message), (err) => err ? f(err) : s()))
   }
 }
 

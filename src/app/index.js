@@ -1,10 +1,8 @@
 const {
   AuthenticateUserMessage,
   AuthenticateUserReply,
-  GetAccountInfoMessage,
-  GetAccountInfoReply,
-  GetUserInfoMessage,
-  GetUserInfoReply,
+  GetAccountPositionsMessage,
+  GetAccountPositionsReply,
 } = require('./api')
 
 const { WebSocketMessenger } = require('./messenger')
@@ -22,22 +20,16 @@ class FoxbitWS extends WebSocketMessenger {
 
 const foxbit = new FoxbitWS()
 
-foxbit.send(new AuthenticateUserMessage(config.user.id))
+foxbit.send(new AuthenticateUserMessage(config.user_id))
 
 foxbit.addEventListener('AuthenticateUser', (res) => {
   const user = new AuthenticateUserReply(res)
   foxbit.setOMSId(user.getOMSId())
-  foxbit.dispatchLog('AuthenticateUser', user)
-  foxbit.send(new GetAccountInfoMessage(foxbit.OMSId, +config.user.id))
-  foxbit.send(new GetUserInfoMessage())
+  foxbit.send(new GetAccountPositionsMessage())
 })
 
-foxbit.addEventListener('GetAccountInfo', (res) => {
-  const info = new GetAccountInfoReply(res)
-  foxbit.dispatchLog('GetAccountInfo', info)
-})
-
-foxbit.addEventListener('GetUserInfo', (res) => {
-  const info = new GetUserInfoReply(res)
-  foxbit.dispatchLog('GetUserInfo', info)
+foxbit.addEventListener('GetAccountPositions', (res) => {
+  const positions = new GetAccountPositionsReply(res)
+  foxbit.dispatchLog('Amount[BTC]', positions.getAmount('BTC'))
+  foxbit.dispatchLog('Amount[BRL]', positions.getAmount('BRL'))
 })
