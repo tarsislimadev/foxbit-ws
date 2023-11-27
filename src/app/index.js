@@ -1,9 +1,18 @@
 const {
   AuthenticateUserMessage,
-  AuthenticateUserReply,
   GetAccountPositionsMessage,
+  GetOrderHistoryMessage,
+  GetTickerHistoryMessage,
+  GetTradesHistoryMessage,
+  //
+  AuthenticateUserReply,
   GetAccountPositionsReply,
+  GetOrderHistoryReply,
+  GetTickerHistoryReply,
+  GetTradesHistoryReply,
 } = require('./api')
+
+const db = require('./database')
 
 const { WebSocketMessenger } = require('./messenger')
 
@@ -26,10 +35,23 @@ foxbit.addEventListener('AuthenticateUser', (res) => {
   const user = new AuthenticateUserReply(res)
   foxbit.setOMSId(user.getOMSId())
   foxbit.send(new GetAccountPositionsMessage())
+  foxbit.send(new GetOrderHistoryMessage())
+  foxbit.send(new GetTickerHistoryMessage())
+  foxbit.send(new GetTradesHistoryMessage())
 })
 
 foxbit.addEventListener('GetAccountPositions', (res) => {
-  const positions = new GetAccountPositionsReply(res)
-  foxbit.dispatchLog('Amount[BTC]', positions.getAmount('BTC'))
-  foxbit.dispatchLog('Amount[BRL]', positions.getAmount('BRL'))
+  foxbit.dispatchLog('GetAccountPositions', new GetAccountPositionsReply(res))
+})
+
+foxbit.addEventListener('GetOrderHistory', (res) => {
+  foxbit.dispatchLog('GetOrderHistory', new GetOrderHistoryReply(res))
+})
+
+foxbit.addEventListener('GetTickerHistory', (res) => {
+  foxbit.dispatchLog('GetTickerHistory', new GetTickerHistoryReply(res))
+})
+
+foxbit.addEventListener('GetTradesHistory', (res) => {
+  foxbit.dispatchLog('GetTradesHistory', new GetTradesHistoryReply(res))
 })

@@ -4,4 +4,6 @@ WORKDIR /app
 
 COPY . .
 
+ENV DATA_PATH=/data
+
 CMD npm start
