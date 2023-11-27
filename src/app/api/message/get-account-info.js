@@ -1,7 +1,13 @@
 const { Message } = require('../message')
 
-class GetAccountInfo extends Message {
+class GetAccountInfoMessage extends Message {
   Endpoint = 'GetAccountInfo'
+
+  constructor(OMSId, AccountId) {
+    super()
+
+    this.Payload = { OMSId, AccountId }
+  }
 }
 
-module.exports = { GetAccountInfo }
+module.exports = { GetAccountInfoMessage }

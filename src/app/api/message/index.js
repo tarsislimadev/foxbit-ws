@@ -1,9 +1,11 @@
 const { Message } = require('../message')
-const { GetAccountInfo } = require('./get-account-info')
+const { GetAccountInfoMessage } = require('./get-account-info')
+const { GetUserInfoMessage } = require('./get-user-info')
 const { AuthenticateUserMessage } = require('./authenticate-user')
 
 module.exports = {
   Message,
-  GetAccountInfo,
+  GetAccountInfoMessage,
+  GetUserInfoMessage,
   AuthenticateUserMessage,
 }

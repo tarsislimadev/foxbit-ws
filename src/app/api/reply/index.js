@@ -1,11 +1,9 @@
-const { Message } = require('../message')
+const { AuthenticateUserReply } = require('./authenticate-user')
+const { GetAccountInfoReply } = require('./get-account-info-reply')
+const { GetUserInfoReply } = require('./get-user-info-reply')
 
-class AuthenticateUserReply extends Message {
-  constructor(response) {
-    super()
-
-    this.fromMessage(response)
-  }
+module.exports = {
+  AuthenticateUserReply,
+  GetAccountInfoReply,
+  GetUserInfoReply,
 }
-
-module.exports = { AuthenticateUserReply }

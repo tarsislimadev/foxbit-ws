@@ -1,6 +1,6 @@
-const { Message } = require('../message.js')
-const config = require('../../config.js')
-const { createSignature } = require('../../utils.js')
+const { Message } = require('../message')
+const config = require('../../config')
+const { createSignature } = require('../../utils')
 
 class AuthenticateUserMessage extends Message {
   Endpoint = 'AuthenticateUser'

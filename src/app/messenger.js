@@ -1,8 +1,20 @@
 const WebSocket = require('ws')
-const config = require('./config.js')
-const { Message } = require('./api/message/index.js')
 
-class WebSocketMessenger extends EventTarget {
+const config = require('./config')
+
+const { Message } = require('./api')
+
+class Logger extends EventTarget {
+  dispatchError(error = new Error()) {
+    console.error(error)
+  }
+
+  dispatchLog(key, ...values) {
+    console.log(key, ...values)
+  }
+}
+
+class WebSocketMessenger extends Logger {
   ws = new WebSocket(config.ws.url) // FIXME
 
   messages = []
@@ -28,7 +40,7 @@ class WebSocketMessenger extends EventTarget {
 
     const message = this.messages[id]
 
-    console.log('runEventLoop', { id, message })
+    self.dispatchLog('runEventLoop', { id, message })
 
     if (message === undefined) {
       self.setEventLoop(id)
@@ -43,26 +55,23 @@ class WebSocketMessenger extends EventTarget {
   setOpen() {
     const self = this
 
-    this.ws.on('open', function (ev) {
-      console.log('open', { ev })
-
+    this.ws.on('open', function (open) {
+      self.dispatchLog('open', open)
       self.runEventLoop()
     })
   }
 
   setMessage() {
     const self = this
-
-    this.ws.on('message', function (ev) {
-      const message = new Message(JSON.parse(ev.toString()))
-      self.dispatchEvent(message.toEvent())
+    this.ws.on('message', (message) => {
+      const event = new Message(JSON.parse(message.toString()))
+      self.dispatchEvent(event.toEvent())
     })
-
     return this
   }
 
   setError() {
-    this.ws.on('error', (ev) => console.log('error', { ev }))
+    this.ws.on('error', (error) => self.dispatchError(error))
     return this
   }
 
@@ -76,7 +85,7 @@ class WebSocketMessenger extends EventTarget {
 
   setClose() {
     const self = this
-    this.ws.on('close', (signal) => console.log('close', self.parseCloseMessage(signal)))
+    this.ws.on('close', (code) => self.dispatchLog('close', self.parseCloseMessage(code)))
     return this
   }
 
