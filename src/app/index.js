@@ -1,10 +1,8 @@
 const {
   AuthenticateUserMessage,
   AuthenticateUserReply,
-
   GetAccountInfoMessage,
   GetAccountInfoReply,
-
   GetUserInfoMessage,
   GetUserInfoReply,
 } = require('./api')
@@ -18,6 +16,7 @@ class FoxbitWS extends WebSocketMessenger {
 
   setOMSId(OMSId) {
     this.OMSId = OMSId
+    return this
   }
 }
 
@@ -36,4 +35,9 @@ foxbit.addEventListener('AuthenticateUser', (res) => {
 foxbit.addEventListener('GetAccountInfo', (res) => {
   const info = new GetAccountInfoReply(res)
   foxbit.dispatchLog('GetAccountInfo', info)
+})
+
+foxbit.addEventListener('GetUserInfo', (res) => {
+  const info = new GetUserInfoReply(res)
+  foxbit.dispatchLog('GetUserInfo', info)
 })
