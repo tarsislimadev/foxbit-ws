@@ -1,6 +1,6 @@
-const { Reply } = require('../reply')
+import { Reply } from '../reply.js'
 
-class GetAccountPositionsReply extends Reply {
+export class GetAccountPositionsReply extends Reply {
   getProduct(symbol) {
     return this.Payload.find(p => p.ProductSymbol == symbol)
   }
@@ -11,5 +11,3 @@ class GetAccountPositionsReply extends Reply {
     return +product.Amount
   }
 }
-
-module.exports = { GetAccountPositionsReply }

@@ -1,6 +1,6 @@
-const { Message } = require('./message')
+import { Message } from './message.js'
 
-class Reply extends Message {
+export class Reply extends Message {
   constructor(response) {
     super()
 
@@ -8,4 +8,4 @@ class Reply extends Message {
   }
 }
 
-module.exports = { Reply }
+export default { Reply }

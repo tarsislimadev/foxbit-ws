@@ -1,7 +1,5 @@
-const { Message } = require('../message')
+import { Message } from '../message.js' 
 
-class GetTradesHistoryMessage extends Message {
+export class GetTradesHistoryMessage extends Message {
   Endpoint = 'GetTradesHistory'
 }
-
-module.exports = { GetTradesHistoryMessage }

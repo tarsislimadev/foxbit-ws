@@ -1,9 +1,7 @@
-const { Reply } = require('../reply')
+import { Reply } from '../reply.js'
 
-class AuthenticateUserReply extends Reply {
+export class AuthenticateUserReply extends Reply {
   getOMSId() {
     return this.Payload?.User?.OMSId
   }
 }
-
-module.exports = { AuthenticateUserReply }

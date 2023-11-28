@@ -1,6 +1,6 @@
-const { Message } = require('../message')
+import { Message } from '../message.js' 
 
-class GetAccountInfoMessage extends Message {
+export class GetAccountInfoMessage extends Message {
   Endpoint = 'GetAccountInfo'
 
   constructor(OMSId, AccountId) {
@@ -9,5 +9,3 @@ class GetAccountInfoMessage extends Message {
     this.Payload = { OMSId, AccountId }
   }
 }
-
-module.exports = { GetAccountInfoMessage }

@@ -1,7 +1,5 @@
-const CryptoJS = require('crypto-js')
+import CryptoJS from 'crypto-js'
 
-const createSignature = (nonce, userid, key, secret) => {
+export const createSignature = (nonce, userid, key, secret) => {
   return CryptoJS.HmacSHA256(nonce + userid + key, secret).toString()
 }
-
-module.exports = { createSignature }

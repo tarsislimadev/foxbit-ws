@@ -1,5 +1,3 @@
 
-module.exports = {
-  ...require('./message/index'),
-  ...require('./reply/index'),
-}
+export * from './message/index'
+export * from './reply/index'

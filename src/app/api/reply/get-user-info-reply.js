@@ -1,5 +1,3 @@
-const { Reply } = require('../reply')
+import { Reply } from '../reply.js'
 
-class GetUserInfoReply extends Reply { }
-
-module.exports = { GetUserInfoReply }
+export class GetUserInfoReply extends Reply { }

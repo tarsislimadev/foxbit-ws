@@ -1,10 +1,8 @@
-const WebSocket = require('ws')
+import WebSocket from 'ws'
+import * as config from './config.js'
+import { Message } from './api/message.js'
 
-const config = require('./config')
-
-const { Message } = require('./api')
-
-class Logger extends EventTarget {
+export class Logger extends EventTarget {
   dispatchError(error = new Error()) {
     console.error(error)
   }
@@ -14,7 +12,7 @@ class Logger extends EventTarget {
   }
 }
 
-class WebSocketMessenger extends Logger {
+export class WebSocketMessenger extends Logger {
   ws = new WebSocket(config.url)
 
   messages = []
@@ -102,6 +100,6 @@ class WebSocketMessenger extends Logger {
   }
 }
 
-module.exports = {
+export default {
   WebSocketMessenger,
 }

@@ -1,24 +1,12 @@
-const {
-  AuthenticateUserMessage,
-  GetAccountPositionsMessage,
-  GetOrderHistoryMessage,
-  GetTickerHistoryMessage,
-  GetTradesHistoryMessage,
-  //
-  AuthenticateUserReply,
-  GetAccountPositionsReply,
-  GetOrderHistoryReply,
-  GetTickerHistoryReply,
-  GetTradesHistoryReply,
-} = require('./api')
+import { AuthenticateUserMessage } from './api/message/authenticate-user.js'
 
-const db = require('./database')
+import { AuthenticateUserReply } from './api/reply/authenticate-user.js'
 
-const { WebSocketMessenger } = require('./messenger')
+import { WebSocketMessenger } from './messenger.js'
 
-const config = require('./config')
+import * as config from './config.js'
 
-class FoxbitWS extends WebSocketMessenger {
+export class FoxbitWS extends WebSocketMessenger {
   OMSId = null
 
   setOMSId(OMSId) {
@@ -29,29 +17,9 @@ class FoxbitWS extends WebSocketMessenger {
 
 const foxbit = new FoxbitWS()
 
-foxbit.send(new AuthenticateUserMessage(config.user_id))
+foxbit.send(new AuthenticateUserMessage(config.user))
 
 foxbit.addEventListener('AuthenticateUser', (res) => {
   const user = new AuthenticateUserReply(res)
   foxbit.setOMSId(user.getOMSId())
-  foxbit.send(new GetAccountPositionsMessage())
-  foxbit.send(new GetOrderHistoryMessage())
-  foxbit.send(new GetTickerHistoryMessage())
-  foxbit.send(new GetTradesHistoryMessage())
-})
-
-foxbit.addEventListener('GetAccountPositions', (res) => {
-  foxbit.dispatchLog('GetAccountPositions', new GetAccountPositionsReply(res))
-})
-
-foxbit.addEventListener('GetOrderHistory', (res) => {
-  foxbit.dispatchLog('GetOrderHistory', new GetOrderHistoryReply(res))
-})
-
-foxbit.addEventListener('GetTickerHistory', (res) => {
-  foxbit.dispatchLog('GetTickerHistory', new GetTickerHistoryReply(res))
-})
-
-foxbit.addEventListener('GetTradesHistory', (res) => {
-  foxbit.dispatchLog('GetTradesHistory', new GetTradesHistoryReply(res))
 })

@@ -1,3 +1,3 @@
-const { Database } = require('@brtmvdl/database')
+import { Database } from '@brtmvdl/database'
 
-module.exports.db = new Database(process.env.DATA_PATH)
+export const db = new Database(process.env.DATA_PATH)

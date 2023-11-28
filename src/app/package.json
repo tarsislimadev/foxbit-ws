@@ -2,6 +2,7 @@
   "name": "foxbit-ws",
   "version": "0.1.0",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "start": "node . "
   },
@@ -9,5 +10,13 @@
     "@brtmvdl/database": "^0.6.8",
     "crypto-js": "^4.2.0",
     "ws": "^8.14.2"
+  },
+  "main": "index.js",
+  "devDependencies": {
+    "eslint": "^8.54.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-n": "^16.3.1",
+    "eslint-plugin-promise": "^6.1.1"
   }
 }

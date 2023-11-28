@@ -1,19 +1,15 @@
-const { Message } = require('../message')
-const { GetUserInfoMessage } = require('./get-user-info')
-const { GetAccountInfoMessage } = require('./get-account-info')
-const { GetOrderHistoryMessage } = require('./get-order-history')
-const { AuthenticateUserMessage } = require('./authenticate-user')
-const { GetTradesHistoryMessage } = require('./get-trades-history')
-const { GetTickerHistoryMessage } = require('./get-ticker-history')
-const { GetAccountPositionsMessage } = require('./get-account-positions')
+export * from '../message.js'
 
-module.exports = {
-  Message,
-  GetUserInfoMessage,
-  GetAccountInfoMessage,
-  GetOrderHistoryMessage,
-  AuthenticateUserMessage,
-  GetTradesHistoryMessage,
-  GetTickerHistoryMessage,
-  GetAccountPositionsMessage,
-}
+export * from './get-user-info.js'
+
+export * from './get-account-info.js'
+
+export * from './get-order-history.js'
+
+export * from './authenticate-user.js'
+
+export * from './get-trades-history.js'
+
+export * from './get-ticker-history.js'
+
+export * from './get-account-positions.js'
