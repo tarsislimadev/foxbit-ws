@@ -7,5 +7,3 @@ export class Reply extends Message {
     this.fromMessage(response)
   }
 }
-
-export default { Reply }

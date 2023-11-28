@@ -99,7 +99,3 @@ export class WebSocketMessenger extends Logger {
     return new Promise((s, f) => self.ws.send(JSON.stringify(message), (err) => err ? f(err) : s()))
   }
 }
-
-export default {
-  WebSocketMessenger,
-}

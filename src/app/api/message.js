@@ -49,5 +49,3 @@ export class Message {
   }
 
 }
-
-export default { Message }
