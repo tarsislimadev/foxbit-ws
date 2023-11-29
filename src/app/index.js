@@ -68,7 +68,7 @@ import { GetWithdrawTicketsReply } from './api/reply/getWithdrawTicketsReply.js'
 import { FoxbitWS } from './foxbit.js'
 import * as config from './config.js'
 
-const foxbit = new FoxbitWS()
+const foxbit = new FoxbitWS(config.url)
 
 foxbit.send(new AuthenticateUserMessage(config.user))
 

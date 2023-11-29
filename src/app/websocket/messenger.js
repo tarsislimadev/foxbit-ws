@@ -1,5 +1,4 @@
 import WebSocket from 'ws'
-import * as config from '../config.js'
 import { WebSocketMessage } from './message.js'
 
 export class Logger extends EventTarget {
@@ -19,6 +18,8 @@ export class WebSocketMessenger extends Logger {
 
   message_id = 0
 
+  timeout = 1000
+
   constructor({ url } = {}) {
     super()
 
@@ -30,9 +31,14 @@ export class WebSocketMessenger extends Logger {
     this.setCloseEvent()
   }
 
+  setTimeout(timeout = 1000) {
+    this.timeout = timeout
+    return this
+  }
+
   setEventLoop(id) {
     const self = this
-    setTimeout(() => self.runEventLoop(id), config.timeout)
+    setTimeout(() => self.runEventLoop(id), self.timeout)
   }
 
   runEventLoop(id = 0) {
