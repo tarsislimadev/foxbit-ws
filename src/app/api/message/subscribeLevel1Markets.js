@@ -1,5 +1,5 @@
-import { Message } from '../message.js'
+import { WebSocketMessage } from '../../websocket/message.js'
 
-export class SubscribeLevel1MarketsMessage extends Message {
+export class SubscribeLevel1MarketsMessage extends WebSocketMessage  {
   Endpoint = 'SubscribeLevel1Markets'
 }

@@ -1,5 +1,5 @@
 import { WebSocketMessage } from '../../websocket/message.js'
-import { createSignature } from '../../utils.js'
+import { createSignature } from '../../utils/sha.js'
 
 export class AuthenticateUserMessage extends WebSocketMessage {
   Endpoint = 'AuthenticateUser'

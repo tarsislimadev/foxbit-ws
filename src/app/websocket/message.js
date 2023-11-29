@@ -1,9 +1,12 @@
+import { Logger } from './logger.js'
 
 export class WebSocketMessage {
   MessageType = 0 // (0_Request / 1_Reply / 2_Subscribe / 3_Event / Error)
   SequenceNumber = 0
   Endpoint = ''
   Payload = {}
+
+  logger = new Logger('WebSocketMessage')
 
   constructor(json = null) {
     if (!(json === null)) {
@@ -47,5 +50,4 @@ export class WebSocketMessage {
   toString() {
     return JSON.stringify(this.toJSON())
   }
-
 }

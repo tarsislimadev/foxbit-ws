@@ -1,17 +1,9 @@
 import WebSocket from 'ws'
 import { WebSocketMessage } from './message.js'
 
-export class Logger extends EventTarget {
-  dispatchError(error = new Error()) {
-    console.error(error)
-  }
+import { Logger } from './logger.js'
 
-  dispatchLog(key, ...values) {
-    console.log(key, ...values)
-  }
-}
-
-export class WebSocketMessenger extends Logger {
+export class WebSocketMessenger extends EventTarget {
   ws = null
 
   messages = []
@@ -19,6 +11,8 @@ export class WebSocketMessenger extends Logger {
   message_id = 0
 
   timeout = 1000
+
+  logger = new Logger('WebSocketMessenger')
 
   constructor({ url } = {}) {
     super()
@@ -62,7 +56,7 @@ export class WebSocketMessenger extends Logger {
     const self = this
 
     this.ws.on('open', (open) => {
-      self.dispatchLog('open', open)
+      self.logger.log('open', open)
       self.runEventLoop()
     })
   }
@@ -78,7 +72,7 @@ export class WebSocketMessenger extends Logger {
 
   setErrorEvent() {
     const self = this
-    self.ws.on('error', (error) => self.dispatchError(error))
+    self.ws.on('error', (error) => self.logger.error(error))
     return self
   }
 
@@ -92,7 +86,7 @@ export class WebSocketMessenger extends Logger {
 
   setCloseEvent() {
     const self = this
-    self.ws.on('close', (code) => self.dispatchLog('close', self.parseCloseMessage(code)))
+    self.ws.on('close', (code) => self.logger.log('close', self.parseCloseMessage(code)))
     return self
   }
 

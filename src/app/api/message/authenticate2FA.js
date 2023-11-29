@@ -1,5 +1,5 @@
-import { Message } from '../message.js'
+import { WebSocketMessage } from '../../websocket/message.js'
 
-export class Authenticate2FAMessage extends Message {
+export class Authenticate2FAMessage extends WebSocketMessage {
   Endpoint = 'Authenticate2FA'
 }

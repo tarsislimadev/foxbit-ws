@@ -6,4 +6,10 @@ export class WebSocketReply extends WebSocketMessage {
 
     this.fromMessage(response)
   }
+
+  toJSON() {
+    const { MessageType, SequenceNumber, Endpoint, Payload } = this
+
+    return { MessageType, SequenceNumber, Endpoint, Payload }
+  }
 }
