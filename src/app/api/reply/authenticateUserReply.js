@@ -1,3 +1,3 @@
-import { Reply } from '../reply.js'
+import { WebSocketReply } from '../../websocket/reply.js'
 
-export class AuthenticateUserReply extends Reply { }
+export class AuthenticateUserReply extends WebSocketReply { }

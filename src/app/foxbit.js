@@ -1,4 +1,4 @@
-import { WebSocketMessenger } from './messenger.js'
+import { WebSocketMessenger } from './websocket/messenger.js'
 
 export class FoxbitWS extends WebSocketMessenger {
   OMSId = null

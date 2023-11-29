@@ -1,5 +1,5 @@
 
-export class Message {
+export class WebSocketMessage {
   MessageType = 0 // (0_Request / 1_Reply / 2_Subscribe / 3_Event / Error)
   SequenceNumber = 0
   Endpoint = ''

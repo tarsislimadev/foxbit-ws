@@ -1,8 +1,8 @@
-import { Message } from '../message.js'
+import { WebSocketMessage } from '../../websocket/message.js'
 import * as config from '../../config.js'
 import { createSignature } from '../../utils.js'
 
-export class AuthenticateUserMessage extends Message {
+export class AuthenticateUserMessage extends WebSocketMessage {
   Endpoint = 'AuthenticateUser'
 
   constructor(UserId = config.user, APIKey = config.key, APISecret = config.secret, Nonce = Date.now()) {

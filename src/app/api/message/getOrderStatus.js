@@ -1,5 +1,5 @@
-import { Message } from '../message.js'
+import { WebSocketMessage } from '../../websocket/message.js'
 
-export class GetOrderStatusMessage extends Message {
+export class GetOrderStatusMessage extends WebSocketMessage {
   Endpoint = 'GetOrderStatus'
 }

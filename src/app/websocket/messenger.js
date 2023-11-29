@@ -1,6 +1,6 @@
 import WebSocket from 'ws'
-import * as config from './config.js'
-import { Message } from './api/message.js'
+import * as config from '../config.js'
+import { WebSocketMessage } from './message.js'
 
 export class Logger extends EventTarget {
   dispatchError(error = new Error()) {
@@ -13,19 +13,21 @@ export class Logger extends EventTarget {
 }
 
 export class WebSocketMessenger extends Logger {
-  ws = new WebSocket(config.url)
+  ws = null
 
   messages = []
 
   message_id = 0
 
-  constructor() {
+  constructor({ url } = {}) {
     super()
 
-    this.setOpen()
-    this.setMessage()
-    this.setError()
-    this.setClose()
+    this.ws = new WebSocket(url)
+
+    this.setOpenEvent()
+    this.setMessageEvent()
+    this.setErrorEvent()
+    this.setCloseEvent()
   }
 
   setEventLoop(id) {
@@ -50,7 +52,7 @@ export class WebSocketMessenger extends Logger {
     return self
   }
 
-  setOpen() {
+  setOpenEvent() {
     const self = this
 
     this.ws.on('open', (open) => {
@@ -59,16 +61,16 @@ export class WebSocketMessenger extends Logger {
     })
   }
 
-  setMessage() {
+  setMessageEvent() {
     const self = this
     self.ws.on('message', (message) => {
-      const event = new Message(JSON.parse(message.toString()))
-      self.dispatchEvent(event.toEvent())
+      const ws_message = new WebSocketMessage(JSON.parse(message.toString()))
+      self.dispatchEvent(ws_message.toEvent())
     })
     return self
   }
 
-  setError() {
+  setErrorEvent() {
     const self = this
     self.ws.on('error', (error) => self.dispatchError(error))
     return self
@@ -82,19 +84,19 @@ export class WebSocketMessenger extends Logger {
     return 'Undefined close'
   }
 
-  setClose() {
+  setCloseEvent() {
     const self = this
     self.ws.on('close', (code) => self.dispatchLog('close', self.parseCloseMessage(code)))
     return self
   }
 
-  send(message = new Message()) {
+  send(message = new WebSocketMessage()) {
     const self = this
     self.messages.push(message)
     return self
   }
 
-  _send(message = new Message()) {
+  _send(message = new WebSocketMessage()) {
     const self = this
     return new Promise((s, f) => self.ws.send(JSON.stringify(message), (err) => err ? f(err) : s()))
   }
