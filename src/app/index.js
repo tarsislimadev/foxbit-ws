@@ -68,9 +68,9 @@ import { GetWithdrawTicketsReply } from './api/reply/getWithdrawTicketsReply.js'
 import { FoxbitWS } from './foxbit.js'
 import * as config from './config.js'
 
-const foxbit = new FoxbitWS(config.url)
+const foxbit = new FoxbitWS(config)
 
-foxbit.send(new AuthenticateUserMessage(config.user))
+foxbit.send(new AuthenticateUserMessage(config.user, config.key, config.secret))
 
 foxbit.addEventListener('AuthenticateUser', (res) => console.log('AuthenticateUser', new AuthenticateUserReply(res)))
 
