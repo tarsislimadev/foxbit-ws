@@ -6,12 +6,10 @@ import { GetOrderHistoryReply, GetAccountInfoReply, } from '../api/reply/index.j
 
 foxbit.send(new GetAccountInfoMessage())
 
-foxbit.addEventListener('GetAccountInfo', (getAccountInfo) => {
-  // foxbit.logger.log('GetAccountInfo', new GetAccountInfoReply(getAccountInfo))
-
+foxbit.on('GetAccountInfo', (getAccountInfo) => {
   foxbit.send(new GetOrderHistoryMessage())
 
-  foxbit.addEventListener('GetOrderHistory', (getOrderHistory) =>
+  foxbit.on('GetOrderHistory', (getOrderHistory) =>
     foxbit.logger.log('GetOrderHistory', new GetOrderHistoryReply(getOrderHistory))
   )
 })

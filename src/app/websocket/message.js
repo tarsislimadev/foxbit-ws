@@ -40,7 +40,13 @@ export class WebSocketMessage {
   }
 
   toEvent() {
-    const ev = new Event(this.Endpoint)
+    let name = this.Endpoint
+
+    if (this.Payload?.errormsg) {
+      name += 'Error'
+    }
+
+    const ev = new Event(name)
     ev.message_type = this.MessageType
     ev.sequence_number = this.SequenceNumber
     ev.payload = this.Payload

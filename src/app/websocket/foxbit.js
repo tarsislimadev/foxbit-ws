@@ -3,7 +3,6 @@ import { WebSocketMessage } from './message.js'
 
 export class FoxbitWS extends WebSocketMessenger {
   OMSId = null
-
   SequenceNumber = 0
 
   constructor({ url, timeout } = {}) {
@@ -19,5 +18,10 @@ export class FoxbitWS extends WebSocketMessenger {
   send(message = new WebSocketMessage()) {
     message.SequenceNumber = ++this.SequenceNumber
     super.send(message)
+  }
+
+  on(name, fn = (() => ({}))) {
+    this.addEventListener(name, fn)
+    return this
   }
 }
