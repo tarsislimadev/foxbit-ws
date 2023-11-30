@@ -26,7 +26,13 @@ export class WebSocketMessage {
     this.MessageType = m
     this.SequenceNumber = i
     this.Endpoint = n
-    this.Payload = JSON.parse(o)
+    try {
+      this.Payload = JSON.parse(o)
+    } catch (e) {
+      console.log('Payload error', o)
+      console.error(e)
+    }
+
     return this
   }
 

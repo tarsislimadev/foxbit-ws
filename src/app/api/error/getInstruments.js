@@ -1,3 +1,5 @@
-import { WebSocketError } from './error.js'
+import { WebSocketError } from '../../websocket/error.js'
 
-export class GetInstrumentsError extends WebSocketError { }
+export class GetInstrumentsError extends  WebSocketError  {
+  Endpoint = 'GetInstruments'
+}

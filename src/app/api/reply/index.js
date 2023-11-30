@@ -63,3 +63,5 @@ export * from './unsubscribeLevel1Reply.js'
 export * from './unsubscribeLevel2Reply.js'
 
 export * from './unsubscribeTradesReply.js'
+
+export * from './unsubscribeTickerReply.js'
