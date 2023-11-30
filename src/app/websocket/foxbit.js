@@ -1,14 +1,14 @@
-import { WebSocketMessenger } from './websocket/messenger.js'
-import { WebSocketMessage } from './websocket/message.js'
+import { WebSocketMessenger } from './messenger.js'
+import { WebSocketMessage } from './message.js'
 
 export class FoxbitWS extends WebSocketMessenger {
   OMSId = null
 
   SequenceNumber = 0
 
-  constructor({ url } = {}) {
+  constructor({ url, timeout } = {}) {
     super({ url })
-    this.setTimeout(1000)
+    this.setTimeout(timeout)
   }
 
   setOMSId(OMSId) {
