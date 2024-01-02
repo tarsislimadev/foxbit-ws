@@ -1,6 +1,10 @@
 version: '3'
 
 services:
+  desktop:
+    build: './src/desktop'
+    volumes:
+      - './src/desktop:/app'
 
   api:
     build: './src/api'
