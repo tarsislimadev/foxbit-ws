@@ -21,7 +21,7 @@ jobs:
         run: flet pack ./src/desktop/main.py
 
       - name: Github release upload
-        run: gh release create v$( date +%Y%m%d%H%M%S ) --discussion-category "General" ./dist/*
+        run: gh release create v$( date +%Y%m%d%H%M%S ) ./dist/*
         env:
           GH_TOKEN: ${{ github.token }}
 
