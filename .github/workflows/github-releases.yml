@@ -13,3 +13,15 @@ jobs:
 
       - name: Setup Python
         uses: actions/setup-python@v5.0.0
+
+      - name: Install Python Flet
+        run: python3 -m pip install flet pyinstaller pillow
+
+      - name: Flet pack
+        run: flet pack main.py
+
+      - name: List files
+        run: ls -laR
+
+      # - name: Setup Python
+      #   uses: actions/setup-python@v5.0.0
