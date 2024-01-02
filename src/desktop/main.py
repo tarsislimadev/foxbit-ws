@@ -18,10 +18,10 @@ def main(page: flet.Page):
       "/",
       [
         get_title_app_bar("Foxbit WS"),
+        get_button("Get current time", "/system/time"),
         get_button("List currencies", "/currencies"),
         get_button("List markets", "/markets"),
         get_button("List banks", "/banks"),
-        get_button("Get current time", "/system/time"),
       ],
     )
 
@@ -54,7 +54,6 @@ def main(page: flet.Page):
 
     if page.route != "/":
       page.views.append(get_route(page.route))
-
   page.update()
 
   def view_pop(view):
@@ -66,4 +65,5 @@ def main(page: flet.Page):
   page.on_view_pop = view_pop
   page.go(page.route)
 
-flet.app(target=main)
+if __name__ == "__main__":
+  flet.app(target=main)
