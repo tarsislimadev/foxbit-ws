@@ -2,18 +2,11 @@ name: Github releases
 
 on:
   workflow_dispatch:
-    inputs:
-      chosen-os:
-        required: true
-        type: choice
-        options:
-          - Ubuntu
-          - macOS
 
 jobs:
   github-releases:
     name: Github releases
-    runs-on: [self-hosted, "${{ inputs.chosen-os }}"]
+    runs-on: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -29,3 +22,6 @@ jobs:
 
       - name: List files
         run: ls -laR ./src/desktop
+
+      # - name: List files
+      #   run: ls -laR ./src/desktop
