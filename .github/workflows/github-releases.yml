@@ -18,10 +18,10 @@ jobs:
         run: python3 -m pip install flet pyinstaller pillow
 
       - name: Flet pack
-        run: flet pack main.py
+        run: flet pack ./src/desktop/main.py
 
       - name: List files
-        run: ls -laR
+        run: ls -laR ./src/desktop
 
       # - name: Setup Python
       #   uses: actions/setup-python@v5.0.0
