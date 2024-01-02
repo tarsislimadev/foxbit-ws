@@ -1,5 +1,7 @@
 import flet
 
+import .api
+
 def main(page: flet.Page):
   page.title = "Foxbit WS"
   print("Initial route:", page.route)
