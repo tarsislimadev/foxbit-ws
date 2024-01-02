@@ -21,7 +21,7 @@ jobs:
         run: flet pack ./src/desktop/main.py
 
       - name: List files
-        run: ls -laR
+        run: ls -laR ./dist
 
       # - name: List files
       #   run: ls -laR ./src/desktop
