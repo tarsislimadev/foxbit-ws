@@ -20,8 +20,8 @@ jobs:
       - name: Flet pack
         run: flet pack ./src/desktop/main.py
 
-      - name: List files
-        run: ls -laR ./dist
+      - name: Github release upload
+        run: gh release create v$( date +%Y%m%d%H%M%S ) --discussion-category "General" ./dist/*
 
-      # - name: List files
-      #   run: ls -laR ./src/desktop
+      # - name: Github release upload
+      #   run: gh release upload v$( date +%Y%m%d%H%M%S ) ./dist/main
