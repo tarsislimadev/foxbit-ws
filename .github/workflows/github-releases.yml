@@ -22,6 +22,8 @@ jobs:
 
       - name: Github release upload
         run: gh release create v$( date +%Y%m%d%H%M%S ) --discussion-category "General" ./dist/*
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       # - name: Github release upload
       #   run: gh release upload v$( date +%Y%m%d%H%M%S ) ./dist/main
