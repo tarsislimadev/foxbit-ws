@@ -4,6 +4,10 @@ import { MenuHTML, TabsHTML } from './components/index.js'
 
 import { IndexTab, AuthenticateUserTab, GetAccountInfoTab, GetUserInfoTab, GetTradesHistoryTab, GetTickerHistoryTab } from './tabs/index.js'
 
+import * as LOCAL from './utils/local.js'
+
+import * as API from './utils/api.js'
+
 export class Page extends nFlex {
   children = {
     menu: new MenuHTML(),
@@ -37,9 +41,21 @@ export class Page extends nFlex {
     return new IndexTab()
   }
 
-  setTab(tab = 'Index') {
+  saveData({ path = '', body = {} } = {}) {
+    LOCAL.set(path, body)
+  }
+
+  sendData({ path = '', body = {} } = {}) {
+    // API?.[path]?.(body)
+  }
+
+  setTab(name = 'Index') {
     this.children.tabs.clear()
-    this.children.tabs.append(this.getTabByName(tab))
+
+    const tab = this.getTabByName(name)
+    tab.on('save', ({ value }) => this.saveData(value))
+    tab.on('send', ({ value }) => this.sendData(value))
+    this.children.tabs.append(tab)
   }
 
   getMenu() {
