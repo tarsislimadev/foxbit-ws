@@ -6,7 +6,7 @@ on:
 jobs:
   github-releases:
     name: Github releases
-    runs-on: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v1
