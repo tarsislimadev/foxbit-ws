@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY . .
 
-# RUN python3 -m pip install flet pyinstaller pillow
+RUN python3 -m pip install flet pyinstaller pillow
 
-# RUN flet pack app.py
+RUN flet pack main.py
