@@ -25,5 +25,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
-      # - name: Github release upload
-      #   run: gh release upload v$( date +%Y%m%d%H%M%S ) ./dist/main
+      - name: Github release upload
+        run: gh release create latest ./dist/*
+        env:
+          GH_TOKEN: ${{ github.token }}
