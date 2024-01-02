@@ -1,6 +1,6 @@
 import flet
 
-import .api
+import .api as API
 
 def main(page: flet.Page):
   page.title = "Foxbit WS"
