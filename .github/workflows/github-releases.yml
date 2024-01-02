@@ -20,12 +20,12 @@ jobs:
       - name: Flet pack
         run: flet pack ./src/desktop/main.py
 
-      - name: Github release upload
+      - name: Github release new version
         run: gh release create v$( date +%Y%m%d%H%M%S ) ./dist/*
         env:
           GH_TOKEN: ${{ github.token }}
 
-      - name: Github release upload
+      - name: Github release latest
         run: gh release create latest ./dist/*
         env:
           GH_TOKEN: ${{ github.token }}
