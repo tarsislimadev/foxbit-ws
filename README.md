@@ -12,6 +12,10 @@ To get data from Foxbit.
 bash env/up.sh 
 ```
 
+## docs
+
+[Flet](https://flet.dev/docs/)
+
 ## license
 
 [MIT](./LICENSE)
