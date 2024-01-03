@@ -1,9 +1,11 @@
 import flet
 
-import api as API
+# constants
 
-def get_title(route, default = ""):
+def routes_names(route, default = ""):
   match route:
+    case "/":
+      return "Index"
     case "/currencies":
       return "List currencies"
     case "/markets":
@@ -12,55 +14,83 @@ def get_title(route, default = ""):
       return "List banks"
     case "/system/time":
       return "Get current time"
+    case "/orders":
+      return "List orders"
     case _:
       return default
+
+# inputs
+
+class TextInputGroup(flet.Column):
+  def __init__(self, text = ""):
+    super().__init__()
+    self.input = flet.TextField(text)
+    self.error = flet.Text("", color = flet.colors.RED)
+    self.controls = [self.input, self.error]
+
+class NumberInputGroup(flet.Column):
+  def __init__(self, text = ""):
+    super().__init__()
+    input_filter = flet.InputFilter(allow=True, regex_string=r"[0-9]", replacement_string="")
+    self.input = flet.TextField(text, input_filter=input_filter)
+    self.error = flet.Text("", color = flet.colors.RED)
+    self.controls = [self.input, self.error]
+
+class DateTimeGroup(flet.Column):
+  def __init__(self):
+    super().__init__()
+    self.input = flet.DatePicker()
+    self.error = flet.Text("", color = flet.colors.RED)
+    self.controls = [self.input, self.error]
+
+class RouteButton(flet.Column):
+  def __init__(self, page: flet.Page, route = ""):
+    super().__init__()
+    self.controls = [flet.ElevatedButton(routes_names(route), on_click = lambda _: page.go(route))]
+
+# views
+
+class Index(flet.View):
+  def __init__(self, page: flet.Page):
+    super().__init__()
+    self.page = page
+    self.controls.append(RouteButton(self.page, "/currencies"))
+
+class Currencies(flet.View):
+  def __init__(self, page: flet.Page):
+    super().__init__()
+    self.page = page
+    self.controls.append(RouteButton(self.page, "/"))
+
+class Me(flet.View):
+  def __init__(self, page: flet.Page):
+    super().__init__()
+    self.page = page
+    self.controls.append(RouteButton(self.page, "/"))
+
+class Orders(flet.View):
+  def __init__(self, page: flet.Page):
+    super().__init__()
+    self.page = page
+    self.controls.append(RouteButton(self.page, "/"))
 
 def main(page: flet.Page):
   page.title = "Foxbit WS"
 
-  print("Initial route:", page.route)
-
-  def get_title_app_bar(text):
-    return flet.AppBar(title=flet.Text(text))
-
-  def get_go_button(link, title = ""):
-    def on_click(e):
-      page.go(link)
-
-    return flet.OutlinedButton(get_title(link, title), on_click=on_click)
-
-  def get_cancel_button():
-    return get_go_button("/", "Cancel")
-
-  def get_index_view():
-    return flet.View(
-      "/",
-      [
-        get_title_app_bar("Foxbit WS"),
-        get_go_button("/system/time"),
-        get_go_button("/currencies"),
-        get_go_button("/markets"),
-        get_go_button("/banks"),
-      ],
-    )
-
-  def get_send_button(method = "GET", endpoint = "/", fields = []):
-    def on_click(e):
-      response = API.request(method, endpoint)
-      print(response.read())
-
-    return flet.OutlinedButton('send', on_click=on_click)
-
-  def get_view(endpoint = "/"):
-    title_bar = get_title_app_bar(get_title(endpoint))
-    send_button = get_send_button("GET", endpoint, [])
-    cancel_button = get_cancel_button()
-
-    return flet.View(endpoint, [title_bar, flet.Row([send_button, cancel_button])])
+  def get_view(route):
+    match route:
+      case "/currencies":
+        return Currencies(page)
+      case "/me":
+          return Me(page)
+      case "/orders":
+          return Orders(page)
+      case _:
+        return Index(page)
 
   def route_change(route):
     page.views.clear()
-    page.views.append(get_index_view())
+    page.views.append(Index(page))
 
     if page.route != "/":
       page.views.append(get_view(page.route))
