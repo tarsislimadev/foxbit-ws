@@ -1,11 +1,13 @@
 import flet
 
+import config
+
 # constants
 
 def routes_names(route, default = ""):
   match route:
     case "/":
-      return "Index"
+      return config.app_name
     case "/currencies":
       return "List currencies"
     case "/markets":
@@ -14,10 +16,20 @@ def routes_names(route, default = ""):
       return "List banks"
     case "/system/time":
       return "Get current time"
+    case "/me":
+      return "Get current member details"
     case "/orders":
       return "List orders"
     case _:
       return default
+
+# components
+    
+class TopBar(flet.AppBar):
+  def __init__(self, route = ""):
+    super().__init__()
+    self.route = route
+    self.title = flet.Text(routes_names(self.route))
 
 # inputs
 
@@ -26,7 +38,8 @@ class TextInputGroup(flet.Column):
     super().__init__()
     self.input = flet.TextField(text)
     self.error = flet.Text("", color = flet.colors.RED)
-    self.controls = [self.input, self.error]
+    self.controls.append(self.input)
+    self.controls.append(self.error)
 
 class NumberInputGroup(flet.Column):
   def __init__(self, text = ""):
@@ -34,19 +47,22 @@ class NumberInputGroup(flet.Column):
     input_filter = flet.InputFilter(allow=True, regex_string=r"[0-9]", replacement_string="")
     self.input = flet.TextField(text, input_filter=input_filter)
     self.error = flet.Text("", color = flet.colors.RED)
-    self.controls = [self.input, self.error]
+    self.controls.append(self.input)
+    self.controls.append(self.error)
 
 class DateTimeGroup(flet.Column):
   def __init__(self):
     super().__init__()
     self.input = flet.DatePicker()
     self.error = flet.Text("", color = flet.colors.RED)
-    self.controls = [self.input, self.error]
+    self.controls.append(self.input)
+    self.controls.append(self.error)
 
 class RouteButton(flet.Column):
   def __init__(self, page: flet.Page, route = ""):
     super().__init__()
-    self.controls = [flet.ElevatedButton(routes_names(route), on_click = lambda _: page.go(route))]
+    self.button = flet.ElevatedButton(routes_names(route), on_click = lambda _: page.go(route))
+    self.controls.append(self.button)
 
 # views
 
@@ -54,24 +70,30 @@ class Index(flet.View):
   def __init__(self, page: flet.Page):
     super().__init__()
     self.page = page
+    self.controls.append(TopBar("/"))
     self.controls.append(RouteButton(self.page, "/currencies"))
+    self.controls.append(RouteButton(self.page, "/orders"))
+    self.controls.append(RouteButton(self.page, "/me"))
 
 class Currencies(flet.View):
   def __init__(self, page: flet.Page):
     super().__init__()
     self.page = page
+    self.controls.append(TopBar("/currencies"))
     self.controls.append(RouteButton(self.page, "/"))
 
 class Me(flet.View):
   def __init__(self, page: flet.Page):
     super().__init__()
     self.page = page
+    self.controls.append(TopBar("/me"))
     self.controls.append(RouteButton(self.page, "/"))
 
 class Orders(flet.View):
   def __init__(self, page: flet.Page):
     super().__init__()
     self.page = page
+    self.controls.append(TopBar("/orders"))
     self.controls.append(RouteButton(self.page, "/"))
 
 def main(page: flet.Page):
@@ -106,4 +128,4 @@ def main(page: flet.Page):
   page.go(page.route)
 
 if __name__ == "__main__":
-  flet.app(target=main)
+  flet.app(target = main)
