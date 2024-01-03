@@ -11,7 +11,8 @@ def main(page: flet.Page):
 
   def get_send_button(endpoint, fields):
     def on_click(e):
-      print(endpoint)
+      response = API.request("GET", endpoint)
+      print(response.read())
 
     return flet.OutlinedButton('send', on_click=on_click)
 
@@ -59,7 +60,14 @@ def main(page: flet.Page):
     return flet.View("/banks", [get_title_app_bar("List banks"), get_cancel_button(),])
 
   def get_system_time_route():
-    return flet.View("/system/time", [get_title_app_bar("Get current time"), get_cancel_button(),])
+    endpoint = "/system/time"
+
+    title_bar = get_title_app_bar("Get current time")
+    send_button = get_send_button(endpoint, [])
+    save_button = get_save_button(endpoint, [])
+    cancel_button = get_cancel_button()
+
+    return flet.View(endpoint, [title_bar, send_button, save_button, cancel_button,])
 
   def get_route(route):
     match route:
