@@ -2,90 +2,68 @@ import flet
 
 import api as API
 
+def get_title(route, default = ""):
+  match route:
+    case "/currencies":
+      return "List currencies"
+    case "/markets":
+      return "List markets"
+    case "/banks":
+      return "List banks"
+    case "/system/time":
+      return "Get current time"
+    case _:
+      return default
+
 def main(page: flet.Page):
   page.title = "Foxbit WS"
+
   print("Initial route:", page.route)
 
   def get_title_app_bar(text):
     return flet.AppBar(title=flet.Text(text))
 
-  def get_send_button(endpoint, fields):
-    def on_click(e):
-      response = API.request("GET", endpoint)
-      print(response.read())
-
-    return flet.OutlinedButton('send', on_click=on_click)
-
-  def get_save_button(endpoint, fields):
-    def on_click(e):
-      print(endpoint)
-
-    return flet.OutlinedButton('save', on_click=on_click)
-
-  def get_go_button(text, link):
+  def get_go_button(link, title = ""):
     def on_click(e):
       page.go(link)
 
-    return flet.OutlinedButton(text, on_click=on_click)
+    return flet.OutlinedButton(get_title(link, title), on_click=on_click)
 
   def get_cancel_button():
-    return get_go_button("Cancel", "/")
+    return get_go_button("/", "Cancel")
 
-  def get_index_route():
+  def get_index_view():
     return flet.View(
       "/",
       [
         get_title_app_bar("Foxbit WS"),
-        get_go_button("Get current time", "/system/time"),
-        get_go_button("List currencies", "/currencies"),
-        get_go_button("List markets", "/markets"),
-        get_go_button("List banks", "/banks"),
+        get_go_button("/system/time"),
+        get_go_button("/currencies"),
+        get_go_button("/markets"),
+        get_go_button("/banks"),
       ],
     )
 
-  def get_currencies_route():
-    endpoint = "/currencies"
+  def get_send_button(method = "GET", endpoint = "/", fields = []):
+    def on_click(e):
+      response = API.request(method, endpoint)
+      print(response.read())
 
-    title_bar = get_title_app_bar("List currencies")
-    send_button = get_send_button(endpoint, [])
-    save_button = get_save_button(endpoint, [])
+    return flet.OutlinedButton('send', on_click=on_click)
+
+  def get_view(endpoint = "/"):
+    title_bar = get_title_app_bar(get_title(endpoint))
+    send_button = get_send_button("GET", endpoint, [])
     cancel_button = get_cancel_button()
 
-    return flet.View(endpoint, [title_bar, send_button, save_button, cancel_button,])
-
-  def get_markets_route():
-    return flet.View("/markets", [get_title_app_bar("List markets"), get_cancel_button(),])
-
-  def get_banks_route():
-    return flet.View("/banks", [get_title_app_bar("List banks"), get_cancel_button(),])
-
-  def get_system_time_route():
-    endpoint = "/system/time"
-
-    title_bar = get_title_app_bar("Get current time")
-    send_button = get_send_button(endpoint, [])
-    save_button = get_save_button(endpoint, [])
-    cancel_button = get_cancel_button()
-
-    return flet.View(endpoint, [title_bar, send_button, save_button, cancel_button,])
-
-  def get_route(route):
-    match route:
-      case "/currencies":
-        return get_currencies_route()
-      case "/markets":
-        return get_markets_route()
-      case "/banks":
-        return get_banks_route()
-      case "/system/time":
-        return get_system_time_route()
+    return flet.View(endpoint, [title_bar, flet.Row([send_button, cancel_button])])
 
   def route_change(route):
     page.views.clear()
-    page.views.append(get_index_route())
+    page.views.append(get_index_view())
 
     if page.route != "/":
-      page.views.append(get_route(page.route))
+      page.views.append(get_view(page.route))
   page.update()
 
   def view_pop(view):
