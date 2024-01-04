@@ -1,39 +1,64 @@
 import http.client
-import math
-import time
 import hmac
 import hashlib
 import config
+import utils
 
-host = "api.foxbit.com.br"
+class Request():
+  def __init__(self, method: str = "GET", path: str = "", body: any = None):
+    self.method = method
+    self.path = path
+    self.body = body
 
-def full_path(path):
-  return "/rest/v3" + path
+  def getMethod(self) -> str:
+    return self.method
 
-def get_timestamp():
-  return math.floor(time.time()*1000)
+  def getPath(self) -> str:
+    return self.path
 
-def get_signature(timestamp, url, query):
-  prehash = f"{timestamp}GET{url}{query}"
-  return hmac.new(prehash, config.api_secret, hashlib.sha256).hexdigest() 
+  def getFullPath(self) -> str:
+    return config.path_prefix + self.getPath()
 
-def get_headers(path, query, headers={}):
-  timestamp = get_timestamp()
-  return {"Host": host, "Content-Type": "application/json", "X-FB-ACCESS-KEY": config.api_key, "X-FB-ACCESS-TIMESTAMP": timestamp, "X-FB-ACCESS-SIGNATURE": get_signature(timestamp, full_path(path), query)}
+  def getSignature(self, timestamp: str, path: str, query: str) -> str:
+    secret = f"{timestamp}GET{path}{query}"
+    sig = config.api_secret
+    return hmac.new(bytes(secret, encoding = 'ascii'), bytes(sig, encoding = 'ascii'), hashlib.sha256).hexdigest()
 
-def post_headers(headers={}):
-  return {} # FIXME
+  def getHeaders(self, timestamp: str = str(utils.getTimestamp())) -> dict[str, str]:
+    return {
+      "Host": self.getHost(),
+      "Content-Type": "application/json",
+      "X-FB-ACCESS-KEY": config.api_key,
+      "X-FB-ACCESS-TIMESTAMP": timestamp,
+      "X-FB-ACCESS-SIGNATURE": self.getSignature(timestamp, self.getFullPath(), query = ""),
+    }
 
-def request(method = "GET", path = "/", headers = {}, data = {}):
-  conn = http.client.HTTPSConnection(host)
-  conn.request(method, full_path(path), headers)
-  return conn.getresponse()
+  def getBody(self) -> any:
+    return self.body
 
-def get_request(path = "/", headers = {}):
-  return request("GET", path, get_headers(headers))
+  def getBodyString(self) -> str:
+    body = self.getBody()
+    if (body is None)
+      return ""
+    return str(body)
 
-def post_request(path = "/", headers = {}, data = {}):
-  return request("POST", path, post_headers(headers), data)
+  def getHost(self) -> str:
+    return config.host
 
-def currencies():
-  return get_request("/currencies")
+class Response():
+  def __init__(self, res: http.client.HTTPResponse):
+    self.status = res.status
+    self.headers = res.headers
+    self.body = res.read().decode()
+
+  def __str__() -> str:
+    return str(self.body)
+
+def run(req: Request) -> Response:
+  conn = http.client.HTTPSConnection(config.host)
+  conn.request(req.getMethod(), req.getPath(), req.getBodyString(), req.getHeaders())
+  return Response(conn.getresponse())
+
+def currencies() -> Response:
+  return run(Request("GET", "/currencies"))
+

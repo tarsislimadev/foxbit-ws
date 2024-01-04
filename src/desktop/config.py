@@ -1,9 +1,13 @@
 # 
 
-app_name = "Foxbit REST API 3.0"
+app_name: str = "Foxbit REST API 3.0"
 
-userid = ""
+host: str = "api.foxbit.com.br"
 
-api_secret = ""
+path_prefix: str = "/rest/v3"
 
-api_key = ""
+userid: str = ""
+
+api_secret: str = ""
+
+api_key: str = ""
