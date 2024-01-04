@@ -1,6 +1,6 @@
-# 
+import flet
 
-app_name: str = "Foxbit REST API 3.0"
+app_name: str = "Foxbit API"
 
 host: str = "api.foxbit.com.br"
 
@@ -11,3 +11,5 @@ userid: str = ""
 api_secret: str = ""
 
 api_key: str = ""
+
+color = flet.colors.PRIMARY

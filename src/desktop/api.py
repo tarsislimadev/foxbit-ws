@@ -38,7 +38,7 @@ class Request():
 
   def getBodyString(self) -> str:
     body = self.getBody()
-    if (body is None)
+    if (body is None):
       return ""
     return str(body)
 
@@ -51,14 +51,25 @@ class Response():
     self.headers = res.headers
     self.body = res.read().decode()
 
-  def __str__() -> str:
-    return str(self.body)
-
 def run(req: Request) -> Response:
   conn = http.client.HTTPSConnection(config.host)
   conn.request(req.getMethod(), req.getPath(), req.getBodyString(), req.getHeaders())
   return Response(conn.getresponse())
 
-def currencies() -> Response:
-  return run(Request("GET", "/currencies"))
+def Index() -> Response:
+  return run(Request("GET", "Index"))
 
+def Currencies() -> Response:
+  return run(Request("GET", "Currencies"))
+
+def Markets() -> Response:
+  return run(Request("GET", "Markets"))
+
+def MarketsQuotes() -> Response:
+  return run(Request("GET", "MarketsQuotes"))
+
+def OrderBook() -> Response:
+  return run(Request("GET", "OrderBook"))
+
+def Candles() -> Response:
+  return run(Request("GET", "Candles"))
