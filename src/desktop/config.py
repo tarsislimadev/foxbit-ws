@@ -8,8 +8,8 @@ path_prefix: str = "/rest/v3"
 
 userid: str = ""
 
-api_secret: str = ""
+secret: str = ""
 
-api_key: str = ""
+key: str = ""
 
 color = flet.colors.PRIMARY

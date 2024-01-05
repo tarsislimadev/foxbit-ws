@@ -21,14 +21,14 @@ class Request():
 
   def getSignature(self, timestamp: str, path: str, query: str) -> str:
     secret = f"{timestamp}GET{path}{query}"
-    sig = config.api_secret
+    sig = config.secret
     return hmac.new(bytes(secret, encoding = 'ascii'), bytes(sig, encoding = 'ascii'), hashlib.sha256).hexdigest()
 
   def getHeaders(self, timestamp: str = str(utils.getTimestamp())) -> dict[str, str]:
     return {
       "Host": self.getHost(),
       "Content-Type": "application/json",
-      "X-FB-ACCESS-KEY": config.api_key,
+      "X-FB-ACCESS-KEY": config.key,
       "X-FB-ACCESS-TIMESTAMP": timestamp,
       "X-FB-ACCESS-SIGNATURE": self.getSignature(timestamp, self.getFullPath(), query = ""),
     }

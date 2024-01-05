@@ -13,15 +13,15 @@ class IndexTab(flet.Tab):
 
     def on_save(e):
       config.userid = self.userid.value
-      config.api_secret = self.secret.value
-      config.api_key = self.key.value
-      flet_page.session.set("config", [config.userid, config.api_secret, config.api_key])
+      config.secret = self.secret.value
+      config.key = self.key.value
+      flet_page.session.set("config", [config.userid, config.secret, config.key])
 
     self.content = flet.Column([
-      components.Separator(), 
-      self.userid, 
-      self.secret, 
-      self.key, 
+      components.Separator(),
+      self.userid,
+      self.secret,
+      self.key,
       components.SaveTextButton(on_save),
     ])
 
@@ -36,8 +36,8 @@ class ListCurrenciesTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -52,8 +52,8 @@ class ListMarketsTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -73,12 +73,12 @@ class GetMarketQuotationTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      self.side, 
-      self.base_currency, 
-      self.quote_currency, 
-      self.amount, 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      self.side,
+      self.base_currency,
+      self.quote_currency,
+      self.amount,
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -96,10 +96,10 @@ class GetOrderBookTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      self.market_symbol, 
-      self.depth, 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      self.market_symbol,
+      self.depth,
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -122,13 +122,13 @@ class GetCandlesticksTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      self.market_symbol, 
-      self.interval, 
-      self.start_time_column, 
-      self.end_time_column, 
-      self.limit, 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      self.market_symbol,
+      self.interval,
+      self.start_time_column,
+      self.end_time_column,
+      self.limit,
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -143,8 +143,8 @@ class ListBanksTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -159,8 +159,8 @@ class GetCurrentTimeTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -175,8 +175,8 @@ class GetCurrentMemberDetailsTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -191,8 +191,8 @@ class ListOrdersTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -207,8 +207,8 @@ class GetOrderByIDTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -223,8 +223,8 @@ class GetOrderByClientIDTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -239,8 +239,8 @@ class ListTradesTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -255,8 +255,8 @@ class GetMemberAccountsTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -271,8 +271,8 @@ class GetMemberPnLDataTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -287,8 +287,8 @@ class ListDepositsTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -303,8 +303,8 @@ class GetDepositTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -319,8 +319,8 @@ class GetDepositAddressTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -335,8 +335,8 @@ class ListWithdrawalsTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -351,8 +351,8 @@ class GetWithdrawalTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      components.SendTextButton(on_send),
       responses,
     ])
 
@@ -367,7 +367,7 @@ class ListTransactionalLimitsTab(flet.Tab):
       flet_page.update()
 
     self.content = flet.Column([
-      components.Separator(), 
-      components.SendTextButton(on_send), 
+      components.Separator(),
+      components.SendTextButton(on_send),
       responses,
     ])
