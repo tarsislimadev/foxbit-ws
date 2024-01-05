@@ -28,6 +28,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
 
       - name: Github release latest
-        run: gh release upload latest ./dist/*
+        run: gh release upload --clobber latest ./dist/*
         env:
           GH_TOKEN: ${{ github.token }}
