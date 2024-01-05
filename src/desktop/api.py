@@ -1,75 +1,61 @@
-import http.client
-import hmac
-import hashlib
-import config
-import utils
+import helpers
 
-class Request():
-  def __init__(self, method: str = "GET", path: str = "", body: any = None):
-    self.method = method
-    self.path = path
-    self.body = body
+def ListCurrencies() -> helpers.Response:
+  return helpers.run(helpers.Request("GET", "/currencies"))
 
-  def getMethod(self) -> str:
-    return self.method
+def ListMarkets() -> helpers.Response:
+  return helpers.run(helpers.Request("GET", "/markets"))
 
-  def getPath(self) -> str:
-    return self.path
+def GetMarketQuotation(side: str, base_currency: str, quote_currency: str, amount: str) -> helpers.Response:
+  return helpers.run(helpers.Request("GET", f"/markets/quotes?side={side}&base_currency={base_currency}&quote_currency={quote_currency}&amount={amount}"))
 
-  def getFullPath(self) -> str:
-    return config.path_prefix + self.getPath()
+def GetOrderBook(market_symbol: str, depth: str) -> helpers.Response:
+  return helpers.run(helpers.Request("GET", f"/markets/{market_symbol}/orderbook?depth={depth}"))
 
-  def getSignature(self, timestamp: str, path: str, query: str) -> str:
-    secret = f"{timestamp}GET{path}{query}"
-    sig = config.api_secret
-    return hmac.new(bytes(secret, encoding = 'ascii'), bytes(sig, encoding = 'ascii'), hashlib.sha256).hexdigest()
+def GetCandlesticks(market_symbol: str, interval: str, start_time: str = "", end_time: str = "", limit: str = "") -> helpers.Response:
+  return helpers.run(helpers.Request("GET", f"/markets/{market_symbol}/candlesticks?interval={interval}&start_time={start_time}&end_time={end_time}&limit={limit}"))
 
-  def getHeaders(self, timestamp: str = str(utils.getTimestamp())) -> dict[str, str]:
-    return {
-      "Host": self.getHost(),
-      "Content-Type": "application/json",
-      "X-FB-ACCESS-KEY": config.api_key,
-      "X-FB-ACCESS-TIMESTAMP": timestamp,
-      "X-FB-ACCESS-SIGNATURE": self.getSignature(timestamp, self.getFullPath(), query = ""),
-    }
+def ListBanks() -> helpers.Response:
+  return helpers.run(helpers.Request("GET", "/banks"))
 
-  def getBody(self) -> any:
-    return self.body
+def GetCurrentTime() -> helpers.Response:
+  return helpers.run(helpers.Request("GET", "/system/time"))
 
-  def getBodyString(self) -> str:
-    body = self.getBody()
-    if (body is None):
-      return ""
-    return str(body)
+def GetCurrentMemberDetails() -> helpers.Response:
+  return helpers.run(helpers.Request("GET", "/me"))
 
-  def getHost(self) -> str:
-    return config.host
+def ListOrders(market_symbol: str, start_time: str = "", end_time: str = "", page_size: int = 100, page: int = 1, state: str = "", side: str = "") -> helpers.Response:
+  return helpers.run(helpers.Request("GET", f"/orders?start_time={start_time}&end_time={end_time}&page_size={page_size}&page={page}&market_symbol={market_symbol}&state={state}&side={side}"))
 
-class Response():
-  def __init__(self, res: http.client.HTTPResponse):
-    self.status = res.status
-    self.headers = res.headers
-    self.body = res.read().decode()
+def GetOrderByID(id: str) -> helpers.Response:
+  return helpers.run(helpers.Request("GET", f"/orders/by-order-id/{id}"))
 
-def run(req: Request) -> Response:
-  conn = http.client.HTTPSConnection(config.host)
-  conn.request(req.getMethod(), req.getPath(), req.getBodyString(), req.getHeaders())
-  return Response(conn.getresponse())
+def GetOrderByClientID(client_order_id: str) -> helpers.Response:
+  return helpers.run(helpers.Request("GET", f"/orders/by-client-order-id/{client_order_id}"))
 
-def Index() -> Response:
-  return run(Request("GET", "Index"))
+def ListTrades(market_symbol: str, start_time: str = "", end_time: str = "", page_size: int = 100, page: int = 1, order_sn: str = "", order_id: str = "") -> helpers.Response:
+  return helpers.run(helpers.Request("GET", f"/trades?market_symbol={market_symbol}&start_time={start_time}&end_time={end_time}&page_size={page_size}&page={page}&order_sn={order_sn}&order_id={order_id}"))
 
-def Currencies() -> Response:
-  return run(Request("GET", "Currencies"))
+def GetMemberAccounts() -> helpers.Response:
+  return helpers.run(helpers.Request("GET", "/accounts"))
 
-def Markets() -> Response:
-  return run(Request("GET", "Markets"))
+def GetMemberPnLData(currency_symbol: str) -> helpers.Response:
+  return helpers.run(helpers.Request("GET", f"/accounts/pnl?currency_symbol={currency_symbol}"))
 
-def MarketsQuotes() -> Response:
-  return run(Request("GET", "MarketsQuotes"))
+def ListDeposits(start_time: str = "", end_time: str = "", page_size: int = 100, page: int = 1) -> helpers.Response:
+  return helpers.run(helpers.Request("GET", f"/deposits?start_time={start_time}&end_time={end_time}&page_size={page_size}&page={page}"))
 
-def OrderBook() -> Response:
-  return run(Request("GET", "OrderBook"))
+def GetDeposit(deposit_sn: str) -> helpers.Response:
+  return helpers.run(helpers.Request("GET", f"/deposits/{deposit_sn}"))
 
-def Candles() -> Response:
-  return run(Request("GET", "Candles"))
+def GetDepositAddress(currency_symbol: str) -> helpers.Response:
+  return helpers.run(helpers.Request("GET", f"/deposits/address?currency_symbol={currency_symbol}"))
+
+def ListWithdrawals(start_time: str = "", end_time: str = "", page_size: int = 100, page: int = 1) -> helpers.Response:
+  return helpers.run(helpers.Request("GET", f"/withdrawals?start_time={start_time}&end_time={end_time}&page_size={page_size}&page={page}"))
+
+def GetWithdrawal(withdrawal_sn: str) -> helpers.Response:
+  return helpers.run(helpers.Request("GET", f"/withdrawals/{withdrawal_sn}"))
+
+def ListTransactionalLimits() -> helpers.Response:
+  return helpers.run(helpers.Request("GET", "/transactional_limits"))
