@@ -29,7 +29,7 @@ export class Tab extends HTML {
   }
 
   getBody() {
-    return {}
+    return { OMSId: 0 }
   }
 }
 

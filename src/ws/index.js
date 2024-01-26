@@ -10,10 +10,10 @@ const httpServer = createServer(app)
 const io = new Server(httpServer, { cors: { origin: '*' } })
 const foxbit = new WebSocket('wss://api.foxbit.com.br/')
 
-let i = 0
-
 io.on('connection', (socket) => {
   console.log('socket', socket.id)
+
+  let i = 0
 
   const send = (Endpoint, Payload = {}) => {
     console.log('send', Endpoint, Payload)
@@ -21,7 +21,7 @@ io.on('connection', (socket) => {
   }
 
   const retrieve = (data) => {
-    const { m, i, n, o } = JSON.parse(data.toString())
+    const { m, i, n, o = '{}' } = JSON.parse(data.toString())
     const message = { Endpoint: n, Payload: JSON.parse(o), SequenceNumber: i, MessageType: m }
     console.log('retrieve', message)
     socket.emit('message', message)
