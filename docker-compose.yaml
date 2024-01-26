@@ -1,12 +1,9 @@
 version: '3'
 
 services:
-  desktop:
-    build: './src/desktop'
-    volumes:
-      - './src/desktop:/app'
 
   www:
+    restart: always
     build: './src/www'
     volumes:
       - './src/www/html:/usr/share/nginx/html'
@@ -14,6 +11,7 @@ services:
       - '8000:80'
 
   ws:
+    restart: always
     build: './src/ws'
     volumes:
       - './src/ws:/app'
