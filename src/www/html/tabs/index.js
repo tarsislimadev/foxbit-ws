@@ -7,6 +7,8 @@ export class Tab extends HTML {
   onCreate() {
     super.onCreate()
     this.append(this.getTitleHTML())
+    this.append(this.getForm())
+    this.append(this.getButton())
   }
 
   getTitleHTML() {
@@ -15,11 +17,19 @@ export class Tab extends HTML {
     return title
   }
 
-  getButton(getValue = (() => { })) {
+  getForm() {
+    return new HTML()
+  }
+
+  getButton() {
     const button = new ButtonComponent()
     button.setText('Send')
-    button.on('click', () => this.dispatchEvent('submit', { header: this.path, body: getValue() }))
+    button.on('click', () => this.dispatchEvent('submit', { header: this.path, body: this.getBody() }))
     return button
+  }
+
+  getBody() {
+    return {}
   }
 }
 
@@ -33,18 +43,22 @@ export class AuthenticateUserHTML extends Tab {
     Signature: new InputTextGroupComponent(),
   }
 
-  onCreate() {
-    super.onCreate()
-    this.append(this.getAPIKeyInputTextGroup())
-    this.append(this.getNonceInputTextGroup())
-    this.append(this.getUserIdInputTextGroup())
-    this.append(this.getSignatureInputTextGroup())
-    this.append(this.getButton(() => ({
+  getForm() {
+    const form = new HTML()
+    form.append(this.getAPIKeyInputTextGroup())
+    form.append(this.getNonceInputTextGroup())
+    form.append(this.getUserIdInputTextGroup())
+    form.append(this.getSignatureInputTextGroup())
+    return form
+  }
+
+  getBody() {
+    return {
       APIKey: this.children.APIKey.getValue(),
       Nonce: this.children.Nonce.getValue(),
       UserId: this.children.UserId.getValue(),
       Signature: this.children.Signature.getValue(),
-    })))
+    }
   }
 
   getAPIKeyInputTextGroup() {
@@ -116,14 +130,18 @@ export class GetOpenOrdersHTML extends Tab {
     AccountId: new InputTextGroupComponent(),
   }
 
-  onCreate() {
-    super.onCreate()
-    this.append(this.getOMSIdInputTextGroup())
-    this.append(this.getAccountIdInputTextGroup())
-    this.append(this.getButton(() => ({
+  getForm() {
+    const form = new HTML()
+    form.append(this.getOMSIdInputTextGroup())
+    form.append(this.getAccountIdInputTextGroup())
+    return form
+  }
+
+  getBody() {
+    return {
       OMSId: this.children.OMSId.getValue(),
       AccountId: this.children.AccountId.getValue(),
-    })))
+    }
   }
 
   getOMSIdInputTextGroup() {
