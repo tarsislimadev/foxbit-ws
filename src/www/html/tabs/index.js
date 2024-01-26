@@ -1,223 +1,319 @@
-import { HTML, nFlex, nButton, nInputTextGroup } from '@brtmvdl/frontend'
+import { HTML } from '@brtmvdl/frontend'
+
+import { InputTextGroupComponent, ButtonComponent } from '../components/index.js'
 
 export class Tab extends HTML {
   path = ''
 
-  onCreate() {
-    this.append(this.getTitle())
-  }
-
-  getTitle() {
-    const title = new HTML()
-    title.setText(this.path)
-    return title
-  }
-
-  getAllData() {
-    return {}
-  }
-
-  getSaveButton() {
-    const { path } = this
-    const button = new nButton()
-    button.on('click', () => this.dispatchEvent('save', { path, body: this.getAllData() }))
-    button.setText('save')
+  getButton(getValue = (() => { })) {
+    const button = new ButtonComponent()
+    button.setText('Send')
+    button.on('click', () => this.dispatchEvent('submit', { header: this.path, body: getValue() }))
     return button
-  }
-
-  getSendButton() {
-    const { path } = this
-    const button = new nButton()
-    button.on('click', () => this.dispatchEvent('send', { path, body: this.getAllData() }))
-    button.setText('send')
-    return button
-  }
-
-  getButtons() {
-    const flex = new HTML()
-    flex.append(this.getSaveButton())
-    flex.append(this.getSendButton())
-    return flex
   }
 }
 
-export class IndexTab extends Tab {
-  path = 'Index'
-}
-
-export class AuthenticateUserTab extends Tab {
+export class AuthenticateUserHTML extends Tab {
   path = 'AuthenticateUser'
 
   children = {
-    apikey: new nInputTextGroup(),
-    nonce: new nInputTextGroup(),
-    userid: new nInputTextGroup(),
-    signature: new nInputTextGroup(),
+    APIKey: new InputTextGroupComponent(),
+    Nonce: new InputTextGroupComponent(),
+    UserId: new InputTextGroupComponent(),
+    Signature: new InputTextGroupComponent(),
   }
 
   onCreate() {
     super.onCreate()
-    this.append(this.getAPIKey())
-    this.append(this.getNonce())
-    this.append(this.getUserId())
-    this.append(this.getSignature())
-    this.append(this.getButtons())
+    this.append(this.getAPIKeyInputTextGroup())
+    this.append(this.getNonceInputTextGroup())
+    this.append(this.getUserIdInputTextGroup())
+    this.append(this.getSignatureInputTextGroup())
+    this.append(this.getButton(() => ({
+      APIKey: this.children.APIKey.getValue(),
+      Nonce: this.children.Nonce.getValue(),
+      UserId: this.children.UserId.getValue(),
+      Signature: this.children.Signature.getValue(),
+    })))
   }
 
-  getAPIKey() {
-    this.children.apikey.children.label.setText('APIKey')
-    return this.children.apikey
+  getAPIKeyInputTextGroup() {
+    this.children.APIKey.children.label.setText('APIKey')
+    this.children.APIKey.children.input.setPlaceholder('APIKey')
+    return this.children.APIKey
   }
 
-  getNonce() {
-    this.children.nonce.children.label.setText('Nonce')
-    return this.children.nonce
+  getNonceInputTextGroup() {
+    this.children.Nonce.children.label.setText('Nonce')
+    this.children.Nonce.children.input.setPlaceholder('Nonce')
+    return this.children.Nonce
   }
 
-  getUserId() {
-    this.children.userid.children.label.setText('UserId')
-    return this.children.userid
+  getUserIdInputTextGroup() {
+    this.children.UserId.children.label.setText('UserId')
+    this.children.UserId.children.input.setPlaceholder('UserId')
+    return this.children.UserId
   }
 
-  getSignature() {
-    this.children.signature.children.label.setText('Signature')
-    return this.children.signature
-  }
-
-  getAllData() {
-    const apikey = this.children.apikey.children.input.getValue()
-    const nonce = this.children.nonce.children.input.getValue()
-    const userid = this.children.userid.children.input.getValue()
-    const signature = this.children.signature.children.input.getValue()
-
-    return { apikey, nonce, userid, signature }
+  getSignatureInputTextGroup() {
+    this.children.Signature.children.label.setText('Signature')
+    this.children.Signature.children.input.setPlaceholder('Signature')
+    return this.children.Signature
   }
 }
 
-export class Authenticate2FATab extends Tab {
+export class Authenticate2FAHTML extends Tab {
   path = 'Authenticate2FA'
+
+  onCreate() {
+    this.setText('Authenticate2FA')
+  }
 }
 
-export class CancelAllOrdersTab extends Tab {
+export class CancelAllOrdersHTML extends Tab {
   path = 'CancelAllOrders'
+
+  onCreate() {
+    this.setText('CancelAllOrders')
+  }
 }
 
-export class CancelOrderTab extends Tab {
+export class CancelOrderHTML extends Tab {
   path = 'CancelOrder'
+
+  onCreate() {
+    this.setText('CancelOrder')
+  }
 }
 
-export class GetAccountInfoTab extends Tab {
+export class GetAccountInfoHTML extends Tab {
   path = 'GetAccountInfo'
+
+  onCreate() {
+    this.setText('GetAccountInfo')
+  }
 }
 
-export class GetAccountPositionsTab extends Tab {
+export class GetAccountPositionsHTML extends Tab {
   path = 'GetAccountPositions'
+
+  onCreate() {
+    this.setText('GetAccountPositions')
+  }
 }
 
-export class GetAccountTradesTab extends Tab {
+export class GetAccountTradesHTML extends Tab {
   path = 'GetAccountTrades'
+
+  onCreate() {
+    this.setText('GetAccountTrades')
+  }
 }
 
-export class GetDepositTicketsTab extends Tab {
+export class GetDepositTicketsHTML extends Tab {
   path = 'GetDepositTickets'
+
+  onCreate() {
+    this.setText('GetDepositTickets')
+  }
 }
 
-export class GetInstrumentTab extends Tab {
+export class GetInstrumentHTML extends Tab {
   path = 'GetInstrument'
+
+  onCreate() {
+    this.setText('GetInstrument')
+  }
 }
 
-export class GetInstrumentsTab extends Tab {
+export class GetInstrumentsHTML extends Tab {
   path = 'GetInstruments'
+
+  onCreate() {
+    this.setText('GetInstruments')
+  }
 }
 
-export class GetOpenOrdersTab extends Tab {
+export class GetOpenOrdersHTML extends Tab {
   path = 'GetOpenOrders'
+
+  onCreate() {
+    this.setText('GetOpenOrders')
+  }
 }
 
-export class GetOrderFeeTab extends Tab {
+export class GetOrderFeeHTML extends Tab {
   path = 'GetOrderFee'
+
+  onCreate() {
+    this.setText('GetOrderFee')
+  }
 }
 
-export class GetOrderHistoryTab extends Tab {
+export class GetOrderHistoryHTML extends Tab {
   path = 'GetOrderHistory'
+
+  onCreate() {
+    this.setText('GetOrderHistory')
+  }
 }
 
-export class GetOrderStatusTab extends Tab {
+export class GetOrderStatusHTML extends Tab {
   path = 'GetOrderStatus'
+
+  onCreate() {
+    this.setText('GetOrderStatus')
+  }
 }
 
-export class GetProductsTab extends Tab {
+export class GetProductsHTML extends Tab {
   path = 'GetProducts'
+
+  onCreate() {
+    this.setText('GetProducts')
+  }
 }
 
-export class GetL2SnapshotTab extends Tab {
+export class GetL2SnapshotHTML extends Tab {
   path = 'GetL2Snapshot'
+
+  onCreate() {
+    this.setText('GetL2Snapshot')
+  }
 }
 
-export class GetTickerHistoryTab extends Tab {
+export class GetTickerHistoryHTML extends Tab {
   path = 'GetTickerHistory'
+
+  onCreate() {
+    this.setText('GetTickerHistory')
+  }
 }
 
-export class GetTradesHistoryTab extends Tab {
+export class GetTradesHistoryHTML extends Tab {
   path = 'GetTradesHistory'
+
+  onCreate() {
+    this.setText('GetTradesHistory')
+  }
 }
 
-export class GetUserInfoTab extends Tab {
+export class GetUserInfoHTML extends Tab {
   path = 'GetUserInfo'
+
+  onCreate() {
+    this.setText('GetUserInfo')
+  }
 }
 
-export class GetUserPermissionsTab extends Tab {
+export class GetUserPermissionsHTML extends Tab {
   path = 'GetUserPermissions'
+
+  onCreate() {
+    this.setText('GetUserPermissions')
+  }
 }
 
-export class GetWithdrawTicketsTab extends Tab {
+export class GetWithdrawTicketsHTML extends Tab {
   path = 'GetWithdrawTickets'
+
+  onCreate() {
+    this.setText('GetWithdrawTickets')
+  }
 }
 
-export class LogoutTab extends Tab {
+export class LogoutHTML extends Tab {
   path = 'Logout'
+
+  onCreate() {
+    this.setText('Logout')
+  }
 }
 
-export class SendOrderTab extends Tab {
+export class SendOrderHTML extends Tab {
   path = 'SendOrder'
+
+  onCreate() {
+    this.setText('SendOrder')
+  }
 }
 
-export class SubscribeAccountEventsTab extends Tab {
+export class SubscribeAccountEventsHTML extends Tab {
   path = 'SubscribeAccountEvents'
+
+  onCreate() {
+    this.setText('SubscribeAccountEvents')
+  }
 }
 
-export class SubscribeLevel1Tab extends Tab {
+export class SubscribeLevel1HTML extends Tab {
   path = 'SubscribeLevel1'
+
+  onCreate() {
+    this.setText('SubscribeLevel1')
+  }
 }
 
-export class SubscribeLevel1MarketsTab extends Tab {
+export class SubscribeLevel1MarketsHTML extends Tab {
   path = 'SubscribeLevel1Markets'
+
+  onCreate() {
+    this.setText('SubscribeLevel1Markets')
+  }
 }
 
-export class SubscribeLevel2Tab extends Tab {
+export class SubscribeLevel2HTML extends Tab {
   path = 'SubscribeLevel2'
+
+  onCreate() {
+    this.setText('SubscribeLevel2')
+  }
 }
 
-export class SubscribeTickerTab extends Tab {
+export class SubscribeTickerHTML extends Tab {
   path = 'SubscribeTicker'
+
+  onCreate() {
+    this.setText('SubscribeTicker')
+  }
 }
 
-export class SubscribeTradesTab extends Tab {
+export class SubscribeTradesHTML extends Tab {
   path = 'SubscribeTrades'
+
+  onCreate() {
+    this.setText('SubscribeTrades')
+  }
 }
 
-export class UnsubscribeLevel1Tab extends Tab {
+export class UnsubscribeLevel1HTML extends Tab {
   path = 'UnsubscribeLevel1'
+
+  onCreate() {
+    this.setText('UnsubscribeLevel1')
+  }
 }
 
-export class UnsubscribeLevel2Tab extends Tab {
+export class UnsubscribeLevel2HTML extends Tab {
   path = 'UnsubscribeLevel2'
+
+  onCreate() {
+    this.setText('UnsubscribeLevel2')
+  }
 }
 
-export class UnsubscribeTickerTab extends Tab {
+export class UnsubscribeTickerHTML extends Tab {
   path = 'UnsubscribeTicker'
+
+  onCreate() {
+    this.setText('UnsubscribeTicker')
+  }
 }
 
-export class UnsubscribeTradesTab extends Tab {
+export class UnsubscribeTradesHTML extends Tab {
   path = 'UnsubscribeTrades'
+
+  onCreate() {
+    this.setText('UnsubscribeTrades')
+  }
 }
