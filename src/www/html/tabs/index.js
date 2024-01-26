@@ -1,6 +1,8 @@
 import { HTML, nH2, nInputTextGroup } from '@brtmvdl/frontend'
 import { InputTextGroupComponent, ButtonComponent } from '../components/index.js'
 
+import * as config from '../config.js'
+
 export class Tab extends HTML {
   path = ''
 
@@ -64,6 +66,8 @@ export class AuthenticateUserHTML extends Tab {
   getAPIKeyInputTextGroup() {
     this.children.APIKey.children.label.setText('APIKey')
     this.children.APIKey.children.input.setPlaceholder('APIKey')
+    this.children.APIKey.children.input.setAttr('type', 'password')
+    this.children.APIKey.children.input.setValue(config.access_key)
     return this.children.APIKey
   }
 
@@ -76,6 +80,7 @@ export class AuthenticateUserHTML extends Tab {
   getUserIdInputTextGroup() {
     this.children.UserId.children.label.setText('UserId')
     this.children.UserId.children.input.setPlaceholder('UserId')
+    this.children.UserId.children.input.setValue(config.user_id)
     return this.children.UserId
   }
 
