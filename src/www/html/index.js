@@ -1,8 +1,12 @@
 import { HTML, nH2, nButton, nFlex, nInputTextGroup } from '@brtmvdl/frontend'
+
 import * as tabs from './tabs/index.js'
+import * as events from './utils/events.js'
+
 import 'socket.io'
 
 export class Page extends HTML {
+
   children = {
     tabs: new HTML(),
   }
@@ -71,7 +75,7 @@ export class Page extends HTML {
 
   setSocketEvents() {
     this.state.socket.on('message', (data) => console.log('message', data))
-    this.getEventsList().map((ev) => this.state.socket.on(ev, (data) => console.log(ev, data)))
+    events.getEventsList().map((ev) => this.state.socket.on(ev, (data) => console.log(ev, data)))
   }
 
   getTitleH2() {
@@ -88,47 +92,9 @@ export class Page extends HTML {
     return html
   }
 
-  getEventsList() {
-    return Array.from([
-      'AuthenticateUser',
-      'Authenticate2FA',
-      'GetOpenOrders',
-      'GetOrderFee',
-      'GetOrderHistory',
-      'GetOrderStatus',
-      'SendOrder',
-      'CancelAllOrders',
-      'CancelOrder',
-      'SubscribeTicker',
-      'UnsubscribeTicker',
-      'SubscribeAccountEvents',
-      'SubscribeLevel1',
-      'UnsubscribeLevel1',
-      'SubscribeLevel1Markets',
-      'SubscribeLevel2',
-      'UnsubscribeLevel2',
-      'SubscribeTrades',
-      'UnsubscribeTrades',
-      'GetAccountInfo',
-      'GetAccountPositions',
-      'GetAccountTrades',
-      'GetDepositTickets',
-      'GetInstrument',
-      'GetInstruments',
-      'GetProducts',
-      'GetL2Snapshot',
-      'GetTickerHistory',
-      'GetTradesHistory',
-      'GetUserInfo',
-      'GetUserPermissions',
-      'GetWithdrawTickets',
-      'Logout',
-    ])
-  }
-
   getTabsHeaders() {
     const html = new HTML()
-    this.getEventsList().map((tab) => html.append(this.createTabHeader(tab)))
+    events.getEventsList().map((tab) => html.append(this.createTabHeader(tab)))
     return html
   }
 
