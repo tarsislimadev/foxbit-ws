@@ -6,16 +6,16 @@ services:
     volumes:
       - './src/desktop:/app'
 
-  api:
-    build: './src/api'
-    volumes:
-      - './data:/data'
-    ports:
-      - '8080:80'
-
   www:
     build: './src/www'
     volumes:
       - './src/www/html:/usr/share/nginx/html'
     ports:
       - '8000:80'
+
+  ws:
+    build: './src/ws'
+    volumes:
+      - './src/ws:/app'
+    ports:
+      - '8080:80'

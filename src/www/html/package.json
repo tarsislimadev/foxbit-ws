@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@brtmvdl/frontend": "^1.0.12"
+    "@brtmvdl/frontend": "^1.0.12",
+    "socket.io-client": "^4.7.4"
   }
 }
