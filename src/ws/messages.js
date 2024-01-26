@@ -1,4 +1,3 @@
-// 
 
 let SequenceNumber = 0
 
@@ -6,17 +5,10 @@ export class FoxbitMessage {
   Endpoint = ''
   Payload = {}
 
-  constructor(Payload = {}) {
-    this.Payload = Payload
-  }
+  constructor(Payload = {}) { this.Payload = Payload }
 
   toJSON() {
-    return {
-      'n': this.Endpoint, // Endpoint (integer)
-      'o': JSON.stringify(this.Payload), // Payload (string)
-      'i': ++SequenceNumber, // SequenceNumber (long integer)
-      'm': 0, // MessageType (0_Request / 1_Reply / 2_Subscribe / 3_Event / Error)
-    }
+    return { n: this.Endpoint, o: JSON.stringify(this.Payload), i: ++SequenceNumber, m: 0, }
   }
 
   toString() {

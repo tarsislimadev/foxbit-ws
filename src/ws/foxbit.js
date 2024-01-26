@@ -39,7 +39,7 @@ export class FoxbitWS {
   }
 
   send(message = new messages.FoxbitMessage()) {
-    console.log(message.Endpoint, message.toJSON())
+    console.log('send', message.Endpoint, message.toJSON())
     this.ws.send(message.toString(), console.log)
   }
 }
