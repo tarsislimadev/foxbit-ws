@@ -71,39 +71,7 @@ export class Page extends HTML {
 
   setSocketEvents() {
     this.state.socket.on('message', (data) => console.log('message', data))
-    this.state.socket.on('AuthenticateUser', (data) => console.log('AuthenticateUser', data))
-    this.state.socket.on('Authenticate2FA', (data) => console.log('Authenticate2FA', data))
-    this.state.socket.on('CancelAllOrders', (data) => console.log('CancelAllOrders', data))
-    this.state.socket.on('CancelOrder', (data) => console.log('CancelOrder', data))
-    this.state.socket.on('GetAccountInfo', (data) => console.log('GetAccountInfo', data))
-    this.state.socket.on('GetAccountPositions', (data) => console.log('GetAccountPositions', data))
-    this.state.socket.on('GetAccountTrades', (data) => console.log('GetAccountTrades', data))
-    this.state.socket.on('GetDepositTickets', (data) => console.log('GetDepositTickets', data))
-    this.state.socket.on('GetInstrument', (data) => console.log('GetInstrument', data))
-    this.state.socket.on('GetInstruments', (data) => console.log('GetInstruments', data))
-    this.state.socket.on('GetOpenOrders', (data) => console.log('GetOpenOrders', data))
-    this.state.socket.on('GetOrderFee', (data) => console.log('GetOrderFee', data))
-    this.state.socket.on('GetOrderHistory', (data) => console.log('GetOrderHistory', data))
-    this.state.socket.on('GetOrderStatus', (data) => console.log('GetOrderStatus', data))
-    this.state.socket.on('GetProducts', (data) => console.log('GetProducts', data))
-    this.state.socket.on('GetL2Snapshot', (data) => console.log('GetL2Snapshot', data))
-    this.state.socket.on('GetTickerHistory', (data) => console.log('GetTickerHistory', data))
-    this.state.socket.on('GetTradesHistory', (data) => console.log('GetTradesHistory', data))
-    this.state.socket.on('GetUserInfo', (data) => console.log('GetUserInfo', data))
-    this.state.socket.on('GetUserPermissions', (data) => console.log('GetUserPermissions', data))
-    this.state.socket.on('GetWithdrawTickets', (data) => console.log('GetWithdrawTickets', data))
-    this.state.socket.on('Logout', (data) => console.log('Logout', data))
-    this.state.socket.on('SendOrder', (data) => console.log('SendOrder', data))
-    this.state.socket.on('SubscribeAccountEvents', (data) => console.log('SubscribeAccountEvents', data))
-    this.state.socket.on('SubscribeLevel1', (data) => console.log('SubscribeLevel1', data))
-    this.state.socket.on('SubscribeLevel1Markets', (data) => console.log('SubscribeLevel1Markets', data))
-    this.state.socket.on('SubscribeLevel2', (data) => console.log('SubscribeLevel2', data))
-    this.state.socket.on('SubscribeTicker', (data) => console.log('SubscribeTicker', data))
-    this.state.socket.on('SubscribeTrades', (data) => console.log('SubscribeTrades', data))
-    this.state.socket.on('UnsubscribeLevel1', (data) => console.log('UnsubscribeLevel1', data))
-    this.state.socket.on('UnsubscribeLevel2', (data) => console.log('UnsubscribeLevel2', data))
-    this.state.socket.on('UnsubscribeTicker', (data) => console.log('UnsubscribeTicker', data))
-    this.state.socket.on('UnsubscribeTrades', (data) => console.log('UnsubscribeTrades', data))
+    this.getEventsList().map((ev) => this.state.socket.on(ev, (data) => console.log(ev, data)))
   }
 
   getTitleH2() {
@@ -120,9 +88,8 @@ export class Page extends HTML {
     return html
   }
 
-  getTabsHeaders() {
-    const html = new HTML()
-    Array.from([
+  getEventsList() {
+    return Array.from([
       'AuthenticateUser',
       'Authenticate2FA',
       'GetOpenOrders',
@@ -156,7 +123,12 @@ export class Page extends HTML {
       'GetUserPermissions',
       'GetWithdrawTickets',
       'Logout',
-    ]).map((tab) => html.append(this.createTabHeader(tab)))
+    ])
+  }
+
+  getTabsHeaders() {
+    const html = new HTML()
+    this.getEventsList().map((tab) => html.append(this.createTabHeader(tab)))
     return html
   }
 
