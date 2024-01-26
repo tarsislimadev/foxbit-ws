@@ -1,7 +1,9 @@
 import express from 'express'
 import { createServer } from 'http'
 import { Server } from 'socket.io'
+
 import { FoxbitWS } from './foxbit.js'
+import * as messages from './messages.js'
 
 const app = express()
 const httpServer = createServer(app)
@@ -9,172 +11,140 @@ const io = new Server(httpServer, { cors: { origin: '*' } })
 
 io.on('connection', (socket) => {
   console.log('socket', socket.id)
-
   const foxbit = new FoxbitWS()
 
+  foxbit.ee.addListener('message', (data) => console.log(data.toString()))
+
   socket.on('AuthenticateUser', (data) => {
-    console.log('AuthenticateUser', data)
-    // foxbit.send(new AuthenticateUserMessage())
+    foxbit.send(new messages.AuthenticateUserMessage(data))
   })
 
   socket.on('Authenticate2FA', (data) => {
-    console.log('Authenticate2FA', data)
-    // foxbit.send(new Authenticate2FAMessage())
+    foxbit.send(new messages.Authenticate2FAMessage(data))
   })
 
   socket.on('CancelAllOrders', (data) => {
-    console.log('CancelAllOrders', data)
-    // foxbit.send(new CancelAllOrdersMessage())
+    foxbit.send(new messages.CancelAllOrdersMessage(data))
   })
 
   socket.on('CancelOrder', (data) => {
-    console.log('CancelOrder', data)
-    // foxbit.send(new CancelOrderMessage())
+    foxbit.send(new messages.CancelOrderMessage(data))
   })
 
   socket.on('GetAccountInfo', (data) => {
-    console.log('GetAccountInfo', data)
-    // foxbit.send(new GetAccountInfoMessage())
+    foxbit.send(new messages.GetAccountInfoMessage(data))
   })
 
   socket.on('GetAccountPositions', (data) => {
-    console.log('GetAccountPositions', data)
-    // foxbit.send(new GetAccountPositionsMessage())
+    foxbit.send(new messages.GetAccountPositionsMessage(data))
   })
 
   socket.on('GetAccountTrades', (data) => {
-    console.log('GetAccountTrades', data)
-    // foxbit.send(new GetAccountTradesMessage())
+    foxbit.send(new messages.GetAccountTradesMessage(data))
   })
 
   socket.on('GetDepositTickets', (data) => {
-    console.log('GetDepositTickets', data)
-    // foxbit.send(new GetDepositTicketsMessage())
+    foxbit.send(new messages.GetDepositTicketsMessage(data))
   })
 
   socket.on('GetInstrument', (data) => {
-    console.log('GetInstrument', data)
-    // foxbit.send(new GetInstrumentMessage())
+    foxbit.send(new messages.GetInstrumentMessage(data))
   })
 
   socket.on('GetInstruments', (data) => {
-    console.log('GetInstruments', data)
-    // foxbit.send(new GetInstrumentsMessage())
+    foxbit.send(new messages.GetInstrumentsMessage(data))
   })
 
   socket.on('GetOpenOrders', (data) => {
-    console.log('GetOpenOrders', data)
-    // foxbit.send(new GetOpenOrdersMessage())
+    foxbit.send(new messages.GetOpenOrdersMessage(data))
   })
 
   socket.on('GetOrderFee', (data) => {
-    console.log('GetOrderFee', data)
-    // foxbit.send(new GetOrderFeeMessage())
+    foxbit.send(new messages.GetOrderFeeMessage(data))
   })
 
   socket.on('GetOrderHistory', (data) => {
-    console.log('GetOrderHistory', data)
-    // foxbit.send(new GetOrderHistoryMessage())
+    foxbit.send(new messages.GetOrderHistoryMessage(data))
   })
 
   socket.on('GetOrderStatus', (data) => {
-    console.log('GetOrderStatus', data)
-    // foxbit.send(new GetOrderStatusMessage())
+    foxbit.send(new messages.GetOrderStatusMessage(data))
   })
 
   socket.on('GetProducts', (data) => {
-    console.log('GetProducts', data)
-    // foxbit.send(new GetProductsMessage())
+    foxbit.send(new messages.GetProductsMessage(data))
   })
 
   socket.on('GetL2Snapshot', (data) => {
-    console.log('GetL2Snapshot', data)
-    // foxbit.send(new GetL2SnapshotMessage())
+    foxbit.send(new messages.GetL2SnapshotMessage(data))
   })
 
   socket.on('GetTickerHistory', (data) => {
-    console.log('GetTickerHistory', data)
-    // foxbit.send(new GetTickerHistoryMessage())
+    foxbit.send(new messages.GetTickerHistoryMessage(data))
   })
 
   socket.on('GetTradesHistory', (data) => {
-    console.log('GetTradesHistory', data)
-    // foxbit.send(new GetTradesHistoryMessage())
+    foxbit.send(new messages.GetTradesHistoryMessage(data))
   })
 
   socket.on('GetUserInfo', (data) => {
-    console.log('GetUserInfo', data)
-    // foxbit.send(new GetUserInfoMessage())
+    foxbit.send(new messages.GetUserInfoMessage(data))
   })
 
   socket.on('GetUserPermissions', (data) => {
-    console.log('GetUserPermissions', data)
-    // foxbit.send(new GetUserPermissionsMessage())
+    foxbit.send(new messages.GetUserPermissionsMessage(data))
   })
 
   socket.on('GetWithdrawTickets', (data) => {
-    console.log('GetWithdrawTickets', data)
-    // foxbit.send(new GetWithdrawTicketsMessage())
+    foxbit.send(new messages.GetWithdrawTicketsMessage(data))
   })
 
   socket.on('Logout', (data) => {
-    console.log('Logout', data)
-    // foxbit.send(new LogoutMessage())
+    foxbit.send(new messages.LogoutMessage(data))
   })
 
   socket.on('SendOrder', (data) => {
-    console.log('SendOrder', data)
-    // foxbit.send(new SendOrderMessage())
+    foxbit.send(new messages.SendOrderMessage(data))
   })
 
   socket.on('SubscribeAccountEvents', (data) => {
-    console.log('SubscribeAccountEvents', data)
-    // foxbit.send(new SubscribeAccountEventsMessage())
+    foxbit.send(new messages.SubscribeAccountEventsMessage(data))
   })
 
   socket.on('SubscribeLevel1', (data) => {
-    console.log('SubscribeLevel1', data)
-    // foxbit.send(new SubscribeLevel1Message())
+    foxbit.send(new messages.SubscribeLevel1Message(data))
   })
 
   socket.on('SubscribeLevel1Markets', (data) => {
-    console.log('SubscribeLevel1Markets', data)
-    // foxbit.send(new SubscribeLevel1MarketsMessage())
+    foxbit.send(new messages.SubscribeLevel1MarketsMessage(data))
   })
 
   socket.on('SubscribeLevel2', (data) => {
-    console.log('SubscribeLevel2', data)
-    // foxbit.send(new SubscribeLevel2Message())
+    foxbit.send(new messages.SubscribeLevel2Message(data))
   })
 
   socket.on('SubscribeTicker', (data) => {
-    console.log('SubscribeTicker', data)
-    // foxbit.send(new SubscribeTickerMessage())
+    foxbit.send(new messages.SubscribeTickerMessage(data))
   })
 
   socket.on('SubscribeTrades', (data) => {
-    console.log('SubscribeTrades', data)
-    // foxbit.send(new SubscribeTradesMessage())
+    foxbit.send(new messages.SubscribeTradesMessage(data))
   })
 
   socket.on('UnsubscribeLevel1', (data) => {
-    console.log('UnsubscribeLevel1', data)
-    // foxbit.send(new UnsubscribeLevel1Message())
+    foxbit.send(new messages.UnsubscribeLevel1Message(data))
   })
 
   socket.on('UnsubscribeLevel2', (data) => {
-    console.log('UnsubscribeLevel2', data)
-    // foxbit.send(new UnsubscribeLevel2Message())
+    foxbit.send(new messages.UnsubscribeLevel2Message(data))
   })
 
   socket.on('UnsubscribeTicker', (data) => {
-    console.log('UnsubscribeTicker', data)
-    // foxbit.send(new UnsubscribeTickerMessage())
+    foxbit.send(new messages.UnsubscribeTickerMessage(data))
   })
 
   socket.on('UnsubscribeTrades', (data) => {
-    console.log('UnsubscribeTrades', data)
-    // foxbit.send(new UnsubscribeTradesMessage())
+    foxbit.send(new messages.UnsubscribeTradesMessage(data))
   })
 })
 

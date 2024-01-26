@@ -1,12 +1,7 @@
+import { EventEmitter } from 'events'
 import { WebSocket } from 'ws'
-const wsAddress = 'wss://api.foxbit.com.br/'
 
-export class FoxbitMessage {
-  m = 0 // MessageType ( 0_Request / 1_Reply / 2_Subscribe / 3_Event / 4_Unsubscribe / Error )
-  i = 0 // Sequence Number
-  n = '' // Function Name
-  o = '' // Payload
-}
+import * as messages from './messages.js'
 
 export class FoxbitWS {
   authenticated = false
@@ -17,24 +12,20 @@ export class FoxbitWS {
 
   sessionToken = ''
   stdin2FA = process.openStdin()
-  ws = new WebSocket(wsAddress)
+  ws = new WebSocket('wss://api.foxbit.com.br/')
 
-  events = []
+  ee = new EventEmitter()
 
   constructor() {
     this.setEvents()
   }
 
   setEvents() {
-    this.ws.on('open', () => this.runEvents('open'))
-    this.ws.on('message', () => this.runEvents('message'))
-    this.ws.on('error', () => this.runEvents('error'))
-    this.ws.on('close', () => this.runEvents('close'))
-    this.ws.on('end', () => this.runEvents('end'))
-  }
-
-  runEvents(name) {
-    this.events.filter((ev) => ev.name == name).map((ev) => ev.fn())
+    this.ws.on('open', (...args) => this.ee.emit('open', ...args))
+    this.ws.on('message', (...args) => this.ee.emit('message', ...args))
+    this.ws.on('error', (...args) => this.ee.emit('error', ...args))
+    this.ws.on('close', (...args) => this.ee.emit('close', ...args))
+    this.ws.on('end', (...args) => this.ee.emit('end', ...args))
   }
 
   AskPrompt(message) {
@@ -47,7 +38,8 @@ export class FoxbitWS {
     console.log(...messages)
   }
 
-  send(message = new FoxbitMessage()) {
-    console.log('message', message.toJSON())
+  send(message = new messages.FoxbitMessage()) {
+    console.log(message.Endpoint, message.toJSON())
+    this.ws.send(message.toString(), console.log)
   }
 }
