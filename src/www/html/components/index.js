@@ -6,4 +6,6 @@ export * from './button.js'
 
 export * from './input-text-group.js'
 
+export * from './input-date-group.js'
+
 export * from './select-group.js'

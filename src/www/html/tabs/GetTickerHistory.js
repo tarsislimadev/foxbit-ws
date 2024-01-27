@@ -1,5 +1,5 @@
 import { Tab } from './Tab.js'
-import { InputTextGroupComponent, SelectGroupComponent } from '../components/index.js'
+import { InputTextGroupComponent, InputDateGroupComponent, SelectGroupComponent } from '../components/index.js'
 import * as lists from '../utils/lists.js'
 
 export class GetTickerHistoryHTML extends Tab {
@@ -8,8 +8,8 @@ export class GetTickerHistoryHTML extends Tab {
   children = {
     InstrumentId: new SelectGroupComponent('InstrumentId'),
     Interval: new InputTextGroupComponent('Interval'),
-    FromDate: new InputTextGroupComponent('FromDate'),
-    ToDate: new InputTextGroupComponent('ToDate'),
+    FromDate: new InputDateGroupComponent('FromDate'),
+    ToDate: new InputDateGroupComponent('ToDate'),
   }
 
   getForm() {
