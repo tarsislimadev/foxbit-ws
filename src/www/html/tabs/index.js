@@ -8,9 +8,18 @@ export class Tab extends HTML {
 
   onCreate() {
     super.onCreate()
+    this.setEvents()
     this.append(this.getTitleHTML())
     this.append(this.getForm())
     this.append(this.getButton())
+  }
+
+  setEvents() {
+    this.on('message', ({ value }) => this.onEvent(value))
+  }
+
+  onEvent(value) {
+    console.log('onEvent', value)
   }
 
   getTitleHTML() {
@@ -234,18 +243,18 @@ export class SubscribeTradesHTML extends Tab {
   path = 'SubscribeTrades'
 }
 
-export class UnsubscribeLevel1HTML extends Tab {
+export class UnsubscribeLevel1HTML extends SubscribeLevel1HTML {
   path = 'UnsubscribeLevel1'
 }
 
-export class UnsubscribeLevel2HTML extends Tab {
+export class UnsubscribeLevel2HTML extends SubscribeLevel2HTML {
   path = 'UnsubscribeLevel2'
 }
 
-export class UnsubscribeTickerHTML extends Tab {
+export class UnsubscribeTickerHTML extends SubscribeTickerHTML {
   path = 'UnsubscribeTicker'
 }
 
-export class UnsubscribeTradesHTML extends Tab {
+export class UnsubscribeTradesHTML extends SubscribeTradesHTML {
   path = 'UnsubscribeTrades'
 }

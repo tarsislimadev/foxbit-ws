@@ -66,6 +66,7 @@ export class Page extends HTML {
     this.children.tabs.clear()
     const html = this.getTabHTML(tab)
     html.on('submit', ({ value: { header, body } }) => this.state.socket.emit(header, body))
+    this.on('message', ({ value }) => html.dispatchEvent('message', value))
     this.children.tabs.append(html)
   }
 
@@ -74,7 +75,7 @@ export class Page extends HTML {
   }
 
   setSocketEvents() {
-    this.state.socket.on('message', (data) => console.log('message', data))
+    this.state.socket.on('message', (data) => this.dispatchEvent('message', data))
     events.getEventsList().map((ev) => this.state.socket.on(ev, (data) => console.log(ev, data)))
   }
 
