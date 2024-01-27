@@ -28,8 +28,8 @@ io.on('connection', (socket) => {
 
   const send = (message = {}) => {
     console.log('send', message)
-    foxbit.send(message.toString())
-    save('send', fromRequest(message))
+    foxbit.send(toRequest(message).toString())
+    save('send', message)
   }
 
   foxbit.addListener('message', (data) => retrieve(fromResponse(data)))
@@ -40,11 +40,11 @@ io.on('connection', (socket) => {
     save('retrieve', message)
   }
 
-  events.getEventsList().map((Endpoint) => socket.on(Endpoint, (Payload) => send(toRequest(switchRequest({ Endpoint, Payload })))))
+  events.getEventsList().map((Endpoint) => socket.on(Endpoint, (Payload) => send(switchRequest({ Endpoint, Payload }))))
 
   socket.on('disconnect', exit)
 
-  ee.addListener('exit', () => send(toRequest({ Endpoint: 'Logout' })))
+  ee.addListener('exit', () => send({ Endpoint: 'Logout' }))
 })
 
 httpServer.listen(80)

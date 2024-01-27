@@ -10,6 +10,7 @@ export class Tab extends HTML {
     this.append(this.getTitleHTML())
     this.getForm().map((html) => this.append(html))
     this.append(this.getButton())
+    this.getData().map((html) => this.append(html))
   }
 
   setEvents() {
@@ -40,4 +41,9 @@ export class Tab extends HTML {
   getBody() {
     return { OMSId: 0 }
   }
+  
+  getData() {
+    return []
+  }
+
 }
