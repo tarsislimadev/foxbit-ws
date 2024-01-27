@@ -4,12 +4,10 @@ import { createHmac } from 'crypto'
 
 let i = 0
 
-export const HmacSHA256 = (APIKey, Nonce, UserId) => createHmac('sha256', APISecret).update(Nonce + UserId + APIKey, APISecret).digest('hex').toString()
-
-export const AuthenticateUserRequest = ({ Endpoint, Payload = {}, SequenceNumber = ++i, MessageType = 0 }) => {
+export const AuthenticateUserRequest = ({ Endpoint, SequenceNumber, MessageType }) => {
   const Nonce = Date.now()
-  const Signature = HmacSHA256(APIKey, Nonce, UserId)
-  return ({ Endpoint, Payload: { APIKey, Nonce, UserId, Signature, }, SequenceNumber, MessageType })
+  const Signature = createHmac('sha256', APISecret).update(Nonce + UserId + APIKey, APISecret).digest('hex').toString()
+  return ({ Endpoint, Payload: { APIKey, Nonce, UserId, Signature }, SequenceNumber, MessageType })
 }
 
 export const switchRequest = ({ Endpoint, Payload = {}, SequenceNumber = ++i, MessageType = 0 }) => {
