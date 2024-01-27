@@ -1,6 +1,5 @@
 import { Tab } from './Tab.js'
 import { InputTextGroupComponent } from '../components/index.js'
-import * as config from '../config.js'
 
 export class GetAccountInfoHTML extends Tab {
   path = 'GetAccountInfo'
@@ -15,7 +14,6 @@ export class GetAccountInfoHTML extends Tab {
   }
 
   getAccountIdInputTextGroup() {
-    this.children.AccountId.children.input.setValue(config.UserId)
     return this.children.AccountId
   }
 

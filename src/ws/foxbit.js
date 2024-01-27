@@ -10,9 +10,19 @@ export const AuthenticateUserRequest = ({ Endpoint, SequenceNumber, MessageType 
   return ({ Endpoint, Payload: { APIKey, Nonce, UserId, Signature }, SequenceNumber, MessageType })
 }
 
+export const GetOpenOrdersRequest = ({ Endpoint, Payload, SequenceNumber, MessageType }) => {
+  return ({ Endpoint, Payload: { OMSId: 1, AccountId: UserId }, SequenceNumber, MessageType })
+}
+
+export const GetTradesHistoryRequest = ({ Endpoint, Payload: { omsId = 1, accountId = UserId, instrumentId, tradeId, orderId, userId = userId, startTimeStamp, endTimeStamp, depth, startIndex, executionId, }, SequenceNumber, MessageType }) => {
+  return ({ Endpoint, Payload: { omsId, accountId, instrumentId, tradeId, orderId, userId, startTimeStamp, endTimeStamp, depth, startIndex, executionId }, SequenceNumber, MessageType })
+}
+
 export const switchRequest = ({ Endpoint, Payload = {}, SequenceNumber = ++i, MessageType = 0 }) => {
   switch (Endpoint) {
     case 'AuthenticateUser': return AuthenticateUserRequest({ Endpoint, Payload, SequenceNumber, MessageType })
+    case 'GetOpenOrders': return GetOpenOrdersRequest({ Endpoint, Payload, SequenceNumber, MessageType })
+    case 'GetTradesHistory': return GetTradesHistoryRequest({ Endpoint, Payload, SequenceNumber, MessageType })
   }
 
   return ({ Endpoint, Payload, SequenceNumber, MessageType })

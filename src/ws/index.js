@@ -1,5 +1,7 @@
 import { Database } from '@brtmvdl/database'
 import express from 'express'
+import process from 'process'
+import { EventEmitter } from 'events'
 import { createServer } from 'http'
 import { WebSocket } from 'ws'
 import { Server } from 'socket.io'
@@ -10,6 +12,9 @@ const app = express()
 const httpServer = createServer(app)
 const io = new Server(httpServer, { cors: { origin: '*' } })
 const db = new Database({ type: 'fs', config: '/data' })
+const ee = new EventEmitter()
+
+const exit = () => ee.emit('exit')
 
 const save = (side, message = {}) => {
   const { Endpoint, Payload, SequenceNumber, MessageType } = message
@@ -37,7 +42,14 @@ io.on('connection', (socket) => {
 
   events.getEventsList().map((Endpoint) => socket.on(Endpoint, (Payload) => send(toRequest(switchRequest({ Endpoint, Payload })))))
 
-  socket.on('disconnect', (reason) => send(toRequest({ Endpoint: 'Logout' })))
+  socket.on('disconnect', exit)
+
+  ee.addListener('exit', () => send(toRequest({ Endpoint: 'Logout' })))
 })
 
 httpServer.listen(80)
+
+process.on('SIGINT', exit)
+process.on('SIGTERM', exit)
+process.on('beforeExit', exit)
+process.on('exit', exit)

@@ -1,7 +1,6 @@
 import { HTML } from '@brtmvdl/frontend'
 import { Tab } from './Tab.js'
 import { InputTextGroupComponent } from '../components/index.js'
-import * as config from '../config.js'
 
 export class GetAccountTradesHTML extends Tab {
   path = 'GetAccountTrades'
@@ -19,7 +18,6 @@ export class GetAccountTradesHTML extends Tab {
 
   getAccountIdInputTextGroup() {
     this.children.AccountId.children.input.setAttr('type', 'password')
-    this.children.AccountId.children.input.setValue(config.UserId)
     return this.children.AccountId
   }
 

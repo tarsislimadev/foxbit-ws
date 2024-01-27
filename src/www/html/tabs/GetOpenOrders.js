@@ -1,10 +1,12 @@
 import { Tab } from './Tab.js'
+import { InputTextGroupComponent } from '../components/index.js'
 
 export class GetOpenOrdersHTML extends Tab {
   path = 'GetOpenOrders'
+
   children = {
-    OMSId: new InputTextGroupComponent(),
-    AccountId: new InputTextGroupComponent(),
+    OMSId: new InputTextGroupComponent('OMSId'),
+    AccountId: new InputTextGroupComponent('AccountId'),
   }
 
   getForm() {
@@ -22,14 +24,10 @@ export class GetOpenOrdersHTML extends Tab {
   }
 
   getOMSIdInputTextGroup() {
-    this.children.OMSId.children.label.setText('OMSId')
-    this.children.OMSId.children.input.setPlaceholder('OMSId')
     return this.children.OMSId
   }
 
   getAccountIdInputTextGroup() {
-    this.children.AccountId.children.label.setText('AccountId')
-    this.children.AccountId.children.input.setPlaceholder('AccountId')
     return this.children.AccountId
   }
 }
