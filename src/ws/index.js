@@ -36,6 +36,8 @@ io.on('connection', (socket) => {
   }
 
   events.getEventsList().map((Endpoint) => socket.on(Endpoint, (Payload) => send(toRequest(switchRequest({ Endpoint, Payload })))))
+
+  socket.on('disconnect', (reason) => send(toRequest({ Endpoint: 'Logout' })))
 })
 
 httpServer.listen(80)
