@@ -15,7 +15,7 @@ export class GetAccountInfoHTML extends Tab {
   }
 
   getAccountIdInputTextGroup() {
-    this.children.AccountId.children.input.setValue(config.user_id)
+    this.children.AccountId.children.input.setValue(config.UserId)
     return this.children.AccountId
   }
 

@@ -41,7 +41,7 @@ export class AuthenticateUserHTML extends Tab {
   }
 
   getUserIdInputTextGroup() {
-    this.children.UserId.children.input.setValue(config.user_id)
+    this.children.UserId.children.input.setValue(config.UserId)
     return this.children.UserId
   }
 

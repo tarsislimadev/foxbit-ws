@@ -4,16 +4,16 @@ import { createServer } from 'http'
 import { WebSocket } from 'ws'
 import { Server } from 'socket.io'
 import * as events from './events.js'
-import { FoxbitRequest, FoxbitResponse } from './foxbit.js'
+import { fromRequest, fromResponse, toRequest, switchRequest } from './foxbit.js'
 
 const app = express()
 const httpServer = createServer(app)
 const io = new Server(httpServer, { cors: { origin: '*' } })
 const db = new Database({ type: 'fs', config: '/data' })
 
-const save = (message = new FoxbitRequest()) => {
-  const { Side, Endpoint, Payload, SequenceNumber, MessageType } = message.toFullJSON()
-  db.in(message.Endpoint).new().writeMany({ Side, Endpoint, Payload: JSON.stringify(Payload), SequenceNumber, MessageType })
+const save = (side, message = {}) => {
+  const { Endpoint, Payload, SequenceNumber, MessageType } = message
+  db.in(Endpoint).new().writeMany({ Side: side, Endpoint, Payload: JSON.stringify(Payload), SequenceNumber, MessageType })
 }
 
 io.on('connection', (socket) => {
@@ -21,21 +21,21 @@ io.on('connection', (socket) => {
 
   const foxbit = new WebSocket('wss://api.foxbit.com.br/')
 
-  const send = (message = new FoxbitRequest()) => {
-    console.log('send', message.toJSON())
+  const send = (message = {}) => {
+    console.log('send', message)
     foxbit.send(message.toString())
-    save(message)
+    save('send', fromRequest(message))
   }
 
-  foxbit.addListener('message', (data) => retrieve(new FoxbitResponse(data)))
+  foxbit.addListener('message', (data) => retrieve(fromResponse(data)))
 
-  const retrieve = (message = new FoxbitResponse()) => {
+  const retrieve = (message = {}) => {
     console.log('retrieve', message)
     socket.emit('message', message)
-    save(message)
+    save('retrieve', message)
   }
 
-  events.getEventsList().map((Endpoint) => socket.on(Endpoint, (Payload) => send(new FoxbitRequest(Endpoint, Payload))))
+  events.getEventsList().map((Endpoint) => socket.on(Endpoint, (Payload) => send(toRequest(switchRequest({ Endpoint, Payload })))))
 })
 
 httpServer.listen(80)

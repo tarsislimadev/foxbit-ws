@@ -1,43 +1,37 @@
+import { APIKey, UserId, APISecret } from './config.js'
+
+import { createHmac } from 'crypto'
+
 let i = 0
 
-export class FoxbitRequest {
-  Side = 'Request'
-  Endpoint = null
-  Payload = {}
-  SequenceNumber = null
-  MessageType = null
+export const HmacSHA256 = (APIKey, Nonce, UserId) => createHmac('sha256', APISecret).update(Nonce + UserId + APIKey, APISecret).digest('hex').toString()
 
-  constructor(Endpoint, Payload = {}, SequenceNumber = ++i, MessageType = 0) {
-    this.Endpoint = Endpoint
-    this.Payload = Payload
-    this.SequenceNumber = SequenceNumber
-    this.MessageType = MessageType
-  }
-
-  toJSON() {
-    const { Endpoint, Payload, SequenceNumber, MessageType } = this
-    return { Endpoint, Payload, SequenceNumber, MessageType }
-  }
-
-  toFullJSON() {
-    const { Side, Endpoint, Payload, SequenceNumber, MessageType } = this
-    return { Side, Endpoint, Payload, SequenceNumber, MessageType }
-  }
-
-  toString() {
-    return JSON.stringify({
-      n: this.Endpoint,
-      o: JSON.stringify(this.Payload),
-      i: this.SequenceNumber,
-      m: this.MessageType,
-    })
-  }
+export const AuthenticateUserRequest = ({ Endpoint, Payload = {}, SequenceNumber = ++i, MessageType = 0 }) => {
+  const Nonce = Date.now()
+  const Signature = HmacSHA256(APIKey, Nonce, UserId)
+  return ({ Endpoint, Payload: { APIKey, Nonce, UserId, Signature, }, SequenceNumber, MessageType })
 }
 
-export class FoxbitResponse extends FoxbitRequest {
-  Side = 'Response'
-  constructor(data) {
-    const { m, i, n, o = '{}' } = JSON.parse(data.toString())
-    super(n, JSON.parse(o), i, m)
+export const switchRequest = ({ Endpoint, Payload = {}, SequenceNumber = ++i, MessageType = 0 }) => {
+  switch (Endpoint) {
+    case 'AuthenticateUser': return AuthenticateUserRequest({ Endpoint, Payload, SequenceNumber, MessageType })
   }
+
+  return ({ Endpoint, Payload, SequenceNumber, MessageType })
 }
+
+export const toRequest = ({ Endpoint, Payload = {}, SequenceNumber = ++i, MessageType = 0 }) => JSON.stringify({
+  m: MessageType,
+  i: SequenceNumber,
+  n: Endpoint,
+  o: JSON.stringify(Payload),
+})
+
+export const fromRequest = ({ m, i, n, o = '{}' }) => ({
+  MessageType: m,
+  SequenceNumber: i,
+  Endpoint: n,
+  Payload: JSON.parse(o),
+})
+
+export const fromResponse = (data) => fromRequest(JSON.parse(data.toString()))

@@ -19,7 +19,7 @@ export class GetAccountTradesHTML extends Tab {
 
   getAccountIdInputTextGroup() {
     this.children.AccountId.children.input.setAttr('type', 'password')
-    this.children.AccountId.children.input.setValue(config.user_id)
+    this.children.AccountId.children.input.setValue(config.UserId)
     return this.children.AccountId
   }
 
