@@ -12,17 +12,13 @@ const io = new Server(httpServer, { cors: { origin: '*' } })
 const db = new Database({ type: 'fs', config: '/data' })
 
 const save = (message = new FoxbitRequest()) => {
-  const { Endpoint, Payload, SequenceNumber, MessageType } = message.toJSON()
-  db.in(message.Endpoint).new().writeMany({
-    Endpoint,
-    Payload: JSON.stringify(Payload),
-    SequenceNumber,
-    MessageType
-  })
+  const { Side, Endpoint, Payload, SequenceNumber, MessageType } = message.toFullJSON()
+  db.in(message.Endpoint).new().writeMany({ Side, Endpoint, Payload: JSON.stringify(Payload), SequenceNumber, MessageType })
 }
 
 io.on('connection', (socket) => {
   console.log('socket', socket.id)
+
   const foxbit = new WebSocket('wss://api.foxbit.com.br/')
 
   const send = (message = new FoxbitRequest()) => {

@@ -1,4 +1,3 @@
-
 let i = 0
 
 export class FoxbitRequest {
@@ -18,6 +17,11 @@ export class FoxbitRequest {
   toJSON() {
     const { Endpoint, Payload, SequenceNumber, MessageType } = this
     return { Endpoint, Payload, SequenceNumber, MessageType }
+  }
+
+  toFullJSON() {
+    const { Side, Endpoint, Payload, SequenceNumber, MessageType } = this
+    return { Side, Endpoint, Payload, SequenceNumber, MessageType }
   }
 
   toString() {
