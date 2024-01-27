@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-
   www:
     restart: always
     build: './src/www'
@@ -15,5 +14,6 @@ services:
     build: './src/ws'
     volumes:
       - './src/ws:/app'
+      - './data:/data'
     ports:
       - '8080:80'

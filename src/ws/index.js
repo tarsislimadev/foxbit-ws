@@ -1,48 +1,24 @@
+import { Database } from '@brtmvdl/database'
 import express from 'express'
 import { createServer } from 'http'
 import { WebSocket } from 'ws'
 import { Server } from 'socket.io'
 import * as events from './events.js'
+import { FoxbitRequest, FoxbitResponse } from './foxbit.js'
 
 const app = express()
 const httpServer = createServer(app)
 const io = new Server(httpServer, { cors: { origin: '*' } })
+const db = new Database({ type: 'fs', config: '/data' })
 
-let i = 0
-
-class FoxbitRequest {
-  Endpoint = null
-  Payload = {}
-  SequenceNumber = null
-  MessageType = null
-
-  constructor(Endpoint, Payload = {}, SequenceNumber = ++i, MessageType = 0) {
-    this.Endpoint = Endpoint
-    this.Payload = Payload
-    this.SequenceNumber = SequenceNumber
-    this.MessageType = MessageType
-  }
-
-  toJSON() {
-    const { Endpoint, Payload, SequenceNumber, MessageType } = this
-    return { Endpoint, Payload, SequenceNumber, MessageType }
-  }
-
-  toString() {
-    return JSON.stringify({
-      n: this.Endpoint,
-      o: JSON.stringify(this.Payload),
-      i: this.SequenceNumber,
-      m: this.MessageType,
-    })
-  }
-}
-
-class FoxbitResponse extends FoxbitRequest {
-  constructor(data) {
-    const { m, i, n, o = '{}' } = JSON.parse(data.toString())
-    super(n, JSON.parse(o), i, m)
-  }
+const save = (message = new FoxbitRequest()) => {
+  const { Endpoint, Payload, SequenceNumber, MessageType } = message.toJSON()
+  db.in(message.Endpoint).new().writeMany({
+    Endpoint,
+    Payload: JSON.stringify(Payload),
+    SequenceNumber,
+    MessageType
+  })
 }
 
 io.on('connection', (socket) => {
@@ -52,6 +28,7 @@ io.on('connection', (socket) => {
   const send = (message = new FoxbitRequest()) => {
     console.log('send', message.toJSON())
     foxbit.send(message.toString())
+    save(message)
   }
 
   foxbit.addListener('message', (data) => retrieve(new FoxbitResponse(data)))
@@ -59,6 +36,7 @@ io.on('connection', (socket) => {
   const retrieve = (message = new FoxbitResponse()) => {
     console.log('retrieve', message)
     socket.emit('message', message)
+    save(message)
   }
 
   events.getEventsList().map((Endpoint) => socket.on(Endpoint, (Payload) => send(new FoxbitRequest(Endpoint, Payload))))
