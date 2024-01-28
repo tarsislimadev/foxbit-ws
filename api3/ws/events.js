@@ -1,7 +1,27 @@
 // 
 
-export const getEventsList = () => {
-  return Array.from([
-    'Get current member details',
-  ])
-}
+export const getEventsList = () => ([
+  'List currencies',
+  'List markets',
+  'Get a market quotation',
+  'Get order book',
+  'Get candlesticks',
+  'List banks',
+  'Get current time',
+  'Get current member details',
+  'Create an order',
+  'List orders',
+  'Get an order by ID',
+  'Get an order by client ID',
+  'Cancel orders',
+  'List trades',
+  'Get member accounts',
+  'Get member PnL data',
+  'List deposits',
+  'Get a deposit',
+  'Get a deposit address',
+  'List withdrawals',
+  'Create a withdrawal',
+  'Get a withdrawal',
+  'List Transactional Limits',
+])
