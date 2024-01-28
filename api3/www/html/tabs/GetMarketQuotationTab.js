@@ -29,7 +29,7 @@ export class GetMarketQuotationTab extends Tab {
   getQuoteCurrencyInputTextGroup() {
     getCurrenciesList()
       .filter(({ type }) => type == 'FIAT')
-      .map(({ symbol, name }) => this.children.base_currency.children.select.addOption(symbol, `${name} (${symbol})`))
+      .map(({ symbol, name }) => this.children.quote_currency.children.select.addOption(symbol, `${name} (${symbol})`))
     return this.children.quote_currency
   }
 
