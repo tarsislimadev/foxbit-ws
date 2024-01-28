@@ -31,17 +31,21 @@ export class Tab extends HTML {
     return [new HTML()]
   }
 
-  getButton() {
-    const button = new ButtonComponent()
-    button.setText('Send')
-    button.on('click', () => this.dispatchEvent('submit', { header: this.path, body: this.getBody() }))
-    return button
+  getUrl() {
+    return ''
   }
 
   getBody() {
-    return { OMSId: 0 }
+    return {}
   }
-  
+
+  getButton() {
+    const button = new ButtonComponent()
+    button.setText('Send')
+    button.on('click', () => this.dispatchEvent('submit', { header: this.path, body: { Url: this.getUrl(), Body: this.getBody() } }))
+    return button
+  }
+
   getData() {
     return []
   }

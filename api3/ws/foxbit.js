@@ -27,19 +27,3 @@ export const switchRequest = ({ Endpoint, Payload = {}, SequenceNumber = ++i, Me
 
   return ({ Endpoint, Payload, SequenceNumber, MessageType })
 }
-
-export const toRequest = ({ Endpoint, Payload = {}, SequenceNumber = ++i, MessageType = 0 }) => JSON.stringify({
-  m: MessageType,
-  i: SequenceNumber,
-  n: Endpoint,
-  o: JSON.stringify(Payload),
-})
-
-export const fromRequest = ({ m, i, n, o = '{}' }) => ({
-  MessageType: m,
-  SequenceNumber: i,
-  Endpoint: n,
-  Payload: JSON.parse(o),
-})
-
-export const fromResponse = (data) => fromRequest(JSON.parse(data.toString()))
