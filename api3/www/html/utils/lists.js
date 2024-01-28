@@ -1,4 +1,1736 @@
 
+export const getCurrenciesList = () => [
+  {
+    'name': 'Real',
+    'precision': 2,
+    'category': null,
+    'symbol': 'brl',
+    'type': 'FIAT',
+    'deposit_info': {
+      'min_to_confirm': null,
+      'min_amount': '5'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '10',
+      'fee': '0'
+    }
+  },
+  {
+    'name': 'Bitcoin',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'btc',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '2',
+      'min_amount': '0.0002'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '0.0004',
+      'fee': '0.0005'
+    }
+  },
+  {
+    'name': 'XRP',
+    'precision': 6,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'xrp',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '1',
+      'min_amount': '23.08'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '46.16',
+      'fee': '0.1'
+    }
+  },
+  {
+    'name': 'Litecoin',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'ltc',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '6',
+      'min_amount': '0.004'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '0.008',
+      'fee': '0.001'
+    }
+  },
+  {
+    'name': 'Ethereum',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'eth',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '0.00348'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '0.00696',
+      'fee': '0.001'
+    }
+  },
+  {
+    'name': 'TrueUSD',
+    'precision': 8,
+    'category': {
+      'code': 'stablecoin',
+      'name': 'Stablecoin'
+    },
+    'symbol': 'tusd',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '17.08'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '34.16',
+      'fee': '17'
+    }
+  },
+  {
+    'name': 'Chainlink',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'link',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '2'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '4',
+      'fee': '0.17'
+    }
+  },
+  {
+    'name': 'Tether',
+    'precision': 8,
+    'category': {
+      'code': 'stablecoin',
+      'name': 'Stablecoin'
+    },
+    'symbol': 'usdt',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '18.32'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '36.64',
+      'fee': '12'
+    }
+  },
+  {
+    'name': 'Aave',
+    'precision': 8,
+    'category': {
+      'code': 'defi',
+      'name': 'DeFi'
+    },
+    'symbol': 'aave',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '0.208'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '0.416',
+      'fee': '0.03'
+    }
+  },
+  {
+    'name': 'Chiliz',
+    'precision': 8,
+    'category': {
+      'code': 'utility',
+      'name': 'Utility'
+    },
+    'symbol': 'chz',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '192'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '384',
+      'fee': '157'
+    }
+  },
+  {
+    'name': 'Uniswap',
+    'precision': 8,
+    'category': {
+      'code': 'defi',
+      'name': 'DeFi'
+    },
+    'symbol': 'uni',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '2.6'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '5.2',
+      'fee': '1.9'
+    }
+  },
+  {
+    'name': 'yearn.finance',
+    'precision': 8,
+    'category': {
+      'code': 'defi',
+      'name': 'DeFi'
+    },
+    'symbol': 'yfi',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '0.00216'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '0.00432',
+      'fee': '0.002'
+    }
+  },
+  {
+    'name': 'Nexo',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'nexo',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '20.24'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '40.48',
+      'fee': '27'
+    }
+  },
+  {
+    'name': 'Synthetix',
+    'precision': 8,
+    'category': {
+      'code': 'defi',
+      'name': 'DeFi'
+    },
+    'symbol': 'snx',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '5.92'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '11.84',
+      'fee': '6'
+    }
+  },
+  {
+    'name': 'OMG Network',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'omg',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '24.52'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '49.04',
+      'fee': '26'
+    }
+  },
+  {
+    'name': '0x',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'zrx',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '68'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '136',
+      'fee': '46'
+    }
+  },
+  {
+    'name': 'Kyber Network',
+    'precision': 8,
+    'category': {
+      'code': 'defi',
+      'name': 'DeFi'
+    },
+    'symbol': 'knc',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '16'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '32',
+      'fee': '33'
+    }
+  },
+  {
+    'name': 'Polkadot',
+    'precision': 8,
+    'category': {
+      'code': 'governanca',
+      'name': 'Governança'
+    },
+    'symbol': 'dot',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '1',
+      'min_amount': '0.32'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '0.64',
+      'fee': '0.16'
+    }
+  },
+  {
+    'name': 'Axie Infinity',
+    'precision': 8,
+    'category': {
+      'code': 'gamecoins',
+      'name': 'Gamecoins'
+    },
+    'symbol': 'axs',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '2.48'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '4.96',
+      'fee': '2.4'
+    }
+  },
+  {
+    'name': 'Cardano',
+    'precision': 8,
+    'category': {
+      'code': 'governanca',
+      'name': 'Governança'
+    },
+    'symbol': 'ada',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '3.2'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '6.4',
+      'fee': '1.6'
+    }
+  },
+  {
+    'name': 'Smooth Love Potion',
+    'precision': 8,
+    'category': {
+      'code': 'gamecoins',
+      'name': 'Gamecoins'
+    },
+    'symbol': 'slp',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '8380'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '16760',
+      'fee': '8954'
+    }
+  },
+  {
+    'name': 'Stellar',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'xlm',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '1',
+      'min_amount': '0.08'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '0.16',
+      'fee': '0.02'
+    }
+  },
+  {
+    'name': 'Polygon',
+    'precision': 8,
+    'category': {
+      'code': 'governanca',
+      'name': 'Governança'
+    },
+    'symbol': 'matic',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '38.88'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '77.76',
+      'fee': '6'
+    }
+  },
+  {
+    'name': 'USD Coin',
+    'precision': 8,
+    'category': {
+      'code': 'stablecoin',
+      'name': 'Stablecoin'
+    },
+    'symbol': 'usdc',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '18.32'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '36.64',
+      'fee': '5.9'
+    }
+  },
+  {
+    'name': 'Decentraland',
+    'precision': 8,
+    'category': {
+      'code': 'metaverso',
+      'name': 'Metaverso'
+    },
+    'symbol': 'mana',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '39.4'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '78.8',
+      'fee': '22'
+    }
+  },
+  {
+    'name': 'The Sandbox',
+    'precision': 8,
+    'category': {
+      'code': 'metaverso',
+      'name': 'Metaverso'
+    },
+    'symbol': 'sand',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '37'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '74',
+      'fee': '25'
+    }
+  },
+  {
+    'name': 'Maker',
+    'precision': 8,
+    'category': {
+      'code': 'defi',
+      'name': 'DeFi'
+    },
+    'symbol': 'mkr',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '0.0116'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '0.0232',
+      'fee': '0.002'
+    }
+  },
+  {
+    'name': 'Curve DAO Token',
+    'precision': 8,
+    'category': {
+      'code': 'defi',
+      'name': 'DeFi'
+    },
+    'symbol': 'crv',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '25.68'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '51.36',
+      'fee': '15'
+    }
+  },
+  {
+    'name': 'Compound',
+    'precision': 8,
+    'category': {
+      'code': 'defi',
+      'name': 'DeFi'
+    },
+    'symbol': 'comp',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '0.284'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '0.568',
+      'fee': '0.18'
+    }
+  },
+  {
+    'name': 'Basic Attention Token',
+    'precision': 8,
+    'category': {
+      'code': 'utility',
+      'name': 'Utility'
+    },
+    'symbol': 'bat',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '68'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '136',
+      'fee': '54'
+    }
+  },
+  {
+    'name': 'SushiSwap',
+    'precision': 8,
+    'category': {
+      'code': 'defi',
+      'name': 'DeFi'
+    },
+    'symbol': 'sushi',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '20'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '40',
+      'fee': '12'
+    }
+  },
+  {
+    'name': 'Storj',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'storj',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '48'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '96',
+      'fee': '15'
+    }
+  },
+  {
+    'name': 'Audius',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'audio',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '76'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '152',
+      'fee': '83'
+    }
+  },
+  {
+    'name': 'Dai',
+    'precision': 8,
+    'category': {
+      'code': 'stablecoin',
+      'name': 'Stablecoin'
+    },
+    'symbol': 'dai',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '16'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '32',
+      'fee': '11'
+    }
+  },
+  {
+    'name': 'The Graph',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'grt',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '132'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '264',
+      'fee': '59'
+    }
+  },
+  {
+    'name': 'Alpha Venture DAO',
+    'precision': 8,
+    'category': {
+      'code': 'utility',
+      'name': 'Utility'
+    },
+    'symbol': 'alpha',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '110'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '220',
+      'fee': '110'
+    }
+  },
+  {
+    'name': 'Tezos',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'xtz',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '10',
+      'min_amount': '0.04'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '0.08',
+      'fee': '0.2'
+    }
+  },
+  {
+    'name': 'EOS',
+    'precision': 8,
+    'category': {
+      'code': 'governanca',
+      'name': 'Governança'
+    },
+    'symbol': 'eos',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '1',
+      'min_amount': '0.32'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '0.64',
+      'fee': '0.2'
+    }
+  },
+  {
+    'name': 'Solana',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'sol',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '1',
+      'min_amount': '0.032'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '0.064',
+      'fee': '0.01'
+    }
+  },
+  {
+    'name': 'Fantom',
+    'precision': 8,
+    'category': {
+      'code': 'defi',
+      'name': 'DeFi'
+    },
+    'symbol': 'ftm',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '56'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '112',
+      'fee': '23'
+    }
+  },
+  {
+    'name': 'Shiba Inu',
+    'precision': 8,
+    'category': {
+      'code': 'memecoin',
+      'name': 'Memecoins'
+    },
+    'symbol': 'shib',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '1487848'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '2975696',
+      'fee': '339977'
+    }
+  },
+  {
+    'name': 'LooksRare',
+    'precision': 8,
+    'category': {
+      'code': 'nft',
+      'name': 'NFT'
+    },
+    'symbol': 'looks',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '184'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '368',
+      'fee': '52'
+    }
+  },
+  {
+    'name': 'Illuvium',
+    'precision': 8,
+    'category': {
+      'code': 'gamecoins',
+      'name': 'Gamecoins'
+    },
+    'symbol': 'ilv',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '0.276'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '0.552',
+      'fee': '0.12'
+    }
+  },
+  {
+    'name': 'Old Gala',
+    'precision': 8,
+    'category': {
+      'code': 'gamecoins',
+      'name': 'Gamecoins'
+    },
+    'symbol': 'gala',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '999999999'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '1',
+      'fee': '3004'
+    }
+  },
+  {
+    'name': 'OKB',
+    'precision': 8,
+    'category': {
+      'code': 'utility',
+      'name': 'Utility'
+    },
+    'symbol': 'okb',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '6'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '12',
+      'fee': '0.12'
+    }
+  },
+  {
+    'name': 'Quant',
+    'precision': 8,
+    'category': {
+      'code': 'defi',
+      'name': 'DeFi'
+    },
+    'symbol': 'qnt',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '0.124'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '0.248',
+      'fee': '0.046'
+    }
+  },
+  {
+    'name': 'Amp',
+    'precision': 8,
+    'category': {
+      'code': 'defi',
+      'name': 'DeFi'
+    },
+    'symbol': 'amp',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '6296'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '12592',
+      'fee': '7495'
+    }
+  },
+  {
+    'name': 'dYdX',
+    'precision': 8,
+    'category': {
+      'code': 'defi',
+      'name': 'DeFi'
+    },
+    'symbol': 'dydx',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '5.72'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '11.44',
+      'fee': '9.5'
+    }
+  },
+  {
+    'name': 'Yield Guild Games',
+    'precision': 8,
+    'category': {
+      'code': 'gamecoins',
+      'name': 'Gamecoins'
+    },
+    'symbol': 'ygg',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '52'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '104',
+      'fee': '14'
+    }
+  },
+  {
+    'name': 'MyNeighborAlice',
+    'precision': 8,
+    'category': {
+      'code': 'gamecoins',
+      'name': 'Gamecoins'
+    },
+    'symbol': 'alice',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '15.08'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '30.16',
+      'fee': '6.2'
+    }
+  },
+  {
+    'name': 'Moss Carbon Credit',
+    'precision': 8,
+    'category': {
+      'code': 'utility',
+      'name': 'Utility'
+    },
+    'symbol': 'mco2',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '1'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '2',
+      'fee': '6.9'
+    }
+  },
+  {
+    'name': 'Hathor',
+    'precision': 2,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'htr',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '20',
+      'min_amount': '4'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '8',
+      'fee': '2'
+    }
+  },
+  {
+    'name': 'ApeCoin',
+    'precision': 8,
+    'category': {
+      'code': 'metaverso',
+      'name': 'Metaverso'
+    },
+    'symbol': 'ape',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '8.32'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '16.64',
+      'fee': '4.9'
+    }
+  },
+  {
+    'name': 'Dogecoin',
+    'precision': 8,
+    'category': {
+      'code': 'memecoin',
+      'name': 'Memecoins'
+    },
+    'symbol': 'doge',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '40',
+      'min_amount': '16'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '32',
+      'fee': '8'
+    }
+  },
+  {
+    'name': 'Avalanche',
+    'precision': 8,
+    'category': {
+      'code': 'defi',
+      'name': 'DeFi'
+    },
+    'symbol': 'avax',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '20',
+      'min_amount': '0.032'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '0.064',
+      'fee': '0.0128'
+    }
+  },
+  {
+    'name': 'Ambify',
+    'precision': 8,
+    'category': {
+      'code': 'utility',
+      'name': 'Utility'
+    },
+    'symbol': 'abfy',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '2'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '4',
+      'fee': '1'
+    }
+  },
+  {
+    'name': 'BNB',
+    'precision': 8,
+    'category': {
+      'code': 'utility',
+      'name': 'Utility'
+    },
+    'symbol': 'bnb',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '0.002'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '0.004',
+      'fee': '0.004'
+    }
+  },
+  {
+    'name': 'Coffee Coin',
+    'precision': 8,
+    'category': {
+      'code': 'utility',
+      'name': 'Utility'
+    },
+    'symbol': 'cofbr',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '2'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '4',
+      'fee': '7.4'
+    }
+  },
+  {
+    'name': 'Waves',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'waves',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '0.08'
+    },
+    'withdraw_info': {
+      'enabled': false,
+      'min_amount': '0.16',
+      'fee': '0.04'
+    }
+  },
+  {
+    'name': 'Loopring',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'lrc',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '64'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '128',
+      'fee': '23'
+    }
+  },
+  {
+    'name': '1inch Network',
+    'precision': 8,
+    'category': {
+      'code': 'governanca',
+      'name': 'Governança'
+    },
+    'symbol': '1inch',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '44'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '88',
+      'fee': '14'
+    }
+  },
+  {
+    'name': 'Reserve Rights',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'rsr',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '6452'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '12904',
+      'fee': '3354'
+    }
+  },
+  {
+    'name': 'Livepeer',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'lpt',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '1.72'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '3.44',
+      'fee': '0.86'
+    }
+  },
+  {
+    'name': 'Balancer',
+    'precision': 8,
+    'category': {
+      'code': 'defi',
+      'name': 'DeFi'
+    },
+    'symbol': 'bal',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '3.4'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '6.8',
+      'fee': '1.9'
+    }
+  },
+  {
+    'name': 'IOST',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'iost',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '1000'
+    },
+    'withdraw_info': {
+      'enabled': false,
+      'min_amount': '2000',
+      'fee': '500'
+    }
+  },
+  {
+    'name': 'Serum',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'srm',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '16'
+    },
+    'withdraw_info': {
+      'enabled': false,
+      'min_amount': '32',
+      'fee': '31'
+    }
+  },
+  {
+    'name': 'Immutable X',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'imx',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '20.92'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '41.84',
+      'fee': '3.4'
+    }
+  },
+  {
+    'name': 'UMA',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'uma',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '8.84'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '17.68',
+      'fee': '2.4'
+    }
+  },
+  {
+    'name': 'SKALE Network',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'skl',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '544'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '1088',
+      'fee': '68'
+    }
+  },
+  {
+    'name': 'Civic',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'cvc',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '168'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '336',
+      'fee': '58'
+    }
+  },
+  {
+    'name': 'DAO Maker',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'dao',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '32'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '64',
+      'fee': '7'
+    }
+  },
+  {
+    'name': 'Ren',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'ren',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '248'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '496',
+      'fee': '72'
+    }
+  },
+  {
+    'name': 'Celer Network',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'celr',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '1012'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '2024',
+      'fee': '250'
+    }
+  },
+  {
+    'name': 'CibraCoin UREA',
+    'precision': 8,
+    'category': {
+      'code': 'utility',
+      'name': 'Utility'
+    },
+    'symbol': 'furea',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '2'
+    },
+    'withdraw_info': {
+      'enabled': false,
+      'min_amount': '4',
+      'fee': '1'
+    }
+  },
+  {
+    'name': 'CibraCoin MAP',
+    'precision': 8,
+    'category': {
+      'code': 'utility',
+      'name': 'Utility'
+    },
+    'symbol': 'fmap',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '2'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '4',
+      'fee': '1'
+    }
+  },
+  {
+    'name': 'CibraCoin KCL',
+    'precision': 8,
+    'category': {
+      'code': 'utility',
+      'name': 'Utility'
+    },
+    'symbol': 'fkcl',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '2'
+    },
+    'withdraw_info': {
+      'enabled': false,
+      'min_amount': '4',
+      'fee': '1'
+    }
+  },
+  {
+    'name': 'PancakeSwap',
+    'precision': 8,
+    'category': {
+      'code': 'defi',
+      'name': 'DeFi'
+    },
+    'symbol': 'cake',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '9.48'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '18.96',
+      'fee': '0.05'
+    }
+  },
+  {
+    'name': 'Cosmos',
+    'precision': 8,
+    'category': {
+      'code': 'utility',
+      'name': 'Utility'
+    },
+    'symbol': 'atom',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '1',
+      'min_amount': '0.016'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '0.032',
+      'fee': '0.008'
+    }
+  },
+  {
+    'name': 'Gala',
+    'precision': 8,
+    'category': {
+      'code': 'gamecoins',
+      'name': 'Gamecoins'
+    },
+    'symbol': 'gala2',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '560'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '1120',
+      'fee': '396'
+    }
+  },
+  {
+    'name': 'Tron',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'trx',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '1',
+      'min_amount': '4'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '8',
+      'fee': '3'
+    }
+  },
+  {
+    'name': 'Worldcoin',
+    'precision': 8,
+    'category': {
+      'code': 'utility',
+      'name': 'Utility'
+    },
+    'symbol': 'wld',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '9.56'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '19.15',
+      'fee': '1.4'
+    }
+  },
+  {
+    'name': 'Sei',
+    'precision': 6,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'sei',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '1',
+      'min_amount': '0.8'
+    },
+    'withdraw_info': {
+      'enabled': false,
+      'min_amount': '1.6',
+      'fee': '0'
+    }
+  },
+  {
+    'name': 'PayPal USD',
+    'precision': 8,
+    'category': {
+      'code': 'stablecoin',
+      'name': 'Stablecoin'
+    },
+    'symbol': 'pyusd',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '16'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '32',
+      'fee': '8.8'
+    }
+  },
+  {
+    'name': 'Bitcoin Cash',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'bch',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '2',
+      'min_amount': '0.02056'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '0.02048',
+      'fee': '0.00512'
+    }
+  },
+  {
+    'name': 'Pax Dollar',
+    'precision': 8,
+    'category': {
+      'code': 'stablecoin',
+      'name': 'Stablecoin'
+    },
+    'symbol': 'usdp',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '16'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '32',
+      'fee': '25.6'
+    }
+  },
+  {
+    'name': 'Algorand',
+    'precision': 8,
+    'category': {
+      'code': 'cripto',
+      'name': 'Cripto'
+    },
+    'symbol': 'algo',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '1',
+      'min_amount': '0.016'
+    },
+    'withdraw_info': {
+      'enabled': false,
+      'min_amount': '0.064',
+      'fee': '0'
+    }
+  },
+  {
+    'name': 'Lido DAO',
+    'precision': 8,
+    'category': {
+      'code': 'defi',
+      'name': 'DeFi'
+    },
+    'symbol': 'ldo',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '25'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '50',
+      'fee': '0'
+    }
+  },
+  {
+    'name': 'FTPC-34645',
+    'precision': 2,
+    'category': {
+      'code': 'crypto_assets',
+      'name': 'Crypto Assets'
+    },
+    'symbol': 'ftpc34645',
+    'type': 'CRYPTO',
+    'deposit_info': null,
+    'withdraw_info': null
+  },
+  {
+    'name': 'FTPC-35782',
+    'precision': 2,
+    'category': {
+      'code': 'crypto_assets',
+      'name': 'Crypto Assets'
+    },
+    'symbol': 'ftpc35782',
+    'type': 'CRYPTO',
+    'deposit_info': null,
+    'withdraw_info': null
+  },
+  {
+    'name': 'Buddha Spa Token',
+    'precision': 2,
+    'category': {
+      'code': 'utility',
+      'name': 'Utility'
+    },
+    'symbol': 'buddha',
+    'type': 'CRYPTO',
+    'deposit_info': {
+      'min_to_confirm': '15',
+      'min_amount': '12'
+    },
+    'withdraw_info': {
+      'enabled': true,
+      'min_amount': '24',
+      'fee': '6'
+    }
+  },
+  {
+    'name': 'FTPCL-0053',
+    'precision': 2,
+    'category': {
+      'code': 'crypto_assets',
+      'name': 'Crypto Assets'
+    },
+    'symbol': 'ftpcl0053',
+    'type': 'CRYPTO',
+    'deposit_info': null,
+    'withdraw_info': null
+  },
+  {
+    'name': 'FXMUSIC-S01',
+    'precision': 2,
+    'category': {
+      'code': 'crypto_assets',
+      'name': 'Crypto Assets'
+    },
+    'symbol': 'fxmusics01',
+    'type': 'CRYPTO',
+    'deposit_info': null,
+    'withdraw_info': null
+  },
+  {
+    'name': 'FTCEC-01',
+    'precision': 2,
+    'category': {
+      'code': 'crypto_assets',
+      'name': 'Crypto Assets'
+    },
+    'symbol': 'ftcec01',
+    'type': 'CRYPTO',
+    'deposit_info': null,
+    'withdraw_info': null
+  }
+]
+
 export const getInstrumentsList = () => [
   {
     'InstrumentId': 1,

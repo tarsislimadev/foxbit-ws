@@ -1,6 +1,7 @@
 import { HTML, nH2, nFlex } from '@brtmvdl/frontend'
 import * as events from './utils/events.js'
 import * as tabs from './tabs/index.js'
+import * as lists from './utils/lists.js'
 import 'socket.io'
 
 export class Page extends HTML {
@@ -20,11 +21,12 @@ export class Page extends HTML {
   }
 
   getTabHTML(tab) {
+    console.log('getTabHTML', tab)
     switch (tab) {
       case 'List currencies': return new tabs.ListCurrenciesTab()
       case 'List markets': return new tabs.ListMarketsTab()
       case 'Get a market quotation': return new tabs.GetMarketQuotationTab()
-      case 'Get an order book': return new tabs.GetOrderBookTab()
+      case 'Get order book': return new tabs.GetOrderBookTab()
       case 'Get candlesticks': return new tabs.GetCandlesticksTab()
       case 'List banks': return new tabs.ListBanksTab()
       case 'Get current time': return new tabs.GetCurrentTimeTab()
