@@ -1,8 +1,11 @@
 import { Database } from '@brtmvdl/database'
 import express from 'express'
 import { createServer } from 'http'
+import { createHmac } from 'crypto'
 import { Server } from 'socket.io'
 import * as events from './events.js'
+
+import { UserId, APIKey, APISecret } from './config.js'
 
 const app = express()
 const server = createServer(app)
@@ -11,22 +14,45 @@ const db = new Database({ type: 'fs', config: '/data' })
 
 const save = (table, data = {}) => db.in(table).new().writeMany(data)
 
-const createUrl = (endpoint, input = {}) => `https://api.foxbit.com.br/rest/v3${input.Url}`
+const hmacSHA256 = (method, url, query = '', timestamp = Date.now()) => createHmac('sha256', APISecret).update(`${timestamp}${method}${url}${query}`, APISecret).digest('hex').toString()
 
-const createMethod = (endpoint, input = {}) => 'GET'
+const createUrlPath = (endpoint, input = {}) => `/rest/v3${input.Url}`
 
-const createHeaders = (endpoint, input = {}) => ({})
+const createUrl = (endpoint, input = {}) => `https://api.foxbit.com.br${createUrlPath(endpoint, input)}`
+
+const createMethod = (endpoint, input = {}) => {
+  switch (endpoint) {
+    case 'Get current member details': return 'GET'
+  }
+
+  return 'GET'
+}
+
+const createGetHeaders = (endpoint, input = {}, timestamp = Date.now()) => ({
+  'X-FB-ACCESS-KEY': APIKey,
+  'X-FB-ACCESS-TIMESTAMP': timestamp,
+  'X-FB-ACCESS-SIGNATURE': hmacSHA256(createMethod(endpoint, input), createUrlPath(endpoint, input), input.Query, timestamp),
+})
+
+const createPostHeaders = (endpoint, input) => ({})
+
+const createHeaders = (endpoint, input = {}, timestamp = Date.now()) =>
+  createMethod(endpoint, input) == 'GET'
+    ? createGetHeaders(endpoint, input, timestamp)
+    : createPostHeaders(endpoint, input, timestamp)
 
 const createBody = (endpoint, input = {}) => null
 
 io.on('connection', (socket) => {
   console.log('socket', socket.id)
 
-  const send = (endpoint, input = {}) => {
+  const send = async (endpoint, input = {}) => {
     console.log('send', endpoint, input)
     save(endpoint, input)
-    const request = { method: createMethod(endpoint), headers: createHeaders(input), body: createBody(input) }
-    return fetch(createUrl(endpoint, input), request).then((res) => res.json())
+    const now = Date.now()
+    const request = { method: createMethod(endpoint, input), headers: createHeaders(endpoint, input), body: createBody(endpoint, input) }
+    const res = await fetch(createUrl(endpoint, input), request)
+    return await res.json()
   }
 
   const retrieve = (endpoint, output = {}) => {
