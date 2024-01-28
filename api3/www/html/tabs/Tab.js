@@ -31,6 +31,10 @@ export class Tab extends HTML {
     return [new HTML()]
   }
 
+  getMethod() {
+    return 'GET'
+  }
+
   getUrl() {
     return ''
   }
@@ -46,7 +50,7 @@ export class Tab extends HTML {
   getButton() {
     const button = new ButtonComponent()
     button.setText('Send')
-    button.on('click', () => this.dispatchEvent('submit', { header: this.path, body: { Url: this.getUrl(), Query: this.getQuery(), Body: this.getBody() } }))
+    button.on('click', () => this.dispatchEvent('submit', { header: this.path, body: { Method: this.getMethod(), Url: this.getUrl(), Query: this.getQuery(), Body: this.getBody() } }))
     return button
   }
 
