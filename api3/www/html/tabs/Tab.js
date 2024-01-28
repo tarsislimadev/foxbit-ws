@@ -35,6 +35,10 @@ export class Tab extends HTML {
     return ''
   }
 
+  getQuery() {
+    return {}
+  }
+
   getBody() {
     return {}
   }
@@ -42,7 +46,7 @@ export class Tab extends HTML {
   getButton() {
     const button = new ButtonComponent()
     button.setText('Send')
-    button.on('click', () => this.dispatchEvent('submit', { header: this.path, body: { Url: this.getUrl(), Body: this.getBody() } }))
+    button.on('click', () => this.dispatchEvent('submit', { header: this.path, body: { Url: this.getUrl(), Query: this.getQuery(), Body: this.getBody() } }))
     return button
   }
 

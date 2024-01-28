@@ -12,7 +12,9 @@ const json = (url, data = {}) => fetch(url, data).then((res) => res.json())
 
 const createUrlPath = (data) => `/rest/v3${data.body.Url}`
 
-const createUrl = (data) => `https://api.foxbit.com.br${createUrlPath(data)}`
+const createUrlQuery = (data) => Object.keys(data.body.Query).map((param) => `${param}=${data.body.Query[param]}`).join('&')
+
+const createUrl = (data) => `https://api.foxbit.com.br${createUrlPath(data)}?${createUrlQuery(data)}`
 
 const createMethod = (data) => 'GET'
 

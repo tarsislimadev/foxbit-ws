@@ -22,30 +22,28 @@ export class Page extends HTML {
   getTabHTML(tab) {
     switch (tab) {
       case 'List currencies': return new tabs.ListCurrenciesTab()
-      // case 'List markets': return new tabs.List marketsTab(),
-      // case 'Get a market quotation': return new tabs.Get a market quotationTab(),
-      // case 'Get order book': return new tabs.Get order bookTab(),
-      // case 'Get candles Deprecated': return new tabs.Get candles DeprecatedTab(),
-      // case 'Get candlesticks': return new tabs.Get candlesticksTab(),
-      // case 'List banks': return new tabs.List banksTab(),
-      // case 'Get current time': return new tabs.Get current timeTab(),
-      // case 'Get current member details': return new tabs.Get current member detailsTab(),
-      // case 'Create an order': return new tabs.Create an orderTab(),
-      // case 'List orders': return new tabs.List ordersTab(),
-      // case 'Get an order by SN Deprecated': return new tabs.Get an order by SN DeprecatedTab(),
-      // case 'Get an order by ID': return new tabs.Get an order by IDTab(),
-      // case 'Get an order by client ID': return new tabs.Get an order by client IDTab(),
-      // case 'Cancel orders': return new tabs.Cancel ordersTab(),
-      // case 'List trades': return new tabs.List tradesTab(),
-      // case 'Get member accounts': return new tabs.Get member accountsTab(),
-      // case 'Get member PnL data': return new tabs.Get member PnL dataTab(),
-      // case 'List deposits': return new tabs.List depositsTab(),
-      // case 'Get a deposit': return new tabs.Get a depositTab(),
-      // case 'Get a deposit address': return new tabs.Get a deposit addressTab(),
-      // case 'List withdrawals': return new tabs.List withdrawalsTab(),
-      // case 'Create a withdrawal': return new tabs.Create a withdrawalTab(),
-      // case 'Get a withdrawal': return new tabs.Get a withdrawalTab(),
-      // case 'List Transactional Limits': return new tabs.List Transactional LimitsTab(),
+      case 'List markets': return new tabs.ListMarketsTab()
+      case 'Get a market quotation': return new tabs.GetMarketQuotationTab()
+      case 'Get an order book': return new tabs.GetOrderBookTab()
+      case 'Get candlesticks': return new tabs.GetCandlesticksTab()
+      case 'List banks': return new tabs.ListBanksTab()
+      case 'Get current time': return new tabs.GetCurrentTimeTab()
+      // case 'Get current member details': return new tabs.GetCurrentMemberDetailsTab()
+      // case 'Create order': return new tabs.CreateOrderTab()
+      // case 'List orders': return new tabs.ListOrdersTab()
+      // case 'Get an order ID': return new tabs.GetOrderIDTab()
+      // case 'Get an order client ID': return new tabs.GetOrderClientIDTab()
+      // case 'Cancel orders': return new tabs.CancelOrdersTab()
+      // case 'List trades': return new tabs.ListTradesTab()
+      // case 'Get member accounts': return new tabs.GetMemberAccountsTab()
+      // case 'Get member PnL data': return new tabs.GetMemberPnLDataTab()
+      // case 'List deposits': return new tabs.ListDepositsTab()
+      // case 'Get deposit': return new tabs.GetDepositTab()
+      // case 'Get deposit address': return new tabs.GetDepositAddressTab()
+      // case 'List withdrawals': return new tabs.ListWithdrawalsTab()
+      // case 'Create withdrawal': return new tabs.CreateWithdrawalTab()
+      // case 'Get withdrawal': return new tabs.GetWithdrawalTab()
+      // case 'List Transactional Limits': return new tabs.ListTransactionalLimitsTab()
     }
 
     return new HTML()
