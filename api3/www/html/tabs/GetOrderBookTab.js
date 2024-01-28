@@ -1,7 +1,7 @@
 import { HTML } from '@brtmvdl/frontend'
 import { InputTextGroupComponent, SelectGroupComponent } from '../components/index.js'
-import { Tab } from './Tab.js'
 import { getInstrumentsList } from '../utils/lists.js'
+import { Tab } from './Tab.js'
 
 export class GetOrderBookTab extends Tab {
   path = 'Get order book'
@@ -19,6 +19,7 @@ export class GetOrderBookTab extends Tab {
   }
 
   getDepthInputTextGroup() {
+    this.children.depth.children.input.setValue(100)
     return this.children.depth
   }
 
@@ -34,8 +35,7 @@ export class GetOrderBookTab extends Tab {
   }
 
   getUrl() {
-    const market_symbol = this.getMarketSymbolValue()
-    return `/markets/${market_symbol}/orderbook`
+    return `/markets/${this.getMarketSymbolValue()}/orderbook`
   }
 
   getQuery() {

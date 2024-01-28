@@ -1,8 +1,7 @@
 import { HTML } from '@brtmvdl/frontend'
 import { InputTextGroupComponent, SelectGroupComponent } from '../components/index.js'
-import { Tab } from './Tab.js'
-
 import { getCurrenciesList } from '../utils/lists.js'
+import { Tab } from './Tab.js'
 
 export class GetMarketQuotationTab extends Tab {
   path = 'Get a market quotation'
@@ -34,6 +33,7 @@ export class GetMarketQuotationTab extends Tab {
   }
 
   getAmountInputTextGroup() {
+    this.children.amount.children.input.setValue(1)
     return this.children.amount
   }
 
