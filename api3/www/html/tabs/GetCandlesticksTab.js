@@ -1,7 +1,6 @@
-import { HTML, nH2 } from '@brtmvdl/frontend'
 import { InputTextGroupComponent, SelectGroupComponent } from '../components/index.js'
 import { getInstrumentsList } from '../utils/lists.js'
-import { leftPad } from '../utils/str.js'
+import { getTime } from '../utils/datetime.js'
 import { Tab } from './Tab.js'
 
 export class GetCandlesticksTab extends Tab {
@@ -27,18 +26,13 @@ export class GetCandlesticksTab extends Tab {
     return this.children.interval
   }
 
-  getTime(interval = 0, timestamp = Date.now()) {
-    const d = new Date(timestamp - (interval * 1000))
-    return `${d.getFullYear()}-${leftPad(d.getMonth() + 1, 2, '0')}-${leftPad(d.getDate(), 2, '0')}T${leftPad(d.getHours(), 2, '0')}:${leftPad(d.getMinutes(), 2, '0')}`
-  }
-
   getStartTimeInputTextGroup() {
-    this.children.start_time.children.input.setValue(this.getTime(60 * 60 * 24 * 30))
+    this.children.start_time.children.input.setValue(getTime(60 * 60 * 24 * 30))
     return this.children.start_time
   }
 
   getEndTimeInputTextGroup() {
-    this.children.end_time.children.input.setValue(this.getTime())
+    this.children.end_time.children.input.setValue(getTime())
     return this.children.end_time
   }
 

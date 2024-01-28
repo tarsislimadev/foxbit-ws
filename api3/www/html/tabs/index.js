@@ -13,3 +13,5 @@ export * from './GetCandlesticksTab.js'
 export * from './ListBanksTab.js'
 
 export * from './GetCurrentTimeTab.js'
+
+export * from './ListTradesTab.js'

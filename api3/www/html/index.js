@@ -36,7 +36,7 @@ export class Page extends HTML {
       // case 'Get an order ID': return new tabs.GetOrderIDTab()
       // case 'Get an order client ID': return new tabs.GetOrderClientIDTab()
       // case 'Cancel orders': return new tabs.CancelOrdersTab()
-      // case 'List trades': return new tabs.ListTradesTab()
+      case 'List trades': return new tabs.ListTradesTab()
       // case 'Get member accounts': return new tabs.GetMemberAccountsTab()
       // case 'Get member PnL data': return new tabs.GetMemberPnLDataTab()
       // case 'List deposits': return new tabs.ListDepositsTab()
