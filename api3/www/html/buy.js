@@ -1,4 +1,4 @@
-import { HTML, nH2, nButton } from '@brtmvdl/frontend'
+import { HTML, nH2, nButton, nFlex } from '@brtmvdl/frontend'
 import { SelectGroupComponent } from './components/index.js'
 import * as lists from './utils/lists.js'
 
@@ -8,6 +8,74 @@ export class TitleH2Component extends nH2 {
   onCreate() {
     super.onCreate()
     this.setText('Foxbit REST API 3.0')
+  }
+}
+
+export class GetOrderBookHTML extends HTML {
+
+  state = {
+    sequence_id: '',
+    asks: [],
+    bids: [],
+  }
+
+  children = {
+    sequence_id: new HTML(),
+    asks: new HTML(),
+    bids: new HTML(),
+  }
+
+  constructor({ sequence_id, asks, bids } = {}) {
+    super()
+    this.state.sequence_id = sequence_id
+    this.state.asks = asks
+    this.state.bids = bids
+  }
+
+  onCreate() {
+    this.append(this.getFlex())
+  }
+
+  getFlex() {
+    const flex = new nFlex()
+    flex.append(this.getSequenceIdHTML().setContainerStyle('width', '10%'))
+    flex.append(this.getAsksHTML().setContainerStyle('width', '45%'))
+    flex.append(this.getBidsHTML().setContainerStyle('width', '45%'))
+    return flex
+  }
+
+  getSequenceIdHTML() {
+    this.children.sequence_id.setText(this.state.sequence_id)
+    return this.children.sequence_id
+  }
+
+  getAsksHTML() {
+    this.children.asks.append(this.createTable(this.state.asks))
+    return this.children.asks
+  }
+
+  getBidsHTML() {
+    this.children.bids.append(this.createTable(this.state.bids, 1))
+    return this.children.bids
+  }
+
+  createTextHTML(text = '') {
+    const html = new HTML()
+    html.setText(text)
+    html.setStyle('padding', '0rem calc(1rem / 2)')
+    return html
+  }
+
+  createTable(data = [], order_by = 0) {
+    const table = new HTML()
+    Array.from(data).sort((a, b) => a[order_by] - b[order_by]).map(([a, b]) => {
+      const line = new nFlex()
+      line.append(this.createTextHTML(a))
+      line.append(this.createTextHTML(b))
+      line.append(this.createTextHTML(a * b))
+      table.append(line)
+    })
+    return table
   }
 }
 
@@ -51,7 +119,7 @@ export class Page extends HTML {
   onStart() {
     console.log('onStart')
     this.setRunning(true)
-    this.emitMarketQuotation()
+    this.emitOrderBook()
   }
 
   getStopButton() {
@@ -82,32 +150,27 @@ export class Page extends HTML {
   showMessage(message) {
     console.log('showMessage', message)
     const html = new HTML()
-    html.setText(JSON.stringify(message))
+    html.append(new GetOrderBookHTML(message.output))
     this.children.data.append(html)
   }
 
   reemitMessage(message) {
     console.log('reemitMessage', message)
-    if (message.input.header === 'Get a market quotation') {
+    if (message.input.header === 'Get order book') {
       if (this.state.running) {
-        this.emitMarketQuotation()
+        setTimeout(() => this.emitOrderBook(), 100)
       }
     }
   }
 
-  emitMarketQuotation() {
-    const [base_currency, quote_currency] = this.children.market_symbol.getValue().toLowerCase().split('/')
+  emitOrderBook() {
+    const market_symbol = this.children.market_symbol.getValue().toString().replace('/', '')
     this.emitMessage({
-      header: 'Get a market quotation',
+      header: 'Get order book',
       body: {
         Method: 'GET',
-        Url: '/markets/quotes',
-        Query: {
-          side: 'buy',
-          base_currency,
-          quote_currency,
-          amount: '1'
-        },
+        Url: `/markets/${market_symbol}/orderbook`,
+        Query: { depth: '100', },
         Body: {}
       }
     })
