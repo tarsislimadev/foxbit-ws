@@ -10,7 +10,7 @@ export const AuthenticateUserRequest = ({ Endpoint, SequenceNumber, MessageType 
   return ({ Endpoint, Payload: { APIKey, Nonce, UserId, Signature }, SequenceNumber, MessageType })
 }
 
-export const GetOpenOrdersRequest = ({ Endpoint, Payload, SequenceNumber, MessageType }) => {
+export const GetOpenOrdersRequest = ({ Endpoint, Payload: { }, SequenceNumber, MessageType }) => {
   return ({ Endpoint, Payload: { OMSId: 1, AccountId: UserId }, SequenceNumber, MessageType })
 }
 
@@ -22,13 +22,19 @@ export const SendOrderRequest = ({ Endpoint, Payload: { InstrumentId, Side, Quan
   return ({ Endpoint, Payload: { OMSId: 1, InstrumentId, AccountId: UserId, TimeInForce: 1, ClientOrderId: ++ClientOrderId, OrderIdOCO: 0, UseDisplayQuantity: false, Side, Quantity, OrderType: 1, PegPriceType: 4, LimitPrice: null, }, SequenceNumber, MessageType })
 }
 
+export const GetAccountInfoRequest = ({ Endpoint, Payload: { }, SequenceNumber, MessageType }) => {
+  return ({ Endpoint, Payload: { OMSId: 1, AccountId: UserId }, SequenceNumber, MessageType })
+}
+
 export const switchRequest = ({ Endpoint, Payload = {}, SequenceNumber = ++GlobalSequenceNumber, MessageType = 0 }) => {
   switch (Endpoint) {
     case 'AuthenticateUser': return AuthenticateUserRequest({ Endpoint, Payload, SequenceNumber, MessageType })
     case 'GetOpenOrders': return GetOpenOrdersRequest({ Endpoint, Payload, SequenceNumber, MessageType })
     case 'GetTradesHistory': return GetTradesHistoryRequest({ Endpoint, Payload, SequenceNumber, MessageType })
     case 'SendOrder': return SendOrderRequest({ Endpoint, Payload, SequenceNumber, MessageType })
+    case 'GetAccountInfo': return GetAccountInfoRequest({ Endpoint, Payload, SequenceNumber, MessageType })
   }
+
   return ({ Endpoint, Payload, SequenceNumber, MessageType })
 }
 

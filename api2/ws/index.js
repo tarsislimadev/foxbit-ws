@@ -45,6 +45,8 @@ io.on('connection', (socket) => {
   socket.on('disconnect', exit)
 
   ee.addListener('exit', () => send({ Endpoint: 'Logout' }))
+
+  setInterval(() => foxbit.ping(), 750)
 })
 
 httpServer.listen(80)
