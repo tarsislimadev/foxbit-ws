@@ -1,6 +1,7 @@
 import { HTML, nH2, nButton } from '@brtmvdl/frontend'
 import { SelectGroupComponent } from './components/index.js'
 import * as lists from './utils/lists.js'
+
 import 'socket.io'
 
 export class TitleH2Component extends nH2 {
@@ -20,6 +21,7 @@ export class Page extends HTML {
     market_symbol: new SelectGroupComponent(),
     start: new nButton(),
     stop: new nButton(),
+    data: new HTML(),
   }
 
   onCreate() {
@@ -28,6 +30,11 @@ export class Page extends HTML {
     this.append(this.getMarketSymbolSelectGroup())
     this.append(this.getStartButton())
     this.append(this.getStopButton())
+    this.append(this.getDataHTML())
+  }
+
+  setSocketEvents() {
+    this.state.socket.on('message', (data) => this.onMessage(data))
   }
 
   getMarketSymbolSelectGroup() {
@@ -44,43 +51,7 @@ export class Page extends HTML {
   onStart() {
     console.log('onStart')
     this.setRunning(true)
-    this.emitMessage()
-  }
-
-  setRunning(running) {
-    this.state.running = running
-  }
-
-  emitMessage() {
-    this.state.socket.emit('message', this.createMessage())
-  }
-
-  createMessage() {
-    const [base_currency, quote_currency] = this.children.market_symbol.getValue().toLowerCase().split('/')
-    return {
-      header: 'Get a market quotation',
-      body: {
-        Method: 'GET',
-        Url: '/markets/quotes',
-        Query: {
-          side: 'buy',
-          base_currency,
-          quote_currency,
-          amount: '1'
-        },
-        Body: {}
-      }
-    }
-  }
-
-  onMessage(message) {
-    console.log('onMessage', message)
-    this.showMessage(message)
-    if (this.state.running) this.emitMessage()
-  }
-
-  showMessage(message) {
-    console.log('showMessage', message)
+    this.emitMarketQuotation()
   }
 
   getStopButton() {
@@ -94,12 +65,55 @@ export class Page extends HTML {
     this.setRunning(false)
   }
 
-  onSubmit(message) {
-    console.log('onSubmit', message)
-    this.state.socket.emit('message', message)
+  setRunning(running) {
+    this.state.running = running
   }
 
-  setSocketEvents() {
-    this.state.socket.on('message', (data) => this.onMessage(data))
+  getDataHTML() {
+    return this.children.data
+  }
+
+  onMessage(message) {
+    console.log('onMessage', message)
+    this.showMessage(message)
+    this.reemitMessage(message)
+  }
+
+  showMessage(message) {
+    console.log('showMessage', message)
+    const html = new HTML()
+    html.setText(JSON.stringify(message))
+    this.children.data.append(html)
+  }
+
+  reemitMessage(message) {
+    console.log('reemitMessage', message)
+    if (message.input.header === 'Get a market quotation') {
+      if (this.state.running) {
+        this.emitMarketQuotation()
+      }
+    }
+  }
+
+  emitMarketQuotation() {
+    const [base_currency, quote_currency] = this.children.market_symbol.getValue().toLowerCase().split('/')
+    this.emitMessage({
+      header: 'Get a market quotation',
+      body: {
+        Method: 'GET',
+        Url: '/markets/quotes',
+        Query: {
+          side: 'buy',
+          base_currency,
+          quote_currency,
+          amount: '1'
+        },
+        Body: {}
+      }
+    })
+  }
+
+  emitMessage(message) {
+    this.state.socket.emit('message', message)
   }
 }
