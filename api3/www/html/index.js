@@ -60,7 +60,7 @@ export class Page extends HTML {
   }
 
   setSocketEvents() {
-    this.state.socket.on('message', (data) => this.dispatchEvent('message', data))
+    this.state.socket.on('message', (data) => console.log('onSocketMessage', data))
   }
 
   sendMessage(message) {
