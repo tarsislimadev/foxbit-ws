@@ -2,7 +2,7 @@ import { HTML, nH2 } from '@brtmvdl/frontend'
 import { ButtonComponent } from '../components/index.js'
 
 export class Tab extends HTML {
-  path = ''
+  path = 'SendOrder'
 
   onCreate() {
     super.onCreate()

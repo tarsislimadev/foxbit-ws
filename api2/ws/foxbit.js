@@ -1,8 +1,8 @@
 import { APIKey, UserId, APISecret } from './config.js'
-
 import { createHmac } from 'crypto'
 
-let i = 0
+let GlobalSequenceNumber = 0
+let ClientOrderId = 0
 
 export const AuthenticateUserRequest = ({ Endpoint, SequenceNumber, MessageType }) => {
   const Nonce = Date.now()
@@ -18,17 +18,21 @@ export const GetTradesHistoryRequest = ({ Endpoint, Payload: { omsId = 1, accoun
   return ({ Endpoint, Payload: { omsId, accountId, instrumentId, tradeId, orderId, userId, startTimeStamp, endTimeStamp, depth, startIndex, executionId }, SequenceNumber, MessageType })
 }
 
-export const switchRequest = ({ Endpoint, Payload = {}, SequenceNumber = ++i, MessageType = 0 }) => {
+export const SendOrderRequest = ({ Endpoint, Payload: { InstrumentId, Side, Quantity }, SequenceNumber, MessageType }) => {
+  return ({ Endpoint, Payload: { OMSId: 1, InstrumentId, AccountId: UserId, TimeInForce: 3, ClientOrderId: ++ClientOrderId, OrderIdOCO: 0, UseDisplayQuantity: false, Side, Quantity, OrderType: 1, PegPriceType: 4, LimitPrice: null, }, SequenceNumber, MessageType })
+}
+
+export const switchRequest = ({ Endpoint, Payload = {}, SequenceNumber = ++GlobalSequenceNumber, MessageType = 0 }) => {
   switch (Endpoint) {
     case 'AuthenticateUser': return AuthenticateUserRequest({ Endpoint, Payload, SequenceNumber, MessageType })
     case 'GetOpenOrders': return GetOpenOrdersRequest({ Endpoint, Payload, SequenceNumber, MessageType })
     case 'GetTradesHistory': return GetTradesHistoryRequest({ Endpoint, Payload, SequenceNumber, MessageType })
+    case 'SendOrder': return SendOrderRequest({ Endpoint, Payload, SequenceNumber, MessageType })
   }
-
   return ({ Endpoint, Payload, SequenceNumber, MessageType })
 }
 
-export const toRequest = ({ Endpoint, Payload = {}, SequenceNumber = ++i, MessageType = 0 }) => JSON.stringify({
+export const toRequest = ({ Endpoint, Payload = {}, SequenceNumber = ++GlobalSequenceNumber, MessageType = 0 }) => JSON.stringify({
   m: MessageType,
   i: SequenceNumber,
   n: Endpoint,
