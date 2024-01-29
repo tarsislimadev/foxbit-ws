@@ -19,7 +19,7 @@ export const GetTradesHistoryRequest = ({ Endpoint, Payload: { omsId = 1, accoun
 }
 
 export const SendOrderRequest = ({ Endpoint, Payload: { InstrumentId, Side, Quantity }, SequenceNumber, MessageType }) => {
-  return ({ Endpoint, Payload: { OMSId: 1, InstrumentId, AccountId: UserId, TimeInForce: 3, ClientOrderId: ++ClientOrderId, OrderIdOCO: 0, UseDisplayQuantity: false, Side, Quantity, OrderType: 1, PegPriceType: 4, LimitPrice: null, }, SequenceNumber, MessageType })
+  return ({ Endpoint, Payload: { OMSId: 1, InstrumentId, AccountId: UserId, TimeInForce: 1, ClientOrderId: ++ClientOrderId, OrderIdOCO: 0, UseDisplayQuantity: false, Side, Quantity, OrderType: 1, PegPriceType: 4, LimitPrice: null, }, SequenceNumber, MessageType })
 }
 
 export const switchRequest = ({ Endpoint, Payload = {}, SequenceNumber = ++GlobalSequenceNumber, MessageType = 0 }) => {
