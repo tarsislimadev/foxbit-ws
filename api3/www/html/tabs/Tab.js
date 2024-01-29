@@ -6,19 +6,10 @@ export class Tab extends HTML {
 
   onCreate() {
     super.onCreate()
-    this.setEvents()
     this.append(this.getTitleHTML())
     this.getForm().map((html) => this.append(html))
     this.append(this.getButton())
     this.getData().map((html) => this.append(html))
-  }
-
-  setEvents() {
-    this.on('message', ({ value }) => this.onEvent(value))
-  }
-
-  onEvent(value) {
-    console.log('onEvent', value)
   }
 
   getTitleHTML() {
