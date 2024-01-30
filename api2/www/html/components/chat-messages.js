@@ -17,11 +17,11 @@ export class ChatMessages extends HTML {
   }
 
   onInput(ev) {
-    this.children.messages.append(new LeftMessage(ev.value))
+    this.children.messages.prepend(new LeftMessage(ev.value))
   }
 
   onOutput(ev) {
-    this.children.messages.append(new RightMessage(ev.value))
+    this.children.messages.prepend(new RightMessage(ev.value))
   }
 
   getMessagesHTML() {

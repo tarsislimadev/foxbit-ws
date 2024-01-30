@@ -35,6 +35,8 @@ export class ChatMessage extends HTML {
   }
 
   getBodyHTML() {
+    console.info('message', this.side, this.header, this.body)
+
     switch (this.header) {
       case 'Socket': return new SocketBodyMessage(this.body)
       case 'AuthenticateUser': return new AuthenticateUserBodyMessage(this.body)
