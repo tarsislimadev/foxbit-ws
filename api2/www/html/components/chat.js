@@ -3,7 +3,6 @@ import { ChatMessages } from './chat-messages.js'
 import { ChatForm } from './chat-form.js'
 
 export class ChatHTML extends nFlex {
-
   children = {
     form: new ChatForm(),
     messages: new ChatMessages(),
@@ -17,18 +16,17 @@ export class ChatHTML extends nFlex {
   }
 
   setEvents() {
-    this.children.form.on('submit', (ev) => this.onSubmit(ev))
-    this.children.form.on('message', (ev) => this.onMessage(ev))
+    this.children.form.on('submit', (ev) => this.onFormSubmit(ev))
+    this.on('message', (ev) => this.onFormMessage(ev))
   }
 
-  onSubmit(ev) {
-    console.log('onSubmit', ev)
+  onFormSubmit(ev) {
     this.dispatchEvent('submit', ev.value)
-    this.children.messages.dispatchEvent('message', ev.value)
+    this.children.messages.dispatchEvent('input', ev.value)
   }
 
-  onMessage(ev) {
-    console.log('onMessage', ev)
+  onFormMessage(ev) {
+    this.children.messages.dispatchEvent('output', ev.value)
   }
 
   getChatForm() {

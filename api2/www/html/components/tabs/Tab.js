@@ -24,12 +24,10 @@ export class Tab extends HTML {
   }
 
   onEvent(value) {
-    console.log('onEvent', value)
     this.dispatchEvent('submit', { header: this.path, body: this.getBody() })
   }
 
   getBody() {
     return {}
   }
-
 }
