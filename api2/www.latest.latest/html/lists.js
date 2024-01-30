@@ -1,4 +1,44 @@
 
+export const getFormInputs = (op) => {
+  switch (op) {
+    case 'AuthenticateUser': return ['APIKey', 'Nonce', 'UserId', 'Signature']
+    case 'Authenticate2FA': return ['Code']
+    case 'Logout': return []
+    case 'SendOrder': return ['OMSId', 'InstrumentId', 'AccountId', 'TimeInForce', 'ClientOrderId', 'OrderIdOCO', 'UseDisplayQuantity', 'Side', 'Quantity', 'OrderType', 'PegPriceType', 'LimitPrice']
+    case 'CancelOrder': return ['OMSId', 'AccountId', 'ClOrderId', 'OrderId']
+    case 'CancelAllOrders': return ['InstrumentId']
+    case 'GetOpenOrders': return ['OMSId', 'AccountId']
+    case 'GetOrderFee': return ['OMSId', 'AccountId', 'InstrumentId', 'ProductId', 'Amount', 'OrderType', 'MakerTaker', 'Side', 'Quantity']
+    case 'GetOrderHistory': return ['OMSId', 'AccountId', 'Depth']
+    case 'GetOrderStatus': return ['AccountId', 'OrderId']
+    case 'GetAccountInfo': return ['OMSId', 'AccountId']
+    case 'GetAccountPositions': return ['AccountId', 'OMSId']
+    case 'GetAccountTrades': return ['OMSId', 'AccountId', 'StartIndex', 'Count']
+    case 'GetDepositTickets': return []
+    case 'GetInstrument': return ['InstrumentId']
+    case 'GetInstruments': return ['OMSId']
+    case 'GetProducts': return ['OMSId']
+    case 'GetL2Snapshot': return ['OMSId', 'InstrumentId', 'Depth']
+    case 'GetTradesHistory': return []
+    case 'GetUserInfo': return []
+    case 'GetUserPermissions': return []
+    case 'GetWithdrawTickets': return ['Limit']
+    case 'GetTickerHistory': return ['InstrumentId', 'Interval', 'FromDate', 'ToDate']
+    case 'SubscribeAccountEvents': return []
+    case 'SubscribeTicker': return ['OMSId', 'InstrumentId', 'Interval', 'IncludeLastCount']
+    case 'UnsubscribeTicker': return ['InstrumentId']
+    case 'SubscribeLevel1': return ['InstrumentId', 'MarketId']
+    case 'SubscribeLevel1Markets': return ['MarketId']
+    case 'UnsubscribeLevel1': return ['OMSId', 'InstrumentId']
+    case 'SubscribeLevel2': return ['InstrumentId', 'MarketId', 'Depth']
+    case 'UnsubscribeLevel2': return ['OMSId', 'InstrumentId']
+    case 'SubscribeTrades': return ['OMSId', 'InstrumentId', 'IncludeLastCount']
+    case 'UnsubscribeTrades': return ['OMSId', 'InstrumentId']
+  }
+
+  return []
+}
+
 export const getOperationsList = () => [
   'Foxbit WS API 2.0',
   'AuthenticateUser',
