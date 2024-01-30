@@ -1,5 +1,5 @@
 import { HTML, nH2, nFlex, nSelect, nButton, nInputTextGroup } from '@brtmvdl/frontend'
-import { InputTextGroupComponent } from './components/index.js'
+import { InputTextGroupComponent, SelectGroupComponent } from './components/index.js'
 import * as lists from './utils/lists.js'
 
 import 'socket.io'
@@ -28,7 +28,7 @@ export class Page extends HTML {
     UserId: new InputTextGroupComponent('UserId'),
     Signature: new InputTextGroupComponent('Signature'),
     Code: new InputTextGroupComponent('Code'),
-    IntrumentId: new InputTextGroupComponent('IntrumentId'),
+    InstrumentId: new SelectGroupComponent('InstrumentId'),
     OMSId: new InputTextGroupComponent('OMSId'),
     AccountId: new InputTextGroupComponent('AccountId'),
     ClOrderId: new InputTextGroupComponent('ClOrderId'),
@@ -37,20 +37,20 @@ export class Page extends HTML {
     Count: new InputTextGroupComponent('Count'),
     ProductId: new InputTextGroupComponent('ProductId'),
     Amount: new InputTextGroupComponent('Amount'),
-    OrderType: new InputTextGroupComponent('OrderType'),
+    OrderType: new SelectGroupComponent('OrderType'),
     MakerTaker: new InputTextGroupComponent('MakerTaker'),
-    Side: new InputTextGroupComponent('Side'),
+    Side: new SelectGroupComponent('Side'),
     Quantity: new InputTextGroupComponent('Quantity'),
     Depth: new InputTextGroupComponent('Depth'),
     Interval: new InputTextGroupComponent('Interval'),
     FromDate: new InputTextGroupComponent('FromDate'),
     ToDate: new InputTextGroupComponent('ToDate'),
     Limit: new InputTextGroupComponent('Limit'),
-    TimeInForce: new InputTextGroupComponent('TimeInForce'),
+    TimeInForce: new SelectGroupComponent('TimeInForce'),
     ClientOrderId: new InputTextGroupComponent('ClientOrderId'),
     OrderIdOCO: new InputTextGroupComponent('OrderIdOCO'),
     UseDisplayQuantity: new InputTextGroupComponent('UseDisplayQuantity'),
-    PegPriceType: new InputTextGroupComponent('PegPriceType'),
+    PegPriceType: new SelectGroupComponent('PegPriceType'),
     LimitPrice: new InputTextGroupComponent('LimitPrice'),
     MarketId: new InputTextGroupComponent('MarketId'),
     IncludeLastCount: new InputTextGroupComponent('IncludeLastCount'),
@@ -104,7 +104,7 @@ export class Page extends HTML {
       case 'Logout': return []
       case 'SendOrder': return ['OMSId', 'InstrumentId', 'AccountId', 'TimeInForce', 'ClientOrderId', 'OrderIdOCO', 'UseDisplayQuantity', 'Side', 'Quantity', 'OrderType', 'PegPriceType', 'LimitPrice']
       case 'CancelOrder': return ['OMSId', 'AccountId', 'ClOrderId', 'OrderId']
-      case 'CancelAllOrders': return ['IntrumentId']
+      case 'CancelAllOrders': return ['InstrumentId']
       case 'GetOpenOrders': return ['OMSId', 'AccountId']
       case 'GetOrderFee': return ['OMSId', 'AccountId', 'InstrumentId', 'ProductId', 'Amount', 'OrderType', 'MakerTaker', 'Side', 'Quantity']
       case 'GetOrderHistory': return ['OMSId', 'AccountId', 'Depth']
@@ -124,14 +124,14 @@ export class Page extends HTML {
       case 'GetTickerHistory': return ['InstrumentId', 'Interval', 'FromDate', 'ToDate']
       case 'SubscribeAccountEvents': return []
       case 'SubscribeTicker': return ['OMSId', 'InstrumentId', 'Interval', 'IncludeLastCount']
-      case 'UnsubscribeTicker': return ['IntrumentId']
+      case 'UnsubscribeTicker': return ['InstrumentId']
       case 'SubscribeLevel1': return ['InstrumentId', 'MarketId']
       case 'SubscribeLevel1Markets': return ['MarketId']
-      case 'UnsubscribeLevel1': return ['OMSId', 'IntrumentId']
+      case 'UnsubscribeLevel1': return ['OMSId', 'InstrumentId']
       case 'SubscribeLevel2': return ['InstrumentId', 'MarketId', 'Depth']
-      case 'UnsubscribeLevel2': return ['OMSId', 'IntrumentId']
+      case 'UnsubscribeLevel2': return ['OMSId', 'InstrumentId']
       case 'SubscribeTrades': return ['OMSId', 'InstrumentId', 'IncludeLastCount']
-      case 'UnsubscribeTrades': return ['OMSId', 'IntrumentId']
+      case 'UnsubscribeTrades': return ['OMSId', 'InstrumentId']
     }
 
     return []
@@ -151,7 +151,12 @@ export class Page extends HTML {
 
   onSendButtonClick() {
     const op = this.children.operations.getValue()
-    console.log('emit socket', op, this.getFormInputs(op))
+    const body = this.getFormValues(op)
+    console.log('emit socket', op, body)
+  }
+
+  getFormValues(op) {
+    return this.getFormInputs(op).reduce((b, input) => ({ ...b, [input]: this.children[input].getValue() }), {})
   }
 
   getVerticalSeparatorHTML() {
@@ -186,8 +191,9 @@ export class Page extends HTML {
     return this.children.Code
   }
 
-  getIntrumentIdComponent() {
-    return this.children.IntrumentId
+  getInstrumentIdComponent() {
+    lists.getInstrumentsList().map(({ InstrumentId, Symbol }) => this.children.InstrumentId.children.select.addOption(InstrumentId, Symbol))
+    return this.children.InstrumentId
   }
 
   getOMSIdComponent() {
@@ -223,6 +229,7 @@ export class Page extends HTML {
   }
 
   getOrderTypeComponent() {
+    Array.from(['Unknown', 'Market', 'Limit', 'StopMarket', 'StopLimit', 'TrailingStopMarket', 'TrailingStopLimit', 'BlockTrade']).map((orderType, index) => this.children.OrderType.children.select.addOption(index, orderType))
     return this.children.OrderType
   }
 
@@ -231,6 +238,7 @@ export class Page extends HTML {
   }
 
   getSideComponent() {
+    Array.from(['Buy', 'Sell', 'Short', 'unknown']).map((side, index) => this.children.Side.children.select.addOption(index, side))
     return this.children.Side
   }
 
@@ -259,6 +267,7 @@ export class Page extends HTML {
   }
 
   getTimeInForceComponent() {
+    Array.from(['Unknown', 'GTC', 'OPG', 'IOC', 'FOK', 'GTX', 'GTD']).map((timeInForce, index) => this.children.TimeInForce.children.select.addOption(index, timeInForce))
     return this.children.TimeInForce
   }
 
@@ -275,6 +284,7 @@ export class Page extends HTML {
   }
 
   getPegPriceTypeComponent() {
+    Array.from(['Last', 'Bid', 'Ask', 'Midpoint']).map((type, index) => this.children.PegPriceType.children.select.addOption(index + 1, type))
     return this.children.PegPriceType
   }
 
