@@ -19,8 +19,7 @@ export class InputTextGroupComponent extends nInputTextGroup {
     flex.append(this.children.label)
     this.children.input.setStyle('width', '4rem')
     this.children.input.setStyle('padding', 'calc(1rem / 2) 0rem')
-    this.children.input.setStyle('margin', '1rem')
-    this.children.input.setPlaceholder(this.state.text)
+    this.children.input.setStyle('margin', '1rem 0rem')
     flex.append(this.children.input)
     this.append(flex)
   }

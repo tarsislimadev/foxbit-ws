@@ -18,7 +18,7 @@ export class SelectGroupComponent extends nSelectGroup {
     this.children.label.setStyle('margin', '1rem')
     flex.append(this.children.label)
     this.children.select.setStyle('padding', 'calc(1rem / 2) 0rem')
-    this.children.select.setStyle('margin', '1rem')
+    this.children.select.setStyle('margin', '1rem 0rem')
     flex.append(this.children.select)
     this.append(flex)
   }
