@@ -266,18 +266,26 @@ export class Page extends HTML {
   }
 
   getAPIKeyComponent() {
+    this.children.APIKey.children.input.setAttr('disabled', true)
+    this.children.APIKey.children.input.setValue(0)
     return this.children.APIKey
   }
 
   getNonceComponent() {
+    this.children.Nonce.children.input.setAttr('disabled', true)
+    this.children.Nonce.children.input.setValue(0)
     return this.children.Nonce
   }
 
   getUserIdComponent() {
+    this.children.UserId.children.input.setAttr('disabled', true)
+    this.children.UserId.children.input.setValue(0)
     return this.children.UserId
   }
 
   getSignatureComponent() {
+    this.children.Signature.children.input.setAttr('disabled', true)
+    this.children.Signature.children.input.setValue(0)
     return this.children.Signature
   }
 
@@ -291,10 +299,14 @@ export class Page extends HTML {
   }
 
   getOMSIdComponent() {
+    this.children.OMSId.children.input.setAttr('disabled', true)
+    this.children.OMSId.children.input.setValue(1)
     return this.children.OMSId
   }
 
   getAccountIdComponent() {
+    this.children.AccountId.children.input.setAttr('disabled', true)
+    this.children.AccountId.children.input.setValue(0)
     return this.children.AccountId
   }
 
