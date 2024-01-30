@@ -1,7 +1,6 @@
 import { HTML, nH2, nFlex } from '@brtmvdl/frontend'
 import * as events from './utils/events.js'
 import * as tabs from './tabs/index.js'
-import * as lists from './utils/lists.js'
 import 'socket.io'
 
 export class Page extends HTML {
@@ -21,7 +20,6 @@ export class Page extends HTML {
   }
 
   getTabHTML(tab) {
-    console.log('getTabHTML', tab)
     switch (tab) {
       case 'List currencies': return new tabs.ListCurrenciesTab()
       case 'List markets': return new tabs.ListMarketsTab()
@@ -42,7 +40,6 @@ export class Page extends HTML {
   }
 
   onTab(tab) {
-    console.log('onTab', tab)
     this.children.tabs.clear()
     const html = this.getTabHTML(tab)
     html.on('submit', ({ value }) => this.onSubmit(value))
@@ -51,7 +48,6 @@ export class Page extends HTML {
   }
 
   onSubmit(message) {
-    console.log('onSubmit', message)
     this.sendMessage(message)
   }
 
@@ -60,11 +56,9 @@ export class Page extends HTML {
   }
 
   setSocketEvents() {
-    this.state.socket.on('message', (data) => console.log('onSocketMessage', data))
   }
 
   sendMessage(message) {
-    console.log('message', message)
     this.state.socket.emit('message', message)
   }
 

@@ -117,7 +117,6 @@ export class Page extends HTML {
   }
 
   onStart() {
-    console.log('onStart')
     this.setRunning(true)
     this.emitOrderBook()
   }
@@ -129,7 +128,6 @@ export class Page extends HTML {
   }
 
   onStop() {
-    console.log('onStop')
     this.setRunning(false)
   }
 
@@ -142,20 +140,17 @@ export class Page extends HTML {
   }
 
   onMessage(message) {
-    console.log('onMessage', message)
     this.showMessage(message)
     this.reemitMessage(message)
   }
 
   showMessage(message) {
-    console.log('showMessage', message)
     const html = new HTML()
     html.append(new GetOrderBookHTML(message.output))
     this.children.data.append(html)
   }
 
   reemitMessage(message) {
-    console.log('reemitMessage', message)
     if (message.input.header === 'Get order book') {
       if (this.state.running) {
         setTimeout(() => this.emitOrderBook(), 100)
