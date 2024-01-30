@@ -1,5 +1,4 @@
-import { HTML, nH2 } from '@brtmvdl/frontend'
-import { ButtonComponent } from '../components/index.js'
+import { HTML, nH2, nFlex } from '@brtmvdl/frontend'
 
 export class Tab extends HTML {
   path = 'SendOrder'
@@ -7,10 +6,17 @@ export class Tab extends HTML {
   onCreate() {
     super.onCreate()
     this.setEvents()
-    this.append(this.getTitleHTML())
-    this.getForm().map((html) => this.append(html))
-    this.append(this.getButton())
-    this.getData().map((html) => this.append(html))
+    this.append(this.getFlex())
+  }
+
+  getFlex() {
+    const flex = new nFlex()
+    this.getForm().map((html) => flex.append(html))
+    this.append(flex)
+  }
+
+  getForm() {
+    return [new HTML()]
   }
 
   setEvents() {
@@ -19,31 +25,11 @@ export class Tab extends HTML {
 
   onEvent(value) {
     console.log('onEvent', value)
-  }
-
-  getTitleHTML() {
-    const title = new nH2()
-    title.setText(this.path)
-    return title
-  }
-
-  getForm() {
-    return [new HTML()]
-  }
-
-  getButton() {
-    const button = new ButtonComponent()
-    button.setText('Send')
-    button.on('click', () => this.dispatchEvent('submit', { header: this.path, body: this.getBody() }))
-    return button
+    this.dispatchEvent('submit', { header: this.path, body: this.getBody() })
   }
 
   getBody() {
-    return { OMSId: 0 }
-  }
-  
-  getData() {
-    return []
+    return {}
   }
 
 }

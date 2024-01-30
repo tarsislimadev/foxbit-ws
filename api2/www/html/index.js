@@ -1,29 +1,60 @@
-import { HTML, nH2, nButton, nFlex, nInputTextGroup } from '@brtmvdl/frontend'
-
-import * as tabs from './tabs/index.js'
+import { HTML, nH2, nSelect, nButton, nFlex } from '@brtmvdl/frontend'
 import * as events from './utils/events.js'
-
+import * as tabs from './tabs/index.js'
 import 'socket.io'
 
 export class Page extends HTML {
-
-  children = {
-    tabs: new HTML(),
-  }
-
   state = {
     socket: io('localhost:8080'),
   }
 
+  children = {
+    select: new nSelect(),
+    inputs: new HTML(),
+    button: new nButton(),
+  }
+
   onCreate() {
-    this.setHTMLEvents()
-    this.setSocketEvents()
     this.append(this.getTitleH2())
     this.append(this.getTabsHTML())
   }
 
-  getTabHTML(tab) {
-    switch (tab) {
+  getTitleH2() {
+    const h2 = new nH2()
+    h2.setText('Foxbit websocket API 2.0')
+    return h2
+  }
+
+  getSelect() {
+    events.getEventsList().map((ev) => this.children.select.addOption(ev, ev))
+    this.children.select.on('change', () => this.onChange())
+    return this.children.select
+  }
+
+  onChange() {
+    this.children.inputs.clear()
+    const html = this.getInputsHTML(this.children.select.getValue())
+    html.on('submit', ({ value: { header, body } }) => this.state.socket.emit(header, body))
+    this.on('message', ({ value }) => html.dispatchEvent('message', value))
+    this.children.inputs.append(html)
+  }
+
+  getInputs() {
+    return this.children.inputs
+  }
+
+  getButton() {
+    this.children.button.setText('send')
+    this.children.button.on('click', () => this.onClick())
+    return this.children.button
+  }
+
+  onClick() {
+    this.dispatchEvent('message', {})
+  }
+
+  getInputsHTML(event) {
+    switch (event) {
       case 'AuthenticateUser': return new tabs.AuthenticateUserHTML()
       case 'Authenticate2FA': return new tabs.Authenticate2FAHTML()
       case 'GetOrderHistory': return new tabs.GetOrderHistoryHTML()
@@ -62,51 +93,11 @@ export class Page extends HTML {
     return new HTML()
   }
 
-  onTab(tab) {
-    this.children.tabs.clear()
-    const html = this.getTabHTML(tab)
-    html.on('submit', ({ value: { header, body } }) => this.state.socket.emit(header, body))
-    this.on('message', ({ value }) => html.dispatchEvent('message', value))
-    this.children.tabs.append(html)
-  }
-
-  setHTMLEvents() {
-    this.on('tab', (ev) => this.onTab(ev.value))
-  }
-
-  setSocketEvents() {
-    this.state.socket.on('message', (data) => this.dispatchEvent('message', data))
-    events.getEventsList().map((ev) => this.state.socket.on(ev, (data) => console.log(ev, data)))
-  }
-
-  getTitleH2() {
-    const h2 = new nH2()
-    h2.setText('Foxbit websocket API 2.0')
-    return h2
-  }
-
-  createTabHeader(header) {
-    const html = new HTML()
-    html.setText(header)
-    html.setStyle('cursor', 'pointer')
-    html.on('click', () => this.dispatchEvent('tab', header))
-    return html
-  }
-
-  getTabsHeaders() {
-    const html = new HTML()
-    events.getEventsList().map((tab) => html.append(this.createTabHeader(tab)))
-    return html
-  }
-
-  getTabsContents() {
-    return this.children.tabs
-  }
-
   getTabsHTML() {
     const tabs = new nFlex()
-    tabs.append(this.getTabsHeaders().setContainerStyle('width', '20%'))
-    tabs.append(this.getTabsContents().setContainerStyle('width', '80%'))
+    tabs.append(this.getSelect().setContainerStyle('width', '10%'))
+    tabs.append(this.getInputs().setContainerStyle('width', '80%'))
+    tabs.append(this.getButton().setContainerStyle('width', '10%'))
     return tabs
   }
 }

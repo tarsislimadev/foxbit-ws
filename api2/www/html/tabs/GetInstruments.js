@@ -50,7 +50,7 @@ export class GetInstrumentsHTML extends Tab {
     return table
   }
 
-  onEvent({ Endpoint, Payload } = {}) {
+  onMessage({ Endpoint, Payload } = {}) {
     if (Endpoint == this.path) {
       this.children.data.clear()
       this.children.data.append(this.getTableHTML(Payload))

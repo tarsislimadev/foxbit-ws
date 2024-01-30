@@ -14,7 +14,7 @@ export const GetOpenOrdersRequest = ({ Endpoint, Payload: { }, SequenceNumber, M
   return ({ Endpoint, Payload: { OMSId: 1, AccountId: UserId }, SequenceNumber, MessageType })
 }
 
-export const GetTradesHistoryRequest = ({ Endpoint, Payload: { omsId = 1, accountId = UserId, instrumentId, tradeId, orderId, userId = userId, startTimeStamp, endTimeStamp, depth, startIndex, executionId, }, SequenceNumber, MessageType }) => {
+export const GetTradesHistoryRequest = ({ Endpoint, Payload: { omsId = 1, accountId = UserId, instrumentId, tradeId, orderId, userId , startTimeStamp, endTimeStamp, depth, startIndex, executionId, }, SequenceNumber, MessageType }) => {
   return ({ Endpoint, Payload: { omsId, accountId, instrumentId, tradeId, orderId, userId, startTimeStamp, endTimeStamp, depth, startIndex, executionId }, SequenceNumber, MessageType })
 }
 
