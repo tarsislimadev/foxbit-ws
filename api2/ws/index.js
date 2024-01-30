@@ -22,8 +22,6 @@ const save = (side, message = {}) => {
 }
 
 io.on('connection', (socket) => {
-  console.log('socket', socket.id)
-
   const foxbit = new WebSocket('wss://api.foxbit.com.br/')
 
   const send = (message = {}) => {
@@ -45,6 +43,8 @@ io.on('connection', (socket) => {
   socket.on('disconnect', exit)
 
   ee.addListener('exit', () => send({ Endpoint: 'Logout' }))
+
+  retrieve({ Endpoint: 'Socket', Payload: { Id: socket.id } })
 
   setInterval(() => foxbit.ping(), 750)
 })
