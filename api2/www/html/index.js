@@ -11,6 +11,79 @@ export class TitleHTML extends nH2 {
   }
 }
 
+export class ChatMessage extends HTML {
+  side = null
+  header = null
+  body = null
+
+  constructor(side, header, body = {}) {
+    super()
+    this.side = side
+    this.header = header
+    this.body = body
+  }
+
+  getName() { return 'chat-message' }
+
+  onCreate() {
+    super.onCreate()
+    this.setStyle('background-color', this.getBackgroundColorBySide())
+    this.setStyle('padding', '1rem 0rem')
+    this.setStyle('margin', '0rem 1rem 1rem 1rem')
+    this.append(this.getHeaderHTML())
+    this.append(this.getBodyHTML())
+    this.append(this.getFooterHTML())
+  }
+
+  getBackgroundColorBySide() {
+    return this.side == 'left' ? '#ff0000' : '#0000ff'
+  }
+
+  getHeaderHTML() {
+    const header = new HTML()
+    header.setStyle('padding', '0rem 1rem')
+    header.setText(this.header)
+    return header
+  }
+
+  getBodyHTML(content = this.body) {
+    const body = new HTML()
+    if (typeof content === 'object') {
+      Object.keys(content).map((key) => body.append(this.createTextHTML(key, content[key])))
+    } else {
+      body.append(this.createTextHTML('text', content))
+    }
+    return body
+  }
+
+  createTextHTML(key, value = '') {
+    const html = new HTML()
+    html.setStyle('padding', '0rem 1rem')
+    html.setText(`${key}: ${value}`)
+    return html
+  }
+
+  getFooterHTML() {
+    const footer = new HTML()
+    footer.setStyle('padding', '0rem 1rem')
+    const datetime = new Date()
+    footer.setText(datetime.toLocaleString())
+    return footer
+  }
+}
+
+export class LeftMessage extends ChatMessage {
+  constructor(header, body = {}) {
+    super('left', header, body)
+  }
+}
+
+export class RightMessage extends ChatMessage {
+  constructor(header, body = {}) {
+    super('right', header, body)
+  }
+}
+
 export class Page extends HTML {
   state = {
     socket: io('localhost:8080'),
@@ -57,8 +130,18 @@ export class Page extends HTML {
   }
 
   onCreate() {
+    this.setSocketEvents()
     this.append(new TitleHTML())
     this.append(this.getChatHTML())
+  }
+
+  setSocketEvents() {
+    this.state.socket.on('message', (message) => this.onSocketMessage(message))
+  }
+
+  onSocketMessage(message) {
+    console.log('onSocketMessage', message)
+    this.showMessage('left', message.Endpoint, message.Payload)
   }
 
   getChatHTML() {
@@ -152,7 +235,18 @@ export class Page extends HTML {
   onSendButtonClick() {
     const op = this.children.operations.getValue()
     const body = this.getFormValues(op)
-    console.log('emit socket', op, body)
+    this.emitSocketMessage(op, body)
+  }
+
+  emitSocketMessage(header, body = {}) {
+    console.log('emitSocketMessage', header, body)
+    this.state.socket.emit(header, body)
+    this.showMessage('right', header, body)
+  }
+
+  showMessage(side, header, body = {}) {
+    console.log('showMessage', side, header, body)
+    this.children.messages.append(side == 'left' ? new LeftMessage(header, body) : new RightMessage(header, body))
   }
 
   getFormValues(op) {
