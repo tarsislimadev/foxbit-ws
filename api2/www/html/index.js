@@ -1,9 +1,15 @@
-import { HTML, nH2, nSelect, nButton, nFlex } from '@brtmvdl/frontend'
-import { SelectGroupComponent, ButtonComponent, InputTextGroupComponent } from './components/index.js'
-import * as events from './utils/events.js'
-import { getTabHTML as getInputsHTML } from './tabs/tabs.js'
+import { HTML, nH2, nFlex, nSelect, nButton, nInputTextGroup } from '@brtmvdl/frontend'
+import { InputTextGroupComponent } from './components/index.js'
+import * as lists from './utils/lists.js'
 
 import 'socket.io'
+
+export class TitleHTML extends nH2 {
+  onCreate() {
+    super.onCreate()
+    this.setText('Foxbit websocket API 2.0')
+  }
+}
 
 export class Page extends HTML {
   state = {
@@ -11,156 +17,277 @@ export class Page extends HTML {
   }
 
   children = {
-    select: new SelectGroupComponent(),
-    inputs: new nFlex(),
-    button: new ButtonComponent(),
+    form: new HTML(),
+    messages: new HTML(),
+    operations: new nSelect(),
+    inputs: new HTML(),
+    send: new nButton(),
     //
-    InstrumentId: new SelectGroupComponent('InstrumentId'),
+    APIKey: new InputTextGroupComponent('APIKey'),
+    Nonce: new InputTextGroupComponent('Nonce'),
+    UserId: new InputTextGroupComponent('UserId'),
+    Signature: new InputTextGroupComponent('Signature'),
+    Code: new InputTextGroupComponent('Code'),
+    IntrumentId: new InputTextGroupComponent('IntrumentId'),
+    OMSId: new InputTextGroupComponent('OMSId'),
+    AccountId: new InputTextGroupComponent('AccountId'),
+    ClOrderId: new InputTextGroupComponent('ClOrderId'),
+    OrderId: new InputTextGroupComponent('OrderId'),
+    StartIndex: new InputTextGroupComponent('StartIndex'),
+    Count: new InputTextGroupComponent('Count'),
+    ProductId: new InputTextGroupComponent('ProductId'),
+    Amount: new InputTextGroupComponent('Amount'),
+    OrderType: new InputTextGroupComponent('OrderType'),
+    MakerTaker: new InputTextGroupComponent('MakerTaker'),
+    Side: new InputTextGroupComponent('Side'),
+    Quantity: new InputTextGroupComponent('Quantity'),
+    Depth: new InputTextGroupComponent('Depth'),
     Interval: new InputTextGroupComponent('Interval'),
     FromDate: new InputTextGroupComponent('FromDate'),
     ToDate: new InputTextGroupComponent('ToDate'),
-    OmsId: new InputTextGroupComponent('omsId'),
-    AccountId: new InputTextGroupComponent('accountId'),
-    TradeId: new InputTextGroupComponent('tradeId'),
-    OrderId: new InputTextGroupComponent('orderId'),
-    UserId: new InputTextGroupComponent('userId'),
-    StartTimeStamp: new InputTextGroupComponent('startTimeStamp'),
-    EndTimeStamp: new InputTextGroupComponent('endTimeStamp'),
-    Depth: new InputTextGroupComponent('depth'),
-    StartIndex: new InputTextGroupComponent('startIndex'),
-    ExecutionId: new InputTextGroupComponent('executionId'),
-    Side: new SelectGroupComponent('Side'),
-    Quantity: new InputTextGroupComponent('Quantity'),
+    Limit: new InputTextGroupComponent('Limit'),
+    TimeInForce: new InputTextGroupComponent('TimeInForce'),
+    ClientOrderId: new InputTextGroupComponent('ClientOrderId'),
+    OrderIdOCO: new InputTextGroupComponent('OrderIdOCO'),
+    UseDisplayQuantity: new InputTextGroupComponent('UseDisplayQuantity'),
+    PegPriceType: new InputTextGroupComponent('PegPriceType'),
+    LimitPrice: new InputTextGroupComponent('LimitPrice'),
     MarketId: new InputTextGroupComponent('MarketId'),
+    IncludeLastCount: new InputTextGroupComponent('IncludeLastCount'),
   }
 
   onCreate() {
-    this.append(this.getTabsHTML())
+    this.append(new TitleHTML())
+    this.append(this.getChatHTML())
   }
 
-  getTabsHTML() {
-    const tabs = new nFlex()
-    tabs.append(this.getSelect().setContainerStyle('width', '10%'))
-    tabs.append(this.getInputs().setContainerStyle('width', '80%'))
-    tabs.append(this.getButton().setContainerStyle('width', '10%'))
-    return tabs
+  getChatHTML() {
+    const chat = new nFlex()
+    chat.append(this.getFormHTML())
+    chat.append(this.getVerticalSeparatorHTML())
+    chat.append(this.getMessagesHTML())
+    return chat
   }
 
-  getSelect() {
-    events.getEventsList().map((ev) => this.children.select.children.select.addOption(ev, ev))
-    this.children.select.on('change', () => this.onSelectChange())
-    return this.children.select
+  getFormHTML() {
+    this.children.form.append(this.getOperationsSelect())
+    this.children.form.append(this.getInputsHTML())
+    this.children.form.append(this.getSendButton())
+    this.children.form.setContainerStyle('width', '20%')
+    this.children.form.setStyle('padding', '1rem')
+    return this.children.form
   }
 
-  onSelectChange() {
-    console.log('onSelectChange')
+  getOperationsSelect() {
+    lists.getOperationsList().map((op) => this.children.operations.addOption(op, op))
+    this.children.operations.setStyle('background-color', 'transparent')
+    this.children.operations.setStyle('appearance', 'none')
+    this.children.operations.setStyle('border', 'none')
+    this.children.operations.on('change', () => this.onOperationsChange())
+    this.children.operations.setStyle('padding', '1rem')
+    return this.children.operations
+  }
+
+  onOperationsChange() {
+    this.updateForm(this.children.operations.getValue())
+  }
+
+  updateForm(op) {
     this.children.inputs.clear()
-    this.getInputsHTML().map((input) => this.children.inputs.append(input))
+    this.getFormInputs(op).forEach((input) => this.children.inputs.append(this[`get${input}Component`]?.()))
+  }
+
+  getFormInputs(op) {
+    switch (op) {
+      case 'AuthenticateUser': return ['APIKey', 'Nonce', 'UserId', 'Signature']
+      case 'Authenticate2FA': return ['Code']
+      case 'Logout': return []
+      case 'SendOrder': return ['OMSId', 'InstrumentId', 'AccountId', 'TimeInForce', 'ClientOrderId', 'OrderIdOCO', 'UseDisplayQuantity', 'Side', 'Quantity', 'OrderType', 'PegPriceType', 'LimitPrice']
+      case 'CancelOrder': return ['OMSId', 'AccountId', 'ClOrderId', 'OrderId']
+      case 'CancelAllOrders': return ['IntrumentId']
+      case 'GetOpenOrders': return ['OMSId', 'AccountId']
+      case 'GetOrderFee': return ['OMSId', 'AccountId', 'InstrumentId', 'ProductId', 'Amount', 'OrderType', 'MakerTaker', 'Side', 'Quantity']
+      case 'GetOrderHistory': return ['OMSId', 'AccountId', 'Depth']
+      case 'GetOrderStatus': return ['AccountId', 'OrderId']
+      case 'GetAccountInfo': return ['OMSId', 'AccountId']
+      case 'GetAccountPositions': return ['AccountId', 'OMSId']
+      case 'GetAccountTrades': return ['OMSId', 'AccountId', 'StartIndex', 'Count']
+      case 'GetDepositTickets': return []
+      case 'GetInstrument': return ['InstrumentId']
+      case 'GetInstruments': return ['OMSId']
+      case 'GetProducts': return ['OMSId']
+      case 'GetL2Snapshot': return ['OMSId', 'InstrumentId', 'Depth']
+      case 'GetTradesHistory': return []
+      case 'GetUserInfo': return []
+      case 'GetUserPermissions': return []
+      case 'GetWithdrawTickets': return ['Limit']
+      case 'GetTickerHistory': return ['InstrumentId', 'Interval', 'FromDate', 'ToDate']
+      case 'SubscribeAccountEvents': return []
+      case 'SubscribeTicker': return ['OMSId', 'InstrumentId', 'Interval', 'IncludeLastCount']
+      case 'UnsubscribeTicker': return ['IntrumentId']
+      case 'SubscribeLevel1': return ['InstrumentId', 'MarketId']
+      case 'SubscribeLevel1Markets': return ['MarketId']
+      case 'UnsubscribeLevel1': return ['OMSId', 'IntrumentId']
+      case 'SubscribeLevel2': return ['InstrumentId', 'MarketId', 'Depth']
+      case 'UnsubscribeLevel2': return ['OMSId', 'IntrumentId']
+      case 'SubscribeTrades': return ['OMSId', 'InstrumentId', 'IncludeLastCount']
+      case 'UnsubscribeTrades': return ['OMSId', 'IntrumentId']
+    }
+
+    return []
   }
 
   getInputsHTML() {
-    switch (this.getSelectValue()) {
-      case 'AuthenticateUser': return [new HTML()]
-      case 'Authenticate2FA': return [new HTML()]
-      case 'GetOrderHistory': return [new HTML()]
-      case 'GetTickerHistory': return [new HTML()]
-      case 'GetTradesHistory': return [new HTML()]
-      case 'GetAccountInfo': return [new HTML()]
-      case 'GetAccountPositions': return [new HTML()]
-      case 'GetAccountTrades': return [new HTML()]
-      case 'GetDepositTickets': return [new HTML()]
-      case 'GetInstrument': return [new HTML()]
-      case 'GetInstruments': return [new HTML()]
-      case 'GetOrderFee': return [new HTML()]
-      case 'GetOrderStatus': return [new HTML()]
-      case 'GetProducts': return [new HTML()]
-      case 'GetL2Snapshot': return [new HTML()]
-      case 'GetUserInfo': return [new HTML()]
-      case 'GetUserPermissions': return [new HTML()]
-      case 'GetWithdrawTickets': return [new HTML()]
-      case 'Logout': return [new HTML()]
-      case 'SendOrder': return [new HTML()]
-      case 'SubscribeAccountEvents': return [new HTML()]
-      case 'SubscribeLevel1': return [new HTML()]
-      case 'SubscribeLevel1Markets': return [new HTML()]
-      case 'SubscribeLevel2': return [new HTML()]
-      case 'SubscribeTicker': return [new HTML()]
-      case 'SubscribeTrades': return [new HTML()]
-      case 'UnsubscribeLevel1': return [new HTML()]
-      case 'UnsubscribeLevel2': return [new HTML()]
-      case 'UnsubscribeTicker': return [new HTML()]
-      case 'UnsubscribeTrades': return [new HTML()]
-      case 'CancelAllOrders': return [new HTML()]
-      case 'GetOpenOrders': return [new HTML()]
-      case 'CancelOrder': return [new HTML()]
-    }
-
-    return [new HTML()]
-  }
-
-  getInputs() {
     return this.children.inputs
   }
 
-  getButton() {
-    this.children.button.setContainerStyle('padding', '1rem')
-    this.children.button.setStyle('width', '100%')
-    this.children.button.setText('send')
-    this.children.button.on('click', () => this.onButtonClick())
-    return this.children.button
+  getSendButton() {
+    this.children.send.setText('send')
+    this.children.send.on('click', () => this.onSendButtonClick())
+    this.children.send.setStyle('padding', '1rem')
+    this.children.send.setStyle('width', '100%')
+    return this.children.send
   }
 
-  onButtonClick() {
-    this.emitSocketMessage(this.getSelectValue(), this.getBody())
+  onSendButtonClick() {
+    const op = this.children.operations.getValue()
+    console.log('emit socket', op, this.getFormInputs(op))
   }
 
-  emitSocketMessage(header, body = {}) {
-    console.log('emitSocketMessage', header, body)
-    this.state.socket.emit(header, body)
+  getVerticalSeparatorHTML() {
+    const separator = new HTML()
+    separator.setStyle('height', '100%')
+    separator.setStyle('box-shadow', '0rem 0rem 0rem 1px #000000')
+    return separator
   }
 
-  getSelectValue() {
-    return this.children.select.getValue()
+  getMessagesHTML() {
+    this.children.messages.setContainerStyle('width', '80%')
+    return this.children.messages
   }
 
-  getBody() {
-    switch (this.getSelectValue()) {
-      case 'AuthenticateUser': return {}
-      case 'Authenticate2FA': return {}
-      case 'GetOrderHistory': return {}
-      case 'GetTickerHistory': return {}
-      case 'GetTradesHistory': return {}
-      case 'GetAccountInfo': return {}
-      case 'GetAccountPositions': return {}
-      case 'GetAccountTrades': return {}
-      case 'GetDepositTickets': return {}
-      case 'GetInstrument': return {}
-      case 'GetInstruments': return {}
-      case 'GetOrderFee': return {}
-      case 'GetOrderStatus': return {}
-      case 'GetProducts': return {}
-      case 'GetL2Snapshot': return {}
-      case 'GetUserInfo': return {}
-      case 'GetUserPermissions': return {}
-      case 'GetWithdrawTickets': return {}
-      case 'Logout': return {}
-      case 'SendOrder': return {}
-      case 'SubscribeAccountEvents': return {}
-      case 'SubscribeLevel1': return {}
-      case 'SubscribeLevel1Markets': return {}
-      case 'SubscribeLevel2': return {}
-      case 'SubscribeTicker': return {}
-      case 'SubscribeTrades': return {}
-      case 'UnsubscribeLevel1': return {}
-      case 'UnsubscribeLevel2': return {}
-      case 'UnsubscribeTicker': return {}
-      case 'UnsubscribeTrades': return {}
-      case 'CancelAllOrders': return {}
-      case 'GetOpenOrders': return {}
-      case 'CancelOrder': return {}
-    }
+  getAPIKeyComponent() {
+    return this.children.APIKey
+  }
 
-    return {}
+  getNonceComponent() {
+    return this.children.Nonce
+  }
+
+  getUserIdComponent() {
+    return this.children.UserId
+  }
+
+  getSignatureComponent() {
+    return this.children.Signature
+  }
+
+  getCodeComponent() {
+    return this.children.Code
+  }
+
+  getIntrumentIdComponent() {
+    return this.children.IntrumentId
+  }
+
+  getOMSIdComponent() {
+    return this.children.OMSId
+  }
+
+  getAccountIdComponent() {
+    return this.children.AccountId
+  }
+
+  getClOrderIdComponent() {
+    return this.children.ClOrderId
+  }
+
+  getOrderIdComponent() {
+    return this.children.OrderId
+  }
+
+  getStartIndexComponent() {
+    return this.children.StartIndex
+  }
+
+  getCountComponent() {
+    return this.children.Count
+  }
+
+  getProductIdComponent() {
+    return this.children.ProductId
+  }
+
+  getAmountComponent() {
+    return this.children.Amount
+  }
+
+  getOrderTypeComponent() {
+    return this.children.OrderType
+  }
+
+  getMakerTakerComponent() {
+    return this.children.MakerTaker
+  }
+
+  getSideComponent() {
+    return this.children.Side
+  }
+
+  getQuantityComponent() {
+    return this.children.Quantity
+  }
+
+  getDepthComponent() {
+    return this.children.Depth
+  }
+
+  getIntervalComponent() {
+    return this.children.Interval
+  }
+
+  getFromDateComponent() {
+    return this.children.FromDate
+  }
+
+  getToDateComponent() {
+    return this.children.ToDate
+  }
+
+  getLimitComponent() {
+    return this.children.Limit
+  }
+
+  getTimeInForceComponent() {
+    return this.children.TimeInForce
+  }
+
+  getClientOrderIdComponent() {
+    return this.children.ClientOrderId
+  }
+
+  getOrderIdOCOComponent() {
+    return this.children.OrderIdOCO
+  }
+
+  getUseDisplayQuantityComponent() {
+    return this.children.UseDisplayQuantity
+  }
+
+  getPegPriceTypeComponent() {
+    return this.children.PegPriceType
+  }
+
+  getLimitPriceComponent() {
+    return this.children.LimitPrice
+  }
+
+  getMarketIdComponent() {
+    return this.children.MarketId
+  }
+
+  getIncludeLastCountComponent() {
+    return this.children.IncludeLastCount
   }
 
 }
