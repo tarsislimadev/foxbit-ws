@@ -18,10 +18,10 @@ export class InputsHTML extends HTML {
     OrderId: new InputTextGroupComponent('OrderId'),
     StartIndex: new InputTextGroupComponent('StartIndex'),
     Count: new InputTextGroupComponent('Count'),
-    ProductId: new InputTextGroupComponent('ProductId'),
+    ProductId: new SelectGroupComponent('ProductId'),
     Amount: new InputTextGroupComponent('Amount'),
     OrderType: new SelectGroupComponent('OrderType'),
-    MakerTaker: new InputTextGroupComponent('MakerTaker'),
+    MakerTaker: new SelectGroupComponent('MakerTaker'),
     Side: new SelectGroupComponent('Side'),
     Quantity: new InputTextGroupComponent('Quantity'),
     Depth: new InputTextGroupComponent('Depth'),
@@ -105,6 +105,7 @@ export class InputsHTML extends HTML {
   }
 
   getProductIdComponent() {
+    lists.getProductsList().map(({ ProductId, ProductFullName }) => this.children.ProductId.children.select.addOption(ProductId, ProductFullName))
     return this.children.ProductId
   }
 
@@ -118,6 +119,7 @@ export class InputsHTML extends HTML {
   }
 
   getMakerTakerComponent() {
+    Array.from(['Unknown', 'Maker', 'Taker']).map((side, index) => this.children.MakerTaker.children.select.addOption(index, side))
     return this.children.MakerTaker
   }
 
