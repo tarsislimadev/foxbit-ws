@@ -32,6 +32,8 @@ export class BodyMessage extends HTML {
   onCreate() {
     super.onCreate()
     this.setStyle('padding', '0rem 1rem 1rem 1rem')
+    if (typeof this.body == 'string') this.append(new TextHTML(`Error message: ${this.body}`))
+    if (this.body.errormsg) this.append(new TextHTML(`Error message: ${this.body.errormsg}`))
     this.append(this.side == 'input' ? this.onInput() : this.onOutput())
   }
 
@@ -55,10 +57,12 @@ export class AuthenticateUserBodyMessage extends BodyMessage {
   onOutput() {
     const html = new HTML()
     html.append(new TextHTML(`Authenticated: ${this.body.Authenticated}`))
-    html.append(new TextHTML(`TwoFAType: ${this.body.TwoFAType}`))
-    html.append(new TextHTML(`UserId: ${this.body.User?.UserId}`))
-    html.append(new TextHTML(`AccountId: ${this.body.User?.AccountId}`))
-    html.append(new TextHTML(`OMSId: ${this.body.User?.OMSId}`))
+    if (this.body.Authenticated) {
+      html.append(new TextHTML(`TwoFAType: ${this.body.TwoFAType}`))
+      html.append(new TextHTML(`UserId: ${this.body.User?.UserId}`))
+      html.append(new TextHTML(`AccountId: ${this.body.User?.AccountId}`))
+      html.append(new TextHTML(`OMSId: ${this.body.User?.OMSId}`))
+    }
     return html
   }
 }
