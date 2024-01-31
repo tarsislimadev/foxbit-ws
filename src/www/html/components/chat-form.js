@@ -27,7 +27,11 @@ export class ChatForm extends HTML {
   onOperationsSelectChange() {
     const op = this.getOperationsValue()
     this.children.field_set.clear()
-    getFormInputs(op).map((input) => this.children.field_set.append(this.children.inputs[`get${input}Component`]()))
+    getFormInputs(op).map((input) => this.children.field_set.append(this.getComponent(input)))
+  }
+
+  getComponent(component) {
+    return this.children.inputs[`get${component}Component`]()
   }
 
   getFieldSetHTML() {

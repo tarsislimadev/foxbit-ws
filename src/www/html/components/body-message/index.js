@@ -1,5 +1,5 @@
 import { HTML, nFlex, nTable, nTr, nTd } from '@brtmvdl/frontend'
-import { getProductsList } from '../../lists.js'
+import { getInstrumentsList } from '../../lists.js'
 import { TextHTML } from '../text.js'
 
 export class BodyMessage extends HTML {
@@ -156,7 +156,7 @@ export class SubscribeTradesBodyMessage extends BodyMessage {
   onOutput() {
     const table = new nTable()
     const tr = new nTr()
-    Object.keys(this.body[0]).map((cell) => {
+    getTradeHeaders().map((cell) => {
       const td = new nTd()
       td.setStyle('padding', 'calc(1rem / 4)')
       td.setText(cell)
@@ -169,7 +169,7 @@ export class SubscribeTradesBodyMessage extends BodyMessage {
         const td = new nTd()
         td.setStyle('padding', 'calc(1rem / 4)')
         let text = cell
-        if (ix == 1) text = this.getProductName(cell)
+        if (ix == 1) text = this.getInstrumentName(cell)
         else if (ix == 7) text = this.getDirection(cell)
         else if (ix == 8) text = this.getTakerSide(cell)
         td.setText(text)
@@ -180,8 +180,8 @@ export class SubscribeTradesBodyMessage extends BodyMessage {
     return table
   }
 
-  getProductName(text) {
-    return getProductsList().find(({ ProductId }) => +ProductId == +text).ProductFullName
+  getInstrumentName(text) {
+    return getInstrumentsList().find(({ InstrumentId }) => +InstrumentId == +text).Symbol
   }
 
   getDirection(text) {
