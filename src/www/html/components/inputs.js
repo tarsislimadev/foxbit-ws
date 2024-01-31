@@ -68,7 +68,9 @@ export class InputsHTML extends HTML {
   }
 
   getInstrumentIdComponent() {
-    lists.getInstrumentsList().map(({ InstrumentId, Symbol }) => this.children.InstrumentId.children.select.addOption(InstrumentId, Symbol))
+    const instrumentsList = lists.getInstrumentsList()
+    instrumentsList.map(({ InstrumentId, Symbol }) => this.children.InstrumentId.children.select.addOption(InstrumentId, Symbol))
+    this.children.InstrumentId.children.select.on('change', () => this.children.MarketId.children.input.setValue(instrumentsList.find(({ InstrumentId }) => InstrumentId == this.children.InstrumentId.children.select.getValue()).Symbol.toLowerCase().replace('/', '')))
     return this.children.InstrumentId
   }
 

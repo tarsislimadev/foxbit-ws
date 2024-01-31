@@ -1,7 +1,23 @@
-import { HTML, nFlex, nTable, nTr, nTd } from '@brtmvdl/frontend'
-
+import { HTML, nButton, nFlex, nTable, nTr, nTd } from '@brtmvdl/frontend'
 import { getInstrumentsList } from '../../lists.js'
 import { TextHTML } from '../text.js'
+
+export class MessageActionButton extends nButton {
+  text = ''
+  action = (() => { })
+
+  constructor(text, action = (() => { })) {
+    super()
+    this.text = text
+    this.action = action
+  }
+
+  onCreate() {
+    super.onCreate()
+    this.setText(this.text)
+    this.on('click', () => this.action())
+  }
+}
 
 export class BodyMessage extends HTML {
   body = null
@@ -191,9 +207,17 @@ export class SubscribeTradesBodyMessage extends TableBodyMessage {
 
 export class UnsubscribeTradesBodyMessage extends BodyMessage { }
 
-export class TradeDataUpdateEventBodyMessage extends TableBodyMessage { }
+export class TradeDataUpdateEventBodyMessage extends SubscribeTradesBodyMessage { }
 
 export class Level2UpdateEventBodyMessage extends TableBodyMessage {
+  onOutput() {
+    const html = new HTML()
+    html.append(super.onOutput())
+    html.append(new MessageActionButton('buy', () => console.log('buy', this.body[0][6] * this.body[0][8], this.body[0][7])))
+    html.append(new MessageActionButton('sell', () => console.log('sell', this.body[0][6] * this.body[0][8], this.body[0][7])))
+    return html
+  }
+
   getHeaders() {
     const th = new nTr()
     Array.from(['MDUpdateID', 'NumberAccounts', 'ActionDateTime', 'ActionType', 'LastTradePrice', 'NumberOrders', 'Price', 'ProductPairCode', 'Quantity', 'Side',])
