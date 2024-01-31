@@ -1,10 +1,10 @@
 import { Database } from '@brtmvdl/database'
-import express from 'express'
-import process from 'process'
 import { EventEmitter } from 'events'
 import { createServer } from 'http'
-import { WebSocket } from 'ws'
 import { Server } from 'socket.io'
+import { WebSocket } from 'ws'
+import express from 'express'
+import process from 'process'
 import * as events from './events.js'
 import { fromRequest, fromResponse, toRequest, switchRequest } from './foxbit.js'
 
@@ -43,6 +43,10 @@ io.on('connection', (socket) => {
   socket.on('disconnect', exit)
 
   ee.addListener('exit', () => send({ Endpoint: 'Logout' }))
+
+  foxbit.on('open', (data) => retrieve({ Endpoint: 'Open', Payload: data }))
+
+  foxbit.on('close', (data) => retrieve({ Endpoint: 'Close', Payload: data }))
 
   retrieve({ Endpoint: 'Socket', Payload: { Id: socket.id } })
 

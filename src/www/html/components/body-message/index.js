@@ -1,4 +1,5 @@
 import { HTML, nFlex, nTable, nTr, nTd } from '@brtmvdl/frontend'
+
 import { getInstrumentsList } from '../../lists.js'
 import { TextHTML } from '../text.js'
 
