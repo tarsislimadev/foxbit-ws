@@ -181,6 +181,8 @@ export class UnsubscribeTradesBodyMessage extends BodyMessage { }
 
 export class TradeDataUpdateEventBodyMessage extends TableBodyMessage { }
 
+export class Level1UpdateEventBodyMessage extends BodyMessage { }
+
 export class Level2UpdateEventBodyMessage extends TableBodyMessage {
   getHeaders() {
     const th = new nTr()

@@ -34,12 +34,13 @@ export const getBodyHTML = (side, header, body = {}) => {
     case 'SubscribeLevel1': return new bodies.SubscribeLevel1BodyMessage(body, side)
     case 'SubscribeLevel1Markets': return new bodies.SubscribeLevel1MarketsBodyMessage(body, side)
     case 'UnsubscribeLevel1': return new bodies.UnsubscribeLevel1BodyMessage(body, side)
+    case 'Level1UpdateEvent': return new bodies.Level1UpdateEventBodyMessage(body, side)
     case 'SubscribeLevel2': return new bodies.SubscribeLevel2BodyMessage(body, side)
     case 'UnsubscribeLevel2': return new bodies.UnsubscribeLevel2BodyMessage(body, side)
+    case 'Level2UpdateEvent': return new bodies.Level2UpdateEventBodyMessage(body, side)
     case 'SubscribeTrades': return new bodies.SubscribeTradesBodyMessage(body, side)
     case 'UnsubscribeTrades': return new bodies.UnsubscribeTradesBodyMessage(body, side)
     case 'TradeDataUpdateEvent': return new bodies.TradeDataUpdateEventBodyMessage(body, side)
-    case 'Level2UpdateEvent': return new bodies.Level2UpdateEventBodyMessage(body, side)
   }
 
   return new HTML()

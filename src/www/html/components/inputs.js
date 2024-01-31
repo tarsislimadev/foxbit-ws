@@ -173,7 +173,7 @@ export class InputsHTML extends HTML {
   }
 
   getMarketIdComponent() {
-    this.children.MarketId.setValue('btcbrl')
+    this.children.MarketId.children.input.setValue('btcbrl')
     return this.children.MarketId
   }
 
