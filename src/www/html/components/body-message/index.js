@@ -133,7 +133,7 @@ export class GetAccountTradesBodyMessage extends BodyMessage { }
 
 export class GetDepositTicketsBodyMessage extends BodyMessage { }
 
-export class GetInstrumentBodyMessage extends BodyMessage { }
+export class GetInstrumentBodyMessage extends ObjectBodyMessage { }
 
 export class GetInstrumentsBodyMessage extends TableBodyMessage { }
 

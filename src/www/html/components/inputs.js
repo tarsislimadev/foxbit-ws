@@ -95,6 +95,8 @@ export class InputsHTML extends HTML {
   }
 
   getStartIndexComponent() {
+    this.children.StartIndex.children.input.setAttr('disabled', true)
+    this.children.StartIndex.children.input.setValue(0)
     return this.children.StartIndex
   }
 
