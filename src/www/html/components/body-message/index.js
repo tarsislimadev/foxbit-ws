@@ -46,6 +46,37 @@ export class AuthenticateUserBodyMessage extends BodyMessage {
   }
 }
 
+export class TableBodyMessage extends BodyMessage {
+  onOutput() {
+    const table = new nTable()
+    table.append(this.getHeaders(this.body[0]))
+    Array.from(this.body).map((line) => table.append(this.getLine(line)))
+    return table
+  }
+
+  getHeaders(line) {
+    const th = new nTr()
+    Object.keys(line).map((cell, ix) => {
+      const td = new nTd()
+      td.setStyle('padding', 'calc(1rem / 4)')
+      td.setText(cell)
+      th.append(td)
+    })
+    return th
+  }
+
+  getLine(line) {
+    const tr = new nTr()
+    Object.keys(line).map((cell, ix) => {
+      const td = new nTd()
+      td.setStyle('padding', 'calc(1rem / 4)')
+      td.setText(line[cell])
+      tr.append(td)
+    })
+    return tr
+  }
+}
+
 export class Authenticate2FABodyMessage extends BodyMessage { }
 
 export class LogoutBodyMessage extends BodyMessage { }
@@ -74,55 +105,9 @@ export class GetDepositTicketsBodyMessage extends BodyMessage { }
 
 export class GetInstrumentBodyMessage extends BodyMessage { }
 
-export class GetInstrumentsBodyMessage extends BodyMessage {
-  onOutput() {
-    const table = new nTable()
-    const th = new nTr()
-    Object.keys(this.body[0]).map((cell) => {
-      const td = new nTd()
-      td.setStyle('padding', 'calc(1rem / 4)')
-      td.setText(cell)
-      th.append(td)
-    })
-    table.append(th)
-    Array.from(this.body).map((line) => {
-      const tr = new nTr()
-      Object.keys(line).map((cell, ix) => {
-        const td = new nTd()
-        td.setStyle('padding', 'calc(1rem / 4)')
-        td.setText(line[cell])
-        tr.append(td)
-      })
-      table.append(tr)
-    })
-    return table
-  }
-}
+export class GetInstrumentsBodyMessage extends TableBodyMessage { }
 
-export class GetProductsBodyMessage extends BodyMessage {
-  onOutput() {
-    const table = new nTable()
-    const th = new nTr()
-    Object.keys(this.body[0]).map((cell) => {
-      const td = new nTd()
-      td.setStyle('padding', 'calc(1rem / 4)')
-      td.setText(cell)
-      th.append(td)
-    })
-    table.append(th)
-    Array.from(this.body).map((line) => {
-      const tr = new nTr()
-      Object.keys(line).map((cell, ix) => {
-        const td = new nTd()
-        td.setStyle('padding', 'calc(1rem / 4)')
-        td.setText(line[cell])
-        tr.append(td)
-      })
-      table.append(tr)
-    })
-    return table
-  }
-}
+export class GetProductsBodyMessage extends TableBodyMessage { }
 
 export class GetL2SnapshotBodyMessage extends BodyMessage { }
 
@@ -152,32 +137,31 @@ export class SubscribeLevel2BodyMessage extends BodyMessage { }
 
 export class UnsubscribeLevel2BodyMessage extends BodyMessage { }
 
-export class SubscribeTradesBodyMessage extends BodyMessage {
-  onOutput() {
-    const table = new nTable()
-    const tr = new nTr()
+export class SubscribeTradesBodyMessage extends TableBodyMessage {
+  getHeaders() {
+    const th = new nTr()
     getTradeHeaders().map((cell) => {
       const td = new nTd()
       td.setStyle('padding', 'calc(1rem / 4)')
       td.setText(cell)
+      th.append(td)
+    })
+    return th
+  }
+
+  getLine(line) {
+    const tr = new nTr()
+    Array.from(line).map((cell, ix) => {
+      const td = new nTd()
+      td.setStyle('padding', 'calc(1rem / 4)')
+      let text = cell
+      if (ix == 1) text = this.getInstrumentName(cell)
+      else if (ix == 7) text = this.getDirection(cell)
+      else if (ix == 8) text = this.getTakerSide(cell)
+      td.setText(text)
       tr.append(td)
     })
-    table.append(tr)
-    Array.from(this.body).map((line) => {
-      const tr = new nTr()
-      Array.from(line).map((cell, ix) => {
-        const td = new nTd()
-        td.setStyle('padding', 'calc(1rem / 4)')
-        let text = cell
-        if (ix == 1) text = this.getInstrumentName(cell)
-        else if (ix == 7) text = this.getDirection(cell)
-        else if (ix == 8) text = this.getTakerSide(cell)
-        td.setText(text)
-        tr.append(td)
-      })
-      table.append(tr)
-    })
-    return table
+    return tr
   }
 
   getInstrumentName(text) {
@@ -195,8 +179,47 @@ export class SubscribeTradesBodyMessage extends BodyMessage {
 
 export class UnsubscribeTradesBodyMessage extends BodyMessage { }
 
-export class TradeDataUpdateEventBodyMessage extends SubscribeTradesBodyMessage { }
+export class TradeDataUpdateEventBodyMessage extends TableBodyMessage { }
 
-export class Level2UpdateEventBodyMessage extends BodyMessage { }
+export class Level2UpdateEventBodyMessage extends TableBodyMessage {
+  getHeaders() {
+    const th = new nTr()
+    Array.from(['MDUpdateID', 'NumberAccounts', 'ActionDateTime', 'ActionType', 'LastTradePrice', 'NumberOrders', 'Price', 'ProductPairCode', 'Quantity', 'Side',])
+      .map((cell, ix) => {
+        const td = new nTd()
+        td.setStyle('padding', 'calc(1rem / 4)')
+        td.setText(cell)
+        th.append(td)
+      })
+    return th
+  }
+
+  getLine(line) {
+    const tr = new nTr()
+    Array.from(line).map((cell, ix) => {
+      const td = new nTd()
+      td.setStyle('padding', 'calc(1rem / 4)')
+      let text = cell
+      if (ix == 3) text = this.getActionType(cell)
+      else if (ix == 7) text = this.getProductPairCode(cell)
+      else if (ix == 9) text = this.getSide(cell)
+      td.setText(text)
+      tr.append(td)
+    })
+    return tr
+  }
+
+  getActionType(text) {
+    return Array.from(['new', 'update', 'deletion'])[+text]
+  }
+
+  getProductPairCode(text) {
+    return getInstrumentsList().find(({ InstrumentId }) => +InstrumentId == +text).Symbol
+  }
+
+  getSide(text) {
+    return Array.from(['Buy', 'Sell'])[+text]
+  }
+}
 
 export const getTradeHeaders = () => Array.from(['TradeId', 'ProductPairCode', 'Quantity', 'Price', 'Order1', 'Order2', 'Tradetime', 'Direction', 'TakerSide', 'BlockTrade', 'order1ClientId'])

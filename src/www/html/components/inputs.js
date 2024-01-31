@@ -1,6 +1,7 @@
 import { HTML } from '@brtmvdl/frontend'
 import { InputTextGroupComponent } from './input-text-group.js'
 import { SelectGroupComponent } from './select-group.js'
+
 import * as lists from '../lists.js'
 
 export class InputsHTML extends HTML {
@@ -172,6 +173,7 @@ export class InputsHTML extends HTML {
   }
 
   getMarketIdComponent() {
+    this.children.MarketId.setValue('btcbrl')
     return this.children.MarketId
   }
 
