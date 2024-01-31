@@ -2,7 +2,7 @@ import { HTML } from '@brtmvdl/frontend'
 import { TextHTML } from './text.js'
 
 export class ChatMessage extends HTML {
-  side = 'left'
+  side = 'input'
   header = null
   body = null
 
@@ -14,17 +14,27 @@ export class ChatMessage extends HTML {
 
   onCreate() {
     super.onCreate()
-    this.setStyle('background-color', this.getBackgroundColor())
-    this.setStyle('color', '#ffffff')
-    this.setStyle('padding', '1rem 0rem 0rem 0rem')
-    this.setStyle('margin', '1rem')
+    this.setStyles()
     this.append(this.createTextHTML(this.header))
     this.append(this.getBodyHTML())
     this.append(this.createTextHTML(this.getDatetime()))
   }
 
+  setStyles() {
+    this.setStyle('box-shadow', 'inset 0rem 0rem 0rem calc(1rem / 8) ' + this.getForegroundColor())
+    this.setStyle('background-color', this.getBackgroundColor())
+    this.setStyle('color', this.getForegroundColor())
+    this.setStyle('border-radius', 'calc(1rem / 2)')
+    this.setStyle('padding', '1rem 0rem 0rem 0rem')
+    this.setStyle('margin', '1rem')
+  }
+
   getBackgroundColor() {
-    return this.side == 'left' ? '#ff0000' : '#0000ff'
+    return this.side == 'input' ? '#ffffff' : '#000000'
+  }
+
+  getForegroundColor() {
+    return this.side == 'input' ? '#000000' : '#ffffff'
   }
 
   createTextHTML(text = '') {
@@ -50,10 +60,10 @@ export class ChatMessage extends HTML {
   }
 }
 
-export class LeftMessage extends ChatMessage { }
+export class InputMessage extends ChatMessage { }
 
-export class RightMessage extends ChatMessage {
-  side = 'rigth'
+export class OutputMessage extends ChatMessage {
+  side = 'output'
 }
 
 export class BodyMessage extends HTML {

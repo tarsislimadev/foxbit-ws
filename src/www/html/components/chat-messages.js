@@ -1,5 +1,5 @@
 import { HTML, nFlex } from '@brtmvdl/frontend'
-import { LeftMessage, RightMessage } from './chat-message.js'
+import { InputMessage, OutputMessage } from './chat-message.js'
 
 export class ChatMessages extends HTML {
   children = {
@@ -17,11 +17,11 @@ export class ChatMessages extends HTML {
   }
 
   onInput(ev) {
-    this.children.messages.prepend(new LeftMessage(ev.value))
+    this.children.messages.prepend(new InputMessage(ev.value))
   }
 
   onOutput(ev) {
-    this.children.messages.prepend(new RightMessage(ev.value))
+    this.children.messages.prepend(new OutputMessage(ev.value))
   }
 
   getMessagesHTML() {
