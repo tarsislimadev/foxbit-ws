@@ -1,5 +1,5 @@
 import { HTML, nButton, nFlex, nTable, nTr, nTd } from '@brtmvdl/frontend'
-import { getInstrumentsList } from '../../lists.js'
+import { getInstrumentsList, getProductsList } from '../../lists.js'
 import { TextHTML } from '../text.js'
 
 export class MessageActionButton extends nButton {
@@ -33,7 +33,11 @@ export class BodyMessage extends HTML {
     super.onCreate()
     this.setStyle('padding', '0rem 1rem 1rem 1rem')
     if (typeof this.body == 'string') this.append(new TextHTML(`Error message: ${this.body}`))
-    if (this.body.errormsg) this.append(new TextHTML(`Error message: ${this.body.errormsg}`))
+    if (this.body.errormsg) {
+      this.append(new TextHTML(`Error message: ${this.body.errormsg}`))
+      this.append(new TextHTML(`Error code: ${this.body.errorcode}`))
+      this.append(new TextHTML(`Error detail: ${this.body.detail}`))
+    }
     this.append(this.side == 'input' ? this.onInput() : this.onOutput())
   }
 
@@ -77,24 +81,21 @@ export class TableBodyMessage extends BodyMessage {
 
   getHeaders(line) {
     const tr = new nTr()
-    Object.keys(line).map((cell, ix) => {
-      const td = new nTd()
-      td.setStyle('padding', 'calc(1rem / 4)')
-      td.setText(cell)
-      tr.append(td)
-    })
+    Object.keys(line).map((cell, ix) => tr.append(this.getTd(cell)))
     return tr
   }
 
   getLine(line) {
     const tr = new nTr()
-    Object.keys(line).map((cell, ix) => {
-      const td = new nTd()
-      td.setStyle('padding', 'calc(1rem / 4)')
-      td.setText(line[cell])
-      tr.append(td)
-    })
+    Object.keys(line).map((cell, ix) => tr.append(this.getTd(line[cell])))
     return tr
+  }
+
+  getTd(text) {
+    const td = new nTd()
+    td.setStyle('padding', 'calc(1rem / 4)')
+    td.setText(text)
+    return td
   }
 }
 
@@ -119,7 +120,20 @@ export class CancelAllOrdersBodyMessage extends BodyMessage { }
 
 export class GetOpenOrdersBodyMessage extends BodyMessage { }
 
-export class GetOrderFeeBodyMessage extends BodyMessage { }
+export class GetOrderFeeBodyMessage extends BodyMessage {
+  onOutput() {
+    const html = new HTML()
+    if (!this.body.errormsg) {
+      html.append(new TextHTML(`OrderFee: ${this.body.OrderFee}`))
+      html.append(new TextHTML(`ProductId: ${this.getProductPairCode(this.body.ProductId)}`))
+    }
+    return html
+  }
+
+  getProductPairCode(text) {
+    return getProductsList().find(({ ProductId }) => +ProductId == +text).Product
+  }
+}
 
 export class GetOrderHistoryBodyMessage extends BodyMessage { }
 
@@ -139,7 +153,19 @@ export class GetInstrumentsBodyMessage extends TableBodyMessage { }
 
 export class GetProductsBodyMessage extends TableBodyMessage { }
 
-export class GetL2SnapshotBodyMessage extends BodyMessage { }
+export class GetL2SnapshotBodyMessage extends TableBodyMessage {
+  getHeaders() {
+    const th = new nTr()
+    Array.from(['MDUpdateID', 'Accounts', 'ActionDateTime', 'ActionType', 'LastTradePrice', 'Orders', 'Price', 'ProductPairCode', 'Quantity', 'Side'])
+      .map((cell, ix) => {
+        const td = new nTd()
+        td.setStyle('padding', 'calc(1rem / 4)')
+        td.setText(cell)
+        th.append(td)
+      })
+    return th
+  }
+}
 
 export class GetTradesHistoryBodyMessage extends BodyMessage { }
 
@@ -149,11 +175,35 @@ export class GetUserPermissionsBodyMessage extends BodyMessage { }
 
 export class GetWithdrawTicketsBodyMessage extends BodyMessage { }
 
-export class GetTickerHistoryBodyMessage extends BodyMessage { }
+export class GetTickerHistoryBodyMessage extends TableBodyMessage {
+  getHeaders() {
+    const th = new nTr()
+    Array.from(['DateTime', 'High', 'Low', 'Open', 'Close', 'Volume', 'Inside Bid Price', 'Inside Ask Price', 'InstrumentId', 'Initial DateTime'])
+      .map((cell, ix) => {
+        const td = new nTd()
+        td.setStyle('padding', 'calc(1rem / 4)')
+        td.setText(cell)
+        th.append(td)
+      })
+    return th
+  }
+}
 
-export class SubscribeAccountEventsBodyMessage extends BodyMessage { }
+export class SubscribeAccountEventsBodyMessage extends ObjectBodyMessage { }
 
-export class SubscribeTickerBodyMessage extends BodyMessage { }
+export class SubscribeTickerBodyMessage extends TableBodyMessage {
+  getHeaders() {
+    const th = new nTr()
+    Array.from(['DateTime', 'High', 'Low', 'Open', 'Close', 'Volume', 'Inside Bid Price', 'Inside Ask Price', 'InstrumentId', 'Initial DateTime'])
+      .map((cell, ix) => {
+        const td = new nTd()
+        td.setStyle('padding', 'calc(1rem / 4)')
+        td.setText(cell)
+        th.append(td)
+      })
+    return th
+  }
+}
 
 export class UnsubscribeTickerBodyMessage extends BodyMessage { }
 

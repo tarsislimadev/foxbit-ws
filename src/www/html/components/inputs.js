@@ -1,7 +1,6 @@
 import { HTML } from '@brtmvdl/frontend'
 import { InputTextGroupComponent } from './input-text-group.js'
 import { SelectGroupComponent } from './select-group.js'
-
 import * as lists from '../lists.js'
 
 export class InputsHTML extends HTML {
@@ -133,10 +132,12 @@ export class InputsHTML extends HTML {
   }
 
   getDepthComponent() {
+    this.children.Depth.children.input.setValue(1)
     return this.children.Depth
   }
 
   getIntervalComponent() {
+    this.children.Interval.children.input.setValue(60)
     return this.children.Interval
   }
 
