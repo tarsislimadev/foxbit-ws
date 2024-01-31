@@ -197,4 +197,6 @@ export class UnsubscribeTradesBodyMessage extends BodyMessage { }
 
 export class TradeDataUpdateEventBodyMessage extends SubscribeTradesBodyMessage { }
 
+export class Level2UpdateEventBodyMessage extends BodyMessage { }
+
 export const getTradeHeaders = () => Array.from(['TradeId', 'ProductPairCode', 'Quantity', 'Price', 'Order1', 'Order2', 'Tradetime', 'Direction', 'TakerSide', 'BlockTrade', 'order1ClientId'])
