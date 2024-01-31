@@ -1,43 +1,43 @@
 import { HTML } from '@brtmvdl/frontend'
-
 import * as bodies from './components/body-message/index.js'
 
-export const getBodyHTML = (header, body = {}) => {
+export const getBodyHTML = (side, header, body = {}) => {
   switch (header) {
-    case 'Socket': return new bodies.SocketBodyMessage(body)
-    case 'AuthenticateUser': return new bodies.AuthenticateUserBodyMessage(body)
-    case 'Authenticate2FA': return new bodies.Authenticate2FABodyMessage(body)
-    case 'Logout': return new bodies.LogoutBodyMessage(body)
-    case 'SendOrder': return new bodies.SendOrderBodyMessage(body)
-    case 'CancelOrder': return new bodies.CancelOrderBodyMessage(body)
-    case 'CancelAllOrders': return new bodies.CancelAllOrdersBodyMessage(body)
-    case 'GetOpenOrders': return new bodies.GetOpenOrdersBodyMessage(body)
-    case 'GetOrderFee': return new bodies.GetOrderFeeBodyMessage(body)
-    case 'GetOrderHistory': return new bodies.GetOrderHistoryBodyMessage(body)
-    case 'GetOrderStatus': return new bodies.GetOrderStatusBodyMessage(body)
-    case 'GetAccountInfo': return new bodies.GetAccountInfoBodyMessage(body)
-    case 'GetAccountPositions': return new bodies.GetAccountPositionsBodyMessage(body)
-    case 'GetAccountTrades': return new bodies.GetAccountTradesBodyMessage(body)
-    case 'GetDepositTickets': return new bodies.GetDepositTicketsBodyMessage(body)
-    case 'GetInstrument': return new bodies.GetInstrumentBodyMessage(body)
-    case 'GetInstruments': return new bodies.GetInstrumentsBodyMessage(body)
-    case 'GetProducts': return new bodies.GetProductsBodyMessage(body)
-    case 'GetL2Snapshot': return new bodies.GetL2SnapshotBodyMessage(body)
-    case 'GetTradesHistory': return new bodies.GetTradesHistoryBodyMessage(body)
-    case 'GetUserInfo': return new bodies.GetUserInfoBodyMessage(body)
-    case 'GetUserPermissions': return new bodies.GetUserPermissionsBodyMessage(body)
-    case 'GetWithdrawTickets': return new bodies.GetWithdrawTicketsBodyMessage(body)
-    case 'GetTickerHistory': return new bodies.GetTickerHistoryBodyMessage(body)
-    case 'SubscribeAccountEvents': return new bodies.SubscribeAccountEventsBodyMessage(body)
-    case 'SubscribeTicker': return new bodies.SubscribeTickerBodyMessage(body)
-    case 'UnsubscribeTicker': return new bodies.UnsubscribeTickerBodyMessage(body)
-    case 'SubscribeLevel1': return new bodies.SubscribeLevel1BodyMessage(body)
-    case 'SubscribeLevel1Markets': return new bodies.SubscribeLevel1MarketsBodyMessage(body)
-    case 'UnsubscribeLevel1': return new bodies.UnsubscribeLevel1BodyMessage(body)
-    case 'SubscribeLevel2': return new bodies.SubscribeLevel2BodyMessage(body)
-    case 'UnsubscribeLevel2': return new bodies.UnsubscribeLevel2BodyMessage(body)
-    case 'SubscribeTrades': return new bodies.SubscribeTradesBodyMessage(body)
-    case 'UnsubscribeTrades': return new bodies.UnsubscribeTradesBodyMessage(body)
+    case 'Socket': return new bodies.SocketBodyMessage(body, side)
+    case 'AuthenticateUser': return new bodies.AuthenticateUserBodyMessage(body, side)
+    case 'Authenticate2FA': return new bodies.Authenticate2FABodyMessage(body, side)
+    case 'Logout': return new bodies.LogoutBodyMessage(body, side)
+    case 'SendOrder': return new bodies.SendOrderBodyMessage(body, side)
+    case 'CancelOrder': return new bodies.CancelOrderBodyMessage(body, side)
+    case 'CancelAllOrders': return new bodies.CancelAllOrdersBodyMessage(body, side)
+    case 'GetOpenOrders': return new bodies.GetOpenOrdersBodyMessage(body, side)
+    case 'GetOrderFee': return new bodies.GetOrderFeeBodyMessage(body, side)
+    case 'GetOrderHistory': return new bodies.GetOrderHistoryBodyMessage(body, side)
+    case 'GetOrderStatus': return new bodies.GetOrderStatusBodyMessage(body, side)
+    case 'GetAccountInfo': return new bodies.GetAccountInfoBodyMessage(body, side)
+    case 'GetAccountPositions': return new bodies.GetAccountPositionsBodyMessage(body, side)
+    case 'GetAccountTrades': return new bodies.GetAccountTradesBodyMessage(body, side)
+    case 'GetDepositTickets': return new bodies.GetDepositTicketsBodyMessage(body, side)
+    case 'GetInstrument': return new bodies.GetInstrumentBodyMessage(body, side)
+    case 'GetInstruments': return new bodies.GetInstrumentsBodyMessage(body, side)
+    case 'GetProducts': return new bodies.GetProductsBodyMessage(body, side)
+    case 'GetL2Snapshot': return new bodies.GetL2SnapshotBodyMessage(body, side)
+    case 'GetTradesHistory': return new bodies.GetTradesHistoryBodyMessage(body, side)
+    case 'GetUserInfo': return new bodies.GetUserInfoBodyMessage(body, side)
+    case 'GetUserPermissions': return new bodies.GetUserPermissionsBodyMessage(body, side)
+    case 'GetWithdrawTickets': return new bodies.GetWithdrawTicketsBodyMessage(body, side)
+    case 'GetTickerHistory': return new bodies.GetTickerHistoryBodyMessage(body, side)
+    case 'SubscribeAccountEvents': return new bodies.SubscribeAccountEventsBodyMessage(body, side)
+    case 'SubscribeTicker': return new bodies.SubscribeTickerBodyMessage(body, side)
+    case 'UnsubscribeTicker': return new bodies.UnsubscribeTickerBodyMessage(body, side)
+    case 'SubscribeLevel1': return new bodies.SubscribeLevel1BodyMessage(body, side)
+    case 'SubscribeLevel1Markets': return new bodies.SubscribeLevel1MarketsBodyMessage(body, side)
+    case 'UnsubscribeLevel1': return new bodies.UnsubscribeLevel1BodyMessage(body, side)
+    case 'SubscribeLevel2': return new bodies.SubscribeLevel2BodyMessage(body, side)
+    case 'UnsubscribeLevel2': return new bodies.UnsubscribeLevel2BodyMessage(body, side)
+    case 'SubscribeTrades': return new bodies.SubscribeTradesBodyMessage(body, side)
+    case 'UnsubscribeTrades': return new bodies.UnsubscribeTradesBodyMessage(body, side)
+    case 'TradeDataUpdateEvent': return new bodies.TradeDataUpdateEventBodyMessage(body, side)
   }
 
   return new HTML()
@@ -3437,5 +3437,760 @@ export const getInstrumentsList = () => [
     'PriceCeilingLimitEnabled': false,
     'CreateWithMarketRunning': true,
     'AllowOnlyMarketMakerCounterParty': false
+  }
+]
+
+export const getProductsList = () => [
+  {
+    "ProductId": 2,
+    "Product": "BRL",
+    "ProductFullName": "R$",
+    "ProductType": "NationalCurrency",
+    "DecimalPlaces": 2,
+    "TickSize": 0.01,
+  },
+  {
+    "ProductId": 1,
+    "Product": "BTC",
+    "ProductFullName": "BTC",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 6,
+    "Product": "XRP",
+    "ProductFullName": "XRP",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 6,
+    "TickSize": 0.000001,
+  },
+  {
+    "ProductId": 3,
+    "Product": "LTC",
+    "ProductFullName": "LTC",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 4,
+    "Product": "ETH",
+    "ProductFullName": "ETH",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 5,
+    "Product": "TUSD",
+    "ProductFullName": "TUSD",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 7,
+    "Product": "LINK",
+    "ProductFullName": "LINK",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 8,
+    "Product": "USDT",
+    "ProductFullName": "USDT",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 9,
+    "Product": "AAVE",
+    "ProductFullName": "AAVE",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 10,
+    "Product": "CHZ",
+    "ProductFullName": "CHZ",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 11,
+    "Product": "UNI",
+    "ProductFullName": "UNI",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 12,
+    "Product": "YFI",
+    "ProductFullName": "YFI",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 13,
+    "Product": "NEXO",
+    "ProductFullName": "NEXO",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 14,
+    "Product": "SNX",
+    "ProductFullName": "SNX",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 15,
+    "Product": "OMG",
+    "ProductFullName": "OMG",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 16,
+    "Product": "ZRX",
+    "ProductFullName": "ZRX",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 17,
+    "Product": "KNC",
+    "ProductFullName": "KNC",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 18,
+    "Product": "DOT",
+    "ProductFullName": "DOT",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 19,
+    "Product": "AXS",
+    "ProductFullName": "AXS",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 20,
+    "Product": "ADA",
+    "ProductFullName": "ADA",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 21,
+    "Product": "SLP",
+    "ProductFullName": "SLP",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 22,
+    "Product": "XLM",
+    "ProductFullName": "XLM",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 23,
+    "Product": "MATIC",
+    "ProductFullName": "MATIC",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 24,
+    "Product": "USDC",
+    "ProductFullName": "USDC",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 25,
+    "Product": "MANA",
+    "ProductFullName": "MANA",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 26,
+    "Product": "SAND",
+    "ProductFullName": "SAND",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 28,
+    "Product": "MKR",
+    "ProductFullName": "MKR",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 29,
+    "Product": "CRV",
+    "ProductFullName": "CRV",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 30,
+    "Product": "COMP",
+    "ProductFullName": "COMP",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 31,
+    "Product": "BAT",
+    "ProductFullName": "BAT",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 32,
+    "Product": "SUSHI",
+    "ProductFullName": "SUSHI",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 33,
+    "Product": "STORJ",
+    "ProductFullName": "STORJ",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 34,
+    "Product": "AUDIO",
+    "ProductFullName": "AUDIO",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 35,
+    "Product": "DAI",
+    "ProductFullName": "DAI",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 36,
+    "Product": "GRT",
+    "ProductFullName": "GRT",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 37,
+    "Product": "ALPHA",
+    "ProductFullName": "ALPHA",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 39,
+    "Product": "XTZ",
+    "ProductFullName": "XTZ",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 40,
+    "Product": "EOS",
+    "ProductFullName": "EOS",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 41,
+    "Product": "SOL",
+    "ProductFullName": "SOL",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 42,
+    "Product": "FTM",
+    "ProductFullName": "FTM",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 43,
+    "Product": "SHIB",
+    "ProductFullName": "SHIB",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 44,
+    "Product": "LOOKS",
+    "ProductFullName": "LOOKS",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 45,
+    "Product": "ILV",
+    "ProductFullName": "ILV",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 46,
+    "Product": "GALA",
+    "ProductFullName": "GALA",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 47,
+    "Product": "OKB",
+    "ProductFullName": "OKB",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 48,
+    "Product": "QNT",
+    "ProductFullName": "QNT",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 49,
+    "Product": "AMP",
+    "ProductFullName": "AMP",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 50,
+    "Product": "DYDX",
+    "ProductFullName": "DYDX",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 51,
+    "Product": "YGG",
+    "ProductFullName": "YGG",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 52,
+    "Product": "ALICE",
+    "ProductFullName": "ALICE",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 53,
+    "Product": "MCO2",
+    "ProductFullName": "MCO2",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 54,
+    "Product": "HTR",
+    "ProductFullName": "HTR",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 2,
+    "TickSize": 0.01,
+  },
+  {
+    "ProductId": 55,
+    "Product": "APE",
+    "ProductFullName": "APE",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 57,
+    "Product": "DOGE",
+    "ProductFullName": "DOGE",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 58,
+    "Product": "AVAX",
+    "ProductFullName": "AVAX",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 59,
+    "Product": "ABFY",
+    "ProductFullName": "ABFY",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 60,
+    "Product": "BNB",
+    "ProductFullName": "BNB",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 61,
+    "Product": "COFBR",
+    "ProductFullName": "COFBR",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 63,
+    "Product": "WAVES",
+    "ProductFullName": "WAVES",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 64,
+    "Product": "LRC",
+    "ProductFullName": "LRC",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 65,
+    "Product": "1INCH",
+    "ProductFullName": "1INCH",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 66,
+    "Product": "RSR",
+    "ProductFullName": "RSR",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 67,
+    "Product": "LPT",
+    "ProductFullName": "LPT",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 68,
+    "Product": "BAL",
+    "ProductFullName": "BAL",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 69,
+    "Product": "IOST",
+    "ProductFullName": "IOST",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 70,
+    "Product": "SRM",
+    "ProductFullName": "SRM",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 71,
+    "Product": "IMX",
+    "ProductFullName": "IMX",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 72,
+    "Product": "UMA",
+    "ProductFullName": "UMA",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 73,
+    "Product": "SKL",
+    "ProductFullName": "SKL",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 74,
+    "Product": "CVC",
+    "ProductFullName": "CVC",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 75,
+    "Product": "DAO",
+    "ProductFullName": "DAO",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 76,
+    "Product": "REN",
+    "ProductFullName": "REN",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 77,
+    "Product": "CELR",
+    "ProductFullName": "CELR",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 78,
+    "Product": "FUREA",
+    "ProductFullName": "FUREA",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 79,
+    "Product": "FMAP",
+    "ProductFullName": "FMAP",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 80,
+    "Product": "FKCL",
+    "ProductFullName": "FKCL",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 81,
+    "Product": "CAKE",
+    "ProductFullName": "CAKE",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 82,
+    "Product": "ATOM",
+    "ProductFullName": "ATOM",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 83,
+    "Product": "GALA2",
+    "ProductFullName": "GALA2",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 84,
+    "Product": "TRX",
+    "ProductFullName": "TRX",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 0,
+    "Product": "WLD",
+    "ProductFullName": "WLD",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 0,
+    "Product": "SEI",
+    "ProductFullName": "SEI",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 6,
+    "TickSize": 0.000001,
+  },
+  {
+    "ProductId": 0,
+    "Product": "PYUSD",
+    "ProductFullName": "PYUSD",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 0,
+    "Product": "BCH",
+    "ProductFullName": "BCH",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 0,
+    "Product": "USDP",
+    "ProductFullName": "USDP",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 0,
+    "Product": "ALGO",
+    "ProductFullName": "ALGO",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 0,
+    "Product": "NEAR",
+    "ProductFullName": "NEAR",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 0,
+    "Product": "LDO",
+    "ProductFullName": "LDO",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 8,
+    "TickSize": 1e-8,
+  },
+  {
+    "ProductId": 1000,
+    "Product": "FTPC34645",
+    "ProductFullName": "FTPC34645",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 2,
+    "TickSize": 0.01,
+  },
+  {
+    "ProductId": 1001,
+    "Product": "FTPC35782",
+    "ProductFullName": "FTPC35782",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 2,
+    "TickSize": 0.01,
+  },
+  {
+    "ProductId": 1002,
+    "Product": "BUDDHA",
+    "ProductFullName": "BUDDHA",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 2,
+    "TickSize": 0.01,
+  },
+  {
+    "ProductId": 1003,
+    "Product": "FTPCL0053",
+    "ProductFullName": "FTPCL0053",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 2,
+    "TickSize": 0.01,
+  },
+  {
+    "ProductId": 1004,
+    "Product": "FXMUSICS01",
+    "ProductFullName": "FXMUSICS01",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 2,
+    "TickSize": 0.01,
+  },
+  {
+    "ProductId": 1005,
+    "Product": "FTCEC01",
+    "ProductFullName": "FTCEC01",
+    "ProductType": "CryptoCurrency",
+    "DecimalPlaces": 2,
+    "TickSize": 0.01,
   }
 ]

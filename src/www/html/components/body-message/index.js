@@ -1,18 +1,29 @@
-import { HTML, nFlex } from '@brtmvdl/frontend'
-
+import { HTML, nFlex, nTable, nTr, nTd } from '@brtmvdl/frontend'
+import { getProductsList } from '../../lists.js'
 import { TextHTML } from '../text.js'
 
 export class BodyMessage extends HTML {
   body = null
+  side = null
 
-  constructor(body = null) {
+  constructor(body = null, side = null) {
     super()
     this.body = body
+    this.side = side
   }
 
   onCreate() {
     super.onCreate()
     this.setStyle('padding', '0rem 1rem 1rem 1rem')
+    this.append(this.side == 'input' ? this.onInput() : this.onOutput())
+  }
+
+  onInput() {
+    return new HTML()
+  }
+
+  onOutput() {
+    return new HTML()
   }
 }
 
@@ -24,13 +35,14 @@ export class SocketBodyMessage extends BodyMessage {
 }
 
 export class AuthenticateUserBodyMessage extends BodyMessage {
-  onCreate() {
-    super.onCreate()
-    this.append(new TextHTML(`Authenticated: ${this.body.Authenticated}`))
-    this.append(new TextHTML(`TwoFAType: ${this.body.TwoFAType}`))
-    this.append(new TextHTML(`UserId: ${this.body.User?.UserId}`))
-    this.append(new TextHTML(`AccountId: ${this.body.User?.AccountId}`))
-    this.append(new TextHTML(`OMSId: ${this.body.User?.OMSId}`))
+  onOutput() {
+    const html = new HTML()
+    html.append(new TextHTML(`Authenticated: ${this.body.Authenticated}`))
+    html.append(new TextHTML(`TwoFAType: ${this.body.TwoFAType}`))
+    html.append(new TextHTML(`UserId: ${this.body.User?.UserId}`))
+    html.append(new TextHTML(`AccountId: ${this.body.User?.AccountId}`))
+    html.append(new TextHTML(`OMSId: ${this.body.User?.OMSId}`))
+    return html
   }
 }
 
@@ -62,9 +74,55 @@ export class GetDepositTicketsBodyMessage extends BodyMessage { }
 
 export class GetInstrumentBodyMessage extends BodyMessage { }
 
-export class GetInstrumentsBodyMessage extends BodyMessage { }
+export class GetInstrumentsBodyMessage extends BodyMessage {
+  onOutput() {
+    const table = new nTable()
+    const th = new nTr()
+    Object.keys(this.body[0]).map((cell) => {
+      const td = new nTd()
+      td.setStyle('padding', 'calc(1rem / 4)')
+      td.setText(cell)
+      th.append(td)
+    })
+    table.append(th)
+    Array.from(this.body).map((line) => {
+      const tr = new nTr()
+      Object.keys(line).map((cell, ix) => {
+        const td = new nTd()
+        td.setStyle('padding', 'calc(1rem / 4)')
+        td.setText(line[cell])
+        tr.append(td)
+      })
+      table.append(tr)
+    })
+    return table
+  }
+}
 
-export class GetProductsBodyMessage extends BodyMessage { }
+export class GetProductsBodyMessage extends BodyMessage {
+  onOutput() {
+    const table = new nTable()
+    const th = new nTr()
+    Object.keys(this.body[0]).map((cell) => {
+      const td = new nTd()
+      td.setStyle('padding', 'calc(1rem / 4)')
+      td.setText(cell)
+      th.append(td)
+    })
+    table.append(th)
+    Array.from(this.body).map((line) => {
+      const tr = new nTr()
+      Object.keys(line).map((cell, ix) => {
+        const td = new nTd()
+        td.setStyle('padding', 'calc(1rem / 4)')
+        td.setText(line[cell])
+        tr.append(td)
+      })
+      table.append(tr)
+    })
+    return table
+  }
+}
 
 export class GetL2SnapshotBodyMessage extends BodyMessage { }
 
@@ -95,37 +153,48 @@ export class SubscribeLevel2BodyMessage extends BodyMessage { }
 export class UnsubscribeLevel2BodyMessage extends BodyMessage { }
 
 export class SubscribeTradesBodyMessage extends BodyMessage {
-  onCreate() {
-    super.onCreate()
-    this.append(this.getTable())
-  }
-
-  getTable() {
-    const table = new HTML()
-    const tr = new nFlex()
-    getTradeHeaders().map((cell) => {
-      const td = new HTML()
+  onOutput() {
+    const table = new nTable()
+    const tr = new nTr()
+    Object.keys(this.body[0]).map((cell) => {
+      const td = new nTd()
       td.setStyle('padding', 'calc(1rem / 4)')
       td.setText(cell)
       tr.append(td)
     })
     table.append(tr)
     Array.from(this.body).map((line) => {
-      const tr = new nFlex()
-      Array.from(line).map((cell) => {
-        const td = new HTML()
+      const tr = new nTr()
+      Array.from(line).map((cell, ix) => {
+        const td = new nTd()
         td.setStyle('padding', 'calc(1rem / 4)')
-        td.setText(cell)
+        let text = cell
+        if (ix == 1) text = this.getProductName(cell)
+        else if (ix == 7) text = this.getDirection(cell)
+        else if (ix == 8) text = this.getTakerSide(cell)
+        td.setText(text)
         tr.append(td)
       })
       table.append(tr)
     })
     return table
   }
+
+  getProductName(text) {
+    return getProductsList().find(({ ProductId }) => +ProductId == +text).ProductFullName
+  }
+
+  getDirection(text) {
+    return Array.from(['NoChange', 'UpTick', 'DownTick'])[+text]
+  }
+
+  getTakerSide(text) {
+    return Array.from(['Buy', 'Sell'])[+text]
+  }
 }
 
 export class UnsubscribeTradesBodyMessage extends BodyMessage { }
 
-export class TradeDataUpdateEventBodyMessage extends BodyMessage { }
+export class TradeDataUpdateEventBodyMessage extends SubscribeTradesBodyMessage { }
 
 export const getTradeHeaders = () => Array.from(['TradeId', 'ProductPairCode', 'Quantity', 'Price', 'Order1', 'Order2', 'Tradetime', 'Direction', 'TakerSide', 'BlockTrade', 'order1ClientId'])

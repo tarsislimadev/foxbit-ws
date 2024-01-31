@@ -17,7 +17,7 @@ export class ChatMessage extends HTML {
     super.onCreate()
     this.setStyles()
     this.append(this.createTextHTML(this.header))
-    this.append(lists.getBodyHTML(this.header, this.body))
+    this.append(lists.getBodyHTML(this.side, this.header, this.body))
     this.append(this.createTextHTML(this.getDatetime()))
   }
 
