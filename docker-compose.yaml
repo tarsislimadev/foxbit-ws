@@ -2,23 +2,6 @@ version: '3'
 
 services:
 
-  www3:
-    restart: always
-    build: './api3/www'
-    volumes:
-      - './api3/www/html:/usr/share/nginx/html'
-    ports:
-      - '4000:80'
-
-  ws3:
-    restart: always
-    build: './api3/ws'
-    volumes:
-      - './api3/ws:/app'
-      - './data:/data'
-    ports:
-      - '4080:80'
-
   www2:
     restart: always
     build: './api2/www'
