@@ -55,14 +55,14 @@ export class TableBodyMessage extends BodyMessage {
   }
 
   getHeaders(line) {
-    const th = new nTr()
+    const tr = new nTr()
     Object.keys(line).map((cell, ix) => {
       const td = new nTd()
       td.setStyle('padding', 'calc(1rem / 4)')
       td.setText(cell)
-      th.append(td)
+      tr.append(td)
     })
-    return th
+    return tr
   }
 
   getLine(line) {
@@ -74,6 +74,15 @@ export class TableBodyMessage extends BodyMessage {
       tr.append(td)
     })
     return tr
+  }
+}
+
+export class ObjectBodyMessage extends TableBodyMessage {
+  onOutput() {
+    const table = new nTable()
+    table.append(this.getHeaders(this.body))
+    table.append(this.getLine(this.body))
+    return table
   }
 }
 
@@ -133,6 +142,8 @@ export class SubscribeLevel1MarketsBodyMessage extends BodyMessage { }
 
 export class UnsubscribeLevel1BodyMessage extends BodyMessage { }
 
+export class Level1UpdateEventBodyMessage extends ObjectBodyMessage { }
+
 export class SubscribeLevel2BodyMessage extends BodyMessage { }
 
 export class UnsubscribeLevel2BodyMessage extends BodyMessage { }
@@ -180,8 +191,6 @@ export class SubscribeTradesBodyMessage extends TableBodyMessage {
 export class UnsubscribeTradesBodyMessage extends BodyMessage { }
 
 export class TradeDataUpdateEventBodyMessage extends TableBodyMessage { }
-
-export class Level1UpdateEventBodyMessage extends BodyMessage { }
 
 export class Level2UpdateEventBodyMessage extends TableBodyMessage {
   getHeaders() {
