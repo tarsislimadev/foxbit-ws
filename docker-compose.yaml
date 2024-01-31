@@ -4,17 +4,17 @@ services:
 
   www2:
     restart: always
-    build: './api2/www'
+    build: './src/www'
     volumes:
-      - './api2/www/html:/usr/share/nginx/html'
+      - './src/www/html:/usr/share/nginx/html'
     ports:
       - '8000:80'
 
   ws2:
     restart: always
-    build: './api2/ws'
+    build: './src/ws'
     volumes:
-      - './api2/ws:/app'
+      - './src/ws:/app'
       - './data:/data'
     ports:
       - '8080:80'
