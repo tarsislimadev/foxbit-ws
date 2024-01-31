@@ -1,5 +1,5 @@
 import { HTML } from '@brtmvdl/frontend'
-import { TextHTML } from './text.js'
+import * as lists from '../lists.js'
 
 export class ChatMessage extends HTML {
   side = 'input'
@@ -13,10 +13,11 @@ export class ChatMessage extends HTML {
   }
 
   onCreate() {
+    console.log('chat message', this.side, this.header, this.body)
     super.onCreate()
     this.setStyles()
     this.append(this.createTextHTML(this.header))
-    this.append(this.getBodyHTML())
+    this.append(lists.getBodyHTML(this.header, this.body))
     this.append(this.createTextHTML(this.getDatetime()))
   }
 
@@ -44,17 +45,6 @@ export class ChatMessage extends HTML {
     return html
   }
 
-  getBodyHTML() {
-    console.info('message', this.side, this.header, this.body)
-
-    switch (this.header) {
-      case 'Socket': return new SocketBodyMessage(this.body)
-      case 'AuthenticateUser': return new AuthenticateUserBodyMessage(this.body)
-    }
-
-    return new HTML()
-  }
-
   getDatetime(datetime = new Date()) {
     return datetime.toLocaleString()
   }
@@ -64,36 +54,4 @@ export class InputMessage extends ChatMessage { }
 
 export class OutputMessage extends ChatMessage {
   side = 'output'
-}
-
-export class BodyMessage extends HTML {
-  body = null
-
-  constructor(body = null) {
-    super()
-    this.body = body
-  }
-
-  onCreate() {
-    super.onCreate()
-    this.setStyle('padding', '0rem 1rem 1rem 1rem')
-  }
-}
-
-export class SocketBodyMessage extends BodyMessage {
-  onCreate() {
-    super.onCreate()
-    this.setText(`Id: ${this.body.Id}`)
-  }
-}
-
-export class AuthenticateUserBodyMessage extends BodyMessage {
-  onCreate() {
-    super.onCreate()
-    this.append(new TextHTML(`Authenticated: ${this.body.Authenticated}`))
-    this.append(new TextHTML(`TwoFAType: ${this.body.TwoFAType}`))
-    this.append(new TextHTML(`UserId: ${this.body.User?.UserId}`))
-    this.append(new TextHTML(`AccountId: ${this.body.User?.AccountId}`))
-    this.append(new TextHTML(`OMSId: ${this.body.User?.OMSId}`))
-  }
 }

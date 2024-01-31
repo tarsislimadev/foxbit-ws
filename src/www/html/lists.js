@@ -1,3 +1,47 @@
+import { HTML } from '@brtmvdl/frontend'
+
+import * as bodies from './components/body-message/index.js'
+
+export const getBodyHTML = (header, body = {}) => {
+  switch (header) {
+    case 'Socket': return new bodies.SocketBodyMessage(body)
+    case 'AuthenticateUser': return new bodies.AuthenticateUserBodyMessage(body)
+    case 'Authenticate2FA': return new bodies.Authenticate2FABodyMessage(body)
+    case 'Logout': return new bodies.LogoutBodyMessage(body)
+    case 'SendOrder': return new bodies.SendOrderBodyMessage(body)
+    case 'CancelOrder': return new bodies.CancelOrderBodyMessage(body)
+    case 'CancelAllOrders': return new bodies.CancelAllOrdersBodyMessage(body)
+    case 'GetOpenOrders': return new bodies.GetOpenOrdersBodyMessage(body)
+    case 'GetOrderFee': return new bodies.GetOrderFeeBodyMessage(body)
+    case 'GetOrderHistory': return new bodies.GetOrderHistoryBodyMessage(body)
+    case 'GetOrderStatus': return new bodies.GetOrderStatusBodyMessage(body)
+    case 'GetAccountInfo': return new bodies.GetAccountInfoBodyMessage(body)
+    case 'GetAccountPositions': return new bodies.GetAccountPositionsBodyMessage(body)
+    case 'GetAccountTrades': return new bodies.GetAccountTradesBodyMessage(body)
+    case 'GetDepositTickets': return new bodies.GetDepositTicketsBodyMessage(body)
+    case 'GetInstrument': return new bodies.GetInstrumentBodyMessage(body)
+    case 'GetInstruments': return new bodies.GetInstrumentsBodyMessage(body)
+    case 'GetProducts': return new bodies.GetProductsBodyMessage(body)
+    case 'GetL2Snapshot': return new bodies.GetL2SnapshotBodyMessage(body)
+    case 'GetTradesHistory': return new bodies.GetTradesHistoryBodyMessage(body)
+    case 'GetUserInfo': return new bodies.GetUserInfoBodyMessage(body)
+    case 'GetUserPermissions': return new bodies.GetUserPermissionsBodyMessage(body)
+    case 'GetWithdrawTickets': return new bodies.GetWithdrawTicketsBodyMessage(body)
+    case 'GetTickerHistory': return new bodies.GetTickerHistoryBodyMessage(body)
+    case 'SubscribeAccountEvents': return new bodies.SubscribeAccountEventsBodyMessage(body)
+    case 'SubscribeTicker': return new bodies.SubscribeTickerBodyMessage(body)
+    case 'UnsubscribeTicker': return new bodies.UnsubscribeTickerBodyMessage(body)
+    case 'SubscribeLevel1': return new bodies.SubscribeLevel1BodyMessage(body)
+    case 'SubscribeLevel1Markets': return new bodies.SubscribeLevel1MarketsBodyMessage(body)
+    case 'UnsubscribeLevel1': return new bodies.UnsubscribeLevel1BodyMessage(body)
+    case 'SubscribeLevel2': return new bodies.SubscribeLevel2BodyMessage(body)
+    case 'UnsubscribeLevel2': return new bodies.UnsubscribeLevel2BodyMessage(body)
+    case 'SubscribeTrades': return new bodies.SubscribeTradesBodyMessage(body)
+    case 'UnsubscribeTrades': return new bodies.UnsubscribeTradesBodyMessage(body)
+  }
+
+  return new HTML()
+}
 
 export const getFormInputs = (op) => {
   switch (op) {
