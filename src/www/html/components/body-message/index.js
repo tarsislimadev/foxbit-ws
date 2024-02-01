@@ -176,13 +176,19 @@ export class GetL2SnapshotBodyMessage extends TableBodyMessage {
       const td = new nTd()
       td.setStyle('padding', 'calc(1rem / 4)')
       let text = cell
+      if (ix == 2) text = this.getActionDateTime(cell)
       if (ix == 3) text = this.getActionType(cell)
-      else if (ix == 7) text = this.getProductPairCode(cell)
-      else if (ix == 9) text = this.getSide(cell)
+      if (ix == 7) text = this.getProductPairCode(cell)
+      if (ix == 9) text = this.getSide(cell)
       td.setText(text)
       tr.append(td)
     })
     return tr
+  }
+
+  getActionDateTime(text) {
+    const datetime = new Date(text)
+    return datetime.toLocaleString()
   }
 
   getActionType(text) {
@@ -246,6 +252,7 @@ export class SubscribeTradesBodyMessage extends TableBodyMessage {
       td.setStyle('padding', 'calc(1rem / 4)')
       let text = cell
       if (ix == 1) text = this.getInstrumentName(cell)
+      else if (ix == 6) text = this.getTradetime(cell)
       else if (ix == 7) text = this.getDirection(cell)
       else if (ix == 8) text = this.getTakerSide(cell)
       td.setText(text)
@@ -256,6 +263,11 @@ export class SubscribeTradesBodyMessage extends TableBodyMessage {
 
   getInstrumentName(text) {
     return getInstrumentsList().find(({ InstrumentId }) => +InstrumentId == +text).Symbol
+  }
+
+  getTradetime(text) {
+    const datetime = new Date(text)
+    return datetime.toLocaleString()
   }
 
   getDirection(text) {

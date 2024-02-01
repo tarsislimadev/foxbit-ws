@@ -185,6 +185,8 @@ export class InputsHTML extends HTML {
   }
 
   getIncludeLastCountComponent() {
+    this.children.IncludeLastCount.children.input.setAttr('disabled', true)
+    this.children.IncludeLastCount.children.input.setValue(1000)
     return this.children.IncludeLastCount
   }
 }
