@@ -97,6 +97,18 @@ export class TableBodyMessage extends BodyMessage {
     td.setText(text)
     return td
   }
+
+  createHeaders(headers = []) {
+    const th = new nTr()
+    Array.from(headers)
+      .map((cell, ix) => {
+        const td = new nTd()
+        td.setStyle('padding', 'calc(1rem / 4)')
+        td.setText(cell)
+        th.append(td)
+      })
+    return th
+  }
 }
 
 export class ObjectBodyMessage extends TableBodyMessage {
@@ -155,15 +167,34 @@ export class GetProductsBodyMessage extends TableBodyMessage { }
 
 export class GetL2SnapshotBodyMessage extends TableBodyMessage {
   getHeaders() {
-    const th = new nTr()
-    Array.from(['MDUpdateID', 'Accounts', 'ActionDateTime', 'ActionType', 'LastTradePrice', 'Orders', 'Price', 'ProductPairCode', 'Quantity', 'Side'])
-      .map((cell, ix) => {
-        const td = new nTd()
-        td.setStyle('padding', 'calc(1rem / 4)')
-        td.setText(cell)
-        th.append(td)
-      })
-    return th
+    return this.createHeaders(Array.from(['MDUpdateID', 'Accounts', 'ActionDateTime', 'ActionType', 'LastTradePrice', 'Orders', 'Price', 'ProductPairCode', 'Quantity', 'Side']))
+  }
+
+  getLine(line) {
+    const tr = new nTr()
+    Array.from(line).map((cell, ix) => {
+      const td = new nTd()
+      td.setStyle('padding', 'calc(1rem / 4)')
+      let text = cell
+      if (ix == 3) text = this.getActionType(cell)
+      else if (ix == 7) text = this.getProductPairCode(cell)
+      else if (ix == 9) text = this.getSide(cell)
+      td.setText(text)
+      tr.append(td)
+    })
+    return tr
+  }
+
+  getActionType(text) {
+    return Array.from(['new', 'update', 'deletion'])[+text]
+  }
+
+  getProductPairCode(text) {
+    return getInstrumentsList().find(({ InstrumentId }) => +InstrumentId == +text).Symbol
+  }
+
+  getSide(text) {
+    return Array.from(['Buy', 'Sell'])[+text]
   }
 }
 
@@ -177,15 +208,7 @@ export class GetWithdrawTicketsBodyMessage extends BodyMessage { }
 
 export class GetTickerHistoryBodyMessage extends TableBodyMessage {
   getHeaders() {
-    const th = new nTr()
-    Array.from(['DateTime', 'High', 'Low', 'Open', 'Close', 'Volume', 'Inside Bid Price', 'Inside Ask Price', 'InstrumentId', 'Initial DateTime'])
-      .map((cell, ix) => {
-        const td = new nTd()
-        td.setStyle('padding', 'calc(1rem / 4)')
-        td.setText(cell)
-        th.append(td)
-      })
-    return th
+    return this.createHeaders(Array.from(['DateTime', 'High', 'Low', 'Open', 'Close', 'Volume', 'Inside Bid Price', 'Inside Ask Price', 'InstrumentId', 'Initial DateTime']))
   }
 }
 
@@ -193,15 +216,7 @@ export class SubscribeAccountEventsBodyMessage extends ObjectBodyMessage { }
 
 export class SubscribeTickerBodyMessage extends TableBodyMessage {
   getHeaders() {
-    const th = new nTr()
-    Array.from(['DateTime', 'High', 'Low', 'Open', 'Close', 'Volume', 'Inside Bid Price', 'Inside Ask Price', 'InstrumentId', 'Initial DateTime'])
-      .map((cell, ix) => {
-        const td = new nTd()
-        td.setStyle('padding', 'calc(1rem / 4)')
-        td.setText(cell)
-        th.append(td)
-      })
-    return th
+    return this.createHeaders(Array.from(['DateTime', 'High', 'Low', 'Open', 'Close', 'Volume', 'Inside Bid Price', 'Inside Ask Price', 'InstrumentId', 'Initial DateTime']))
   }
 }
 
@@ -221,14 +236,7 @@ export class UnsubscribeLevel2BodyMessage extends BodyMessage { }
 
 export class SubscribeTradesBodyMessage extends TableBodyMessage {
   getHeaders() {
-    const th = new nTr()
-    getTradeHeaders().map((cell) => {
-      const td = new nTd()
-      td.setStyle('padding', 'calc(1rem / 4)')
-      td.setText(cell)
-      th.append(td)
-    })
-    return th
+    return this.createHeaders(getTradeHeaders())
   }
 
   getLine(line) {
@@ -273,15 +281,7 @@ export class Level2UpdateEventBodyMessage extends TableBodyMessage {
   }
 
   getHeaders() {
-    const th = new nTr()
-    Array.from(['MDUpdateID', 'NumberAccounts', 'ActionDateTime', 'ActionType', 'LastTradePrice', 'NumberOrders', 'Price', 'ProductPairCode', 'Quantity', 'Side',])
-      .map((cell, ix) => {
-        const td = new nTd()
-        td.setStyle('padding', 'calc(1rem / 4)')
-        td.setText(cell)
-        th.append(td)
-      })
-    return th
+    return this.createHeaders(Array.from(['MDUpdateID', 'NumberAccounts', 'ActionDateTime', 'ActionType', 'LastTradePrice', 'NumberOrders', 'Price', 'ProductPairCode', 'Quantity', 'Side',]))
   }
 
   getLine(line) {
